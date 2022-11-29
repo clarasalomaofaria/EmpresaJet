@@ -1,0 +1,61 @@
+1º Passo - ir na função que vai executar o evento ex: 
+
+confirmar_user
+
+Esta função se localiza em perfil-config.js
+Atribua o diretório ' fetch ' para as rotas
+
+---------------------------------------------------------
+
+2º Passo - Ir em Rotas e criar a rota do seu evento ex:
+
+router.put("/confirmar_user/:user", function (req, res) {
+    usuarioController.confirmar_user(req, res);
+})
+
+Esta rota está definida com o metodo ' put ' que não sei o que faz 
+só sei que funciona
+
+----------------------------------------------------------
+
+3º Passo - ir em usuarioController e criar a mesma função que requer
+os dados da função criada em perfil-config.js ex:
+
+function confirmar_user(req, res) {
+    var user = req.body.username;
+    var idPerfil = req.body.idPerfil;
+    if (user == undefined) {
+        res.status(400).send("Seu user está undefined!");
+    } else {
+        usuarioModel.confirmar_user(user, idPerfil)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+}
+
+4º Passo - Ir para usuarioModels e criar a função que irá alterar as
+informações do usuario. Ex:
+
+async function confirmar_user(username, idPerfil) {
+    console.log("ACESSEI O Perfil MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function alterar(): ")
+
+    var instrucao = `UPDATE Perfil SET Perfil.username = '${username}'
+    WHERE idPerfil = ${parseInt(idPerfil)}`;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return await database.executar(instrucao);
+}
+
+
+PRONTO
