@@ -51,7 +51,8 @@ function limparDiv() {
 obterDadosGrafico();
 
 function obterDadosGrafico() {
-    //aguardar();
+    labels_horas = [];
+    qtd_prateleiras = [];
     console.log("chamando função obter dados gráfico");
     fetch(`/medidas/listarPorEmpresa/${idEmpresa}`).then(function (resposta) {
         if (resposta.ok) {
@@ -104,7 +105,7 @@ function criarGrafico() {
         config_linha_fluxo_produtos
     );
 
-    // setTimeout(() => obterDadosGrafico(), 2000);
+    setTimeout(() => obterDadosGrafico(), 2000);
 }
 
 /*Script do gráfico de barras que indica o fluxo do giro dos produtos no mercado, por semana*/
