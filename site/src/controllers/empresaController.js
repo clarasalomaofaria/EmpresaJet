@@ -17,10 +17,49 @@ function buscar(req, res) {
         );
 }
 
+function updateFkEmpresa(req, res) {
+    var idEmpresa = req.params.idEmpresa;
+    var idPerfil = req.body.idPerfil;
+    if (idEmpresa == undefined) {
+        res.status(400).send("Seu user está undefined!");
+    } else {
+        empresaModel.updateFkEmpresa(idEmpresa, idPerfil)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+}
+
+function selecionandoempresa(req, res) {
+
+    empresaModel.selecionandoempresa()
+        .then(
+            function (resultado) {
+                res.json(resultado[0]);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
 function cadastrarEmpresa(req, res) {
 
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
-    var idPerfil = req.body.idPerfil;
     var empresaNome = req.body.empresaNomeServer;
     var estado = req.body.estadoServer;
     var cidade = req.body.cidadeServer;
@@ -47,7 +86,7 @@ function cadastrarEmpresa(req, res) {
     else {
         
         // Passe os valores como parâmetro e vá para o arquivo empresaModel.js
-        empresaModel.cadastrarEmpresa(idPerfil, empresaNome, estado, cidade, bairro, logradouro,
+        empresaModel.cadastrarEmpresa(empresaNome, estado, cidade, bairro, logradouro,
             cep, complemento, cnpj)
             .then(
                 function (resultado) {
@@ -68,5 +107,7 @@ function cadastrarEmpresa(req, res) {
 
 module.exports = {
     buscar,
-    cadastrarEmpresa 
+    cadastrarEmpresa,
+    selecionandoempresa,
+    updateFkEmpresa
 };

@@ -5,8 +5,22 @@ function buscar(idEmpresa) {
   return database.executar(instrucao);
 }
 
-async function cadastrarEmpresa(
-  idPerfil,
+function updateFkEmpresa(idEmpresa, idPerfil) {
+
+  var instrucao = `UPDATE Perfil SET fkEmpresa = ${idEmpresa}
+    WHERE idPerfil = ${idPerfil}`;
+
+  console.log("Executando a instrução SQL: \n" + instrucao);
+  return database.executar(instrucao);
+}
+
+function selecionandoempresa() {
+  const instrucao = `SELECT idEmpresa FROM empresa ORDER BY idEmpresa DESC LIMIT 1;`;
+  return database.executar(instrucao);
+}
+
+
+  function cadastrarEmpresa(
   empresaNome,
   estado,
   cidade,
@@ -29,20 +43,12 @@ async function cadastrarEmpresa(
     `;
 
   console.log("Executando a instrução SQL: \n" + instrucao);
-  var linhaInserida = await database.executar(instrucao);
-
-  instrucao = `
-    UPDATE Perfil
-    SET Perfil.fkEmpresa = ${linhaInserida.insertId}
-    WHERE idPerfil = ${parseInt(idPerfil)};
-  `
-  console.log("Executando a instrução SQL: \n" + instrucao); 
-  database.executar(instrucao);
-
-  return linhaInserida.insertId;
+  return database.executar(instrucao);
 }
 
 module.exports = {
   buscar,
   cadastrarEmpresa,
+  selecionandoempresa,
+  updateFkEmpresa
 };

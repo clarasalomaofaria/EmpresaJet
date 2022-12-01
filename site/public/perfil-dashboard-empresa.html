@@ -507,6 +507,58 @@
       });
     }
 
+    var idEmpresa = 0
+    function selecionandoEmpresa() {
+
+      if (sessionStorage.ID_EMPRESA) {
+        fetch(`/selecionandoempresa`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then(function (resposta) {
+            if (resposta.ok) {
+              resposta.json().then((json) => {
+                console.log(json);
+
+                idEmpresa = resposta[0].idEmpresa;
+
+              });
+            }
+          })
+          .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+          });
+      }
+
+    }
+
+    function updatefkEmpresa() {
+      fetch(`/empresa/updateFkEmpresa/${idEmpresa}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        idPerfil: sessionStorage.ID_PERFIL
+      })
+    }).then(function (resposta) {
+      
+      if (resposta.ok) {
+        window.alert("Empresa cadastrada com sucesso");
+        
+      } else if (resposta.status == 404) {
+        window.alert("Deu 404!");
+      } else {
+        throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+      }
+    }).catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    })
+    window.location = "./perfil-dashboard-empresa.html"
+    }
+
     function cadastrarEmpresa() {
       //Recupere o valor da nova input pelo nome do id
       // Agora vá para o método fetch logo abaixo
@@ -528,7 +580,6 @@
         body: JSON.stringify({
           // crie um atributo que recebe o valor recuperado aqui
           // Agora vá para o arquivo routes/usuario.js
-          idPerfil: sessionStorage.ID_PERFIL,
           empresaNomeServer: empresaNomeVar,
           cnpjServer: cnpjVar,
           logradouroServer: logradouroVar,
@@ -557,7 +608,8 @@
           console.log(`#ERRO: ${resposta}`);
           // finalizarAguardar();
         });
-
+        selecionandoEmpresa();
+        updatefkEmpresa();
       return false;
     }
 
