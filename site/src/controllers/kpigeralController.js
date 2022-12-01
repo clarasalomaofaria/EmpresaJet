@@ -27,7 +27,7 @@ function KpiSetorFrios(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.KpiSetorFrios(idEmpresa).then(function (resultado) {
+    kpigeralModel.KpiSetorFrios(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -44,7 +44,7 @@ function KpiSemEstoque(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.KpiSemEstoque(idEmpresa).then(function (resultado) {
+    kpigeralModel.KpiSemEstoque(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -61,7 +61,7 @@ function KpiSemEstoqueAlgum(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.KpiSemEstoqueAlgum(idEmpresa).then(function (resultado) {
+    kpigeralModel.KpiSemEstoqueAlgum(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -78,7 +78,7 @@ function KpiSetorMarcearia(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.KpiSetorMarcearia(idEmpresa).then(function (resultado) {
+    kpigeralModel.KpiSetorMarcearia(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -95,7 +95,7 @@ function KpiSemEstoqueMarcearia(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.KpiSemEstoqueMarcearia(idEmpresa).then(function (resultado) {
+    kpigeralModel.KpiSemEstoqueMarcearia(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -112,7 +112,7 @@ function KpiSemEstoqueAlgumMarcearia(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.KpiSemEstoqueAlgumMarcearia(idEmpresa).then(function (resultado) {
+    kpigeralModel.KpiSemEstoqueAlgumMarcearia(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -129,7 +129,7 @@ function kpisdosetorHortifruti(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.kpisdosetorHortifruti(idEmpresa).then(function (resultado) {
+    kpigeralModel.kpisdosetorHortifruti(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -146,7 +146,7 @@ function kpiAunsenciaHortifruti(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.kpiAunsenciaHortifruti(idEmpresa).then(function (resultado) {
+    kpigeralModel.kpiAunsenciaHortifruti(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -163,7 +163,7 @@ function kpiSemEstoqueAlgumHorti(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.kpiSemEstoqueAlgumHorti(idEmpresa).then(function (resultado) {
+    kpigeralModel.kpiSemEstoqueAlgumHorti(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -177,62 +177,11 @@ function kpiSemEstoqueAlgumHorti(req, res) {
 }
 
 // Setor Cuidados Pessoais
-function KpiSetorMarcearia(req, res) {
-
-    var idEmpresa = req.params.idEmpresa
-
-    produtosModel.KpiSetorMarcearia(idEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function(erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
-
-function KpiSemEstoqueMarcearia(req, res) {
-
-    var idEmpresa = req.params.idEmpresa
-
-    produtosModel.KpiSemEstoqueMarcearia(idEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function(erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
-
-function KpiSemEstoqueAlgumMarcearia(req, res) {
-
-    var idEmpresa = req.params.idEmpresa
-
-    produtosModel.KpiSemEstoqueAlgumMarcearia(idEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function(erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
-// Setor Hortifruti
 function kpisdosetorCuidados(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.kpisdosetorCuidados(idEmpresa).then(function (resultado) {
+    kpigeralModel.kpisdosetorCuidados(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -249,7 +198,7 @@ function kpiAunsenciaCuidados(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.kpiAunsenciaCuidados(idEmpresa).then(function (resultado) {
+    kpigeralModel.kpiAunsenciaCuidados(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -266,7 +215,7 @@ function kpiSemEstoqueAlgumCuidados(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.kpiSemEstoqueAlgumCuidados(idEmpresa).then(function (resultado) {
+    kpigeralModel.kpiSemEstoqueAlgumCuidados(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -284,7 +233,7 @@ function kpisdosetorBebidas(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.kpisdosetorBebidas(idEmpresa).then(function (resultado) {
+    kpigeralModel.kpisdosetorBebidas(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -301,7 +250,7 @@ function kpiAunsenciaBebidas(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.kpiAunsenciaBebidas(idEmpresa).then(function (resultado) {
+    kpigeralModel.kpiAunsenciaBebidas(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -318,7 +267,7 @@ function kpiSemEstoqueAlgumBebidas(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    produtosModel.kpiSemEstoqueAlgumBebidas(idEmpresa).then(function (resultado) {
+    kpigeralModel.kpiSemEstoqueAlgumBebidas(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -347,4 +296,5 @@ module.exports = {
     kpiSemEstoqueAlgumCuidados,
     kpisdosetorBebidas,
     kpiAunsenciaBebidas,
+    kpiSemEstoqueAlgumBebidas,
 }
