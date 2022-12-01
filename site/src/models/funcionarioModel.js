@@ -1,4 +1,4 @@
-var database = require("../../../FUNCIONARIO/src/database/config");
+var database = require("../../../site/src/database/config");
 
 async function buscar(idEmpresa) {
   const instrucao = `SELECT * FROM Empresa WHERE idEmpresa = ${idEmpresa}`;

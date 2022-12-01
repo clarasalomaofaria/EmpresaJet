@@ -13,7 +13,7 @@
 
 </head>
 
-<body onload="buscarNomeProdutos()">
+<body onload="buscarNomeProdutos(), mostrarkpi(), kpiAunsencia(), kpiSemEstoqueAlgum()">
 
     <header>
 
@@ -43,13 +43,13 @@
         <section class="dashboard-kpis">
 
             <!--KPI sobre produtos sem estoque algum-->
-            <div id="div_kpi_dado_estoque" class="kpis kpi-estoque-setor-frios-congelados">
+            <div id="div_kpi_dado" class="kpis kpi-estoque-setor-frios-congelados">
                 <p class="kpi-titulo">Sem estoque algum</p>
                 <p id="kpi_dado_estoqueFrios" class="kpi-dado">0 <span class="kpi-dado-palavra-ajuste">produtos</span></p>
             </div>
 
             <!--KPI sobre sensores detectando ausência de produtos-->
-            <div id="div_kpi_dado_ausencia" class="kpis kpi-ausencia-setor-frios-congelados">
+            <div id="div_kpi_dado" class="kpis kpi-ausencia-setor-frios-congelados">
                 <p class="kpi-titulo">Ausência de produtos</p>
                 <p id="kpi_dado_ausencia" class="kpi-dado">4 <span class="kpi-dado-palavra-ajuste">sensores</span></p>
             </div>

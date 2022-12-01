@@ -12,7 +12,7 @@
 
 </head>
 
-<body onload="buscarNomeProdutos()">
+<body onload="buscarNomeProdutos(), mostrarkpi(), kpiAunsencia(), kpiSemEstoqueAlgum()">
 
     <header>
 
@@ -42,21 +42,21 @@
         <section class="dashboard-kpis">
 
             <!--KPI sobre produtos sem estoque algum-->
-            <div class="kpis kpi-estoque-setor-hortifruti">
-                <p class="kpi-titulo">Sem estoque algum</p>
+            <div id="div_kpi_dado" class="kpis kpi-estoque-setor-hortifruti">
+                <p id="kpi_dado_estoqueHortifruti" class="kpi-titulo">Sem estoque algum</p>
                 <p class="kpi-dado">0 <span class="kpi-dado-palavra-ajuste">produtos</span></p>
             </div>
 
             <!--KPI sobre sensores detectando ausência de produtos-->
-            <div class="kpis kpi-ausencia-setor-hortifruti">
+            <div id="div_kpi_dado" class="kpis kpi-ausencia-setor-hortifruti">
                 <p class="kpi-titulo">Ausência de produtos</p>
-                <p class="kpi-dado">1 <span class="kpi-dado-palavra-ajuste">sensores</span></p>
+                <p id="kpi_dado_ausencia" class="kpi-dado">1 <span class="kpi-dado-palavra-ajuste">sensores</span></p>
             </div>
 
             <!--KPI sobre a porcentagem de abastecimento do mercado-->
-            <div class="kpis kpi-abastecimento-setor-hortifruti">
+            <div id="div_kpi_dado" class="kpis kpi-abastecimento-setor-hortifruti">
                 <p class="kpi-titulo">Setor abastecido</p>
-                <p class="kpi-dado">97%</p>
+                <p id="kpi_dadoSetorHorti"  class="kpi-dado">97%</p>
             </div>
 
             <!--Gráfico polar sobre a falta dos produtos nos setores do mercado-->
@@ -430,4 +430,119 @@
             console.error(resposta);
         });
     }
+
+    function mostrarkpi() {
+
+var idEmpresa = sessionStorage.ID_EMPRESA;
+
+fetch(`/kpigeral/kpisdosetorHortifruti/${idEmpresa}`).then(function (resposta) {
+if (resposta.ok) {
+if (resposta.status == 204) {
+  alert("Nenhuma prateleira encontrada")
+}
+resposta.json().then(function (resposta) {
+  console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+    for (let i = 0; i < resposta.length; i++) {
+      var produto  = resposta[i];
+
+      kpi_dadoSetorHorti.innerHTML = `${produto.conta}% `
+    
+if (produto <= 75) {
+    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+} else if (produto.conta <= 85) {
+    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
+} else if (produto.conta <= 90) {
+    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+} else {
+    div_kpi_dado.classList.add('kpi-otimo');
+}
+}});
+} else {
+throw ('Houve um erro na API!');
+}
+}).catch(function (resposta) {
+console.error(resposta);
+});
+}
+
+function kpiAunsencia() {
+
+var idEmpresa = sessionStorage.ID_EMPRESA;
+
+fetch(`/kpigeral/kpiAunsenciaHortifruti/${idEmpresa}`).then(function (resposta) {
+if (resposta.ok) {
+if (resposta.status == 204) {
+  alert("Nenhuma prateleira encontrada")
+}
+resposta.json().then(function (resposta) {
+  console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+    for (let i = 0; i < resposta.length; i++) {
+      var ProdutoAusencia  = resposta[i];
+
+      kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.conta}`
+    
+      if (produto.conta <= 0) {
+   kpi_dado_ausencia.innerHTML = `${produto.conta}`;
+    div_kpi_dado.classList.add('kpi-otimo');
+} else if (produto.conta <= 2) {
+   kpi_dado_ausencia.innerHTML = `${produto.conta}`;
+    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
+} else if (produto.conta <= 4) {
+   kpi_dado_ausencia.innerHTML = `${produto.conta}`;
+    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+} else {
+    kpi_dado_ausencia.innerHTML = `${produto.conta}`;
+    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+}
+  
+}});
+} else {
+throw ('Houve um erro na API!');
+}
+}).catch(function (resposta) {
+console.error(resposta);
+});
+}
+
+function kpiSemEstoqueAlgum() {
+
+var idEmpresa = sessionStorage.ID_EMPRESA;
+
+fetch(`/kpigeral/kpiSemEstoqueAlgumHorti/${idEmpresa}`).then(function (resposta) {
+if (resposta.ok) {
+if (resposta.status == 204) {
+  alert("Nenhuma prateleira encontrada")
+}
+resposta.json().then(function (resposta) {
+  console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+    for (let i = 0; i < resposta.length; i++) {
+      var produtoSemEstoque  = resposta[i];
+      
+      kpi_dado_estoqueHortifruti.innerHTML = `${produto.conta}`
+    
+if (produto.conta <= 0) {
+   kpi_dado_estoqueHortifruti.innerHTML = `${produto.conta}`;
+    div_kpi_dado.classList.add('kpi-otimo');
+} else if (produto.conta <= 2) {
+   kpi_dado_estoqueHortifruti.innerHTML = `${produto.conta}`;
+    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
+} else if (produto.conta <= 4) {
+   kpi_dado_estoqueHortifruti.innerHTML = `${produto.conta}`;
+    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+} else {
+    kpi_dado_estoqueHortifruti.innerHTML = `${produto.conta}`;
+    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+}
+  
+}});
+} else {
+throw ('Houve um erro na API!');
+}
+}).catch(function (resposta) {
+console.error(resposta);
+});
+}
 </script>
