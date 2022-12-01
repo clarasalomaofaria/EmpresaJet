@@ -12,7 +12,7 @@
 
 </head>
 
-<body onload="buscarNomeProdutos()">
+<body onload="buscarNomeProdutos(), mostrarkpi(), kpiAunsencia(), kpiSemEstoqueAlgum()">
 
     <header>
 
@@ -42,21 +42,21 @@
         <section class="dashboard-kpis">
 
             <!--KPI sobre produtos sem estoque algum-->
-            <div class="kpis kpi-estoque-setor-cuidados-pessoais">
+            <div id="div_kpi_dado" class="kpis kpi-estoque-setor-cuidados-pessoais">
                 <p class="kpi-titulo">Sem estoque algum</p>
-                <p class="kpi-dado">0 <span class="kpi-dado-palavra-ajuste">produtos</span></p>
+                <p id="kpi_dado_estoqueCuidados"  class="kpi-dado">0 <span class="kpi-dado-palavra-ajuste">produtos</span></p>
             </div>
 
             <!--KPI sobre sensores detectando ausência de produtos-->
-            <div class="kpis kpi-ausencia-setor-cuidados-pessoais">
+            <div id="div_kpi_dado" class="kpis kpi-ausencia-setor-cuidados-pessoais">
                 <p class="kpi-titulo">Ausência de produtos</p>
-                <p class="kpi-dado">5 <span class="kpi-dado-palavra-ajuste">sensores</span></p>
+                <p id="kpi_dado_ausencia" class="kpi-dado">5 <span class="kpi-dado-palavra-ajuste">sensores</span></p>
             </div>
 
             <!--KPI sobre a porcentagem de abastecimento do mercado-->
-            <div class="kpis kpi-abastecimento-setor-cuidados-pessoais">
+            <div id="div_kpi_dado" class="kpis kpi-abastecimento-setor-cuidados-pessoais">
                 <p class="kpi-titulo">Setor abastecido</p>
-                <p class="kpi-dado">90%</p>
+                <p id="kpi_dadoSetorCuidados" class="kpi-dado">90%</p>
             </div>
 
             <!--Gráfico polar sobre a falta dos produtos nos setores do mercado-->
@@ -420,4 +420,112 @@
         console.error(resposta);
       });
   }
+
+  function mostrarkpi() {
+
+var idEmpresa = sessionStorage.ID_EMPRESA;
+
+fetch(`/kpigeral/kpisdosetorCuidados/${idEmpresa}`).then(function (resposta) {
+if (resposta.ok) {
+if (resposta.status == 204) {
+  alert("Nenhuma prateleira encontrada")
+}
+resposta.json().then(function (resposta) {
+  console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+    for (let i = 0; i < resposta.length; i++) {
+      var produto  = resposta[i];
+
+      kpi_dadoSetorCuidados.innerHTML = `${produto.conta}% `
+    
+if (produto <= 75) {
+    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+} else if (produto.conta <= 85) {
+    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
+} else if (produto.conta <= 90) {
+    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+} else {
+    div_kpi_dado.classList.add('kpi-otimo');
+}
+}});
+} else {
+throw ('Houve um erro na API!');
+}
+}).catch(function (resposta) {
+console.error(resposta);
+});
+}
+
+function kpiAunsencia() {
+
+var idEmpresa = sessionStorage.ID_EMPRESA;
+
+fetch(`/kpigeral/kpiAunsenciaCuidados/${idEmpresa}`).then(function (resposta) {
+if (resposta.ok) {
+if (resposta.status == 204) {
+  alert("Nenhuma prateleira encontrada")
+}
+resposta.json().then(function (resposta) {
+  console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+    for (let i = 0; i < resposta.length; i++) {
+      var ProdutoAusencia  = resposta[i];
+
+      kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.conta}`
+    
+      if (produto.conta <= 0) {
+    div_kpi_dado.classList.add('kpi-otimo');
+} else if (produto.conta <= 2) {
+    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
+} else if (produto.conta <= 4) {
+    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+} else {
+    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+}
+  
+}});
+} else {
+throw ('Houve um erro na API!');
+}
+}).catch(function (resposta) {
+console.error(resposta);
+});
+}
+
+function kpiSemEstoqueAlgum() {
+
+var idEmpresa = sessionStorage.ID_EMPRESA;
+
+fetch(`/kpigeral/kpiSemEstoqueAlgumCuidados/${idEmpresa}`).then(function (resposta) {
+if (resposta.ok) {
+if (resposta.status == 204) {
+  alert("Nenhuma prateleira encontrada")
+}
+resposta.json().then(function (resposta) {
+  console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+    for (let i = 0; i < resposta.length; i++) {
+      var produtoSemEstoque  = resposta[i];
+      
+      kpi_dado_estoqueCuidados.innerHTML = `${produto.conta}`
+    
+if (produto.conta <= 0) {
+    div_kpi_dado.classList.add('kpi-otimo');
+} else if (produto.conta <= 2) {
+    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
+} else if (produto.conta <= 4) {
+    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+} else {
+
+    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+}
+  
+}});
+} else {
+throw ('Houve um erro na API!');
+}
+}).catch(function (resposta) {
+console.error(resposta);
+});
+}
 </script>
