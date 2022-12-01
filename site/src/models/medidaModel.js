@@ -89,9 +89,58 @@ function obterPie(idEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+function obterPolar(idEmpresa) {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `select top 1
+        dht11_temperatura as temperatura, 
+        dht11_umidade as umidade,  
+                        CONVERT(varchar, momento, 108) as momento_grafico, 
+                        fk_aquario 
+                        from medida where fk_aquario = ${idAquario} 
+                    order by id desc`;
+
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `SELECT
+        (SELECT (SELECT (24 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
+        ORDER BY ds.idDado DESC LIMIT 8) as empresa_dados)) faltas_frios,
+        
+        (SELECT (SELECT (30 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia'
+        ORDER BY ds.idDado DESC LIMIT 10) as empresa_dados)) faltas_mercearia,
+        
+        (SELECT (SELECT (30 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
+        ORDER BY ds.idDado DESC LIMIT 10) as empresa_dados)) faltas_hortifruti,
+        
+        (SELECT (SELECT (21 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
+        ORDER BY ds.idDado DESC LIMIT 7) as empresa_dados)) faltas_cuidados,
+        
+        (SELECT (SELECT (30 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
+        ORDER BY ds.idDado DESC LIMIT 10) as empresa_dados)) faltas_bebidas;`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 
 module.exports = {
     listarPorEmpresa,
     buscarMedidasEmTempoReal,
-    obterPie
+    obterPie,
+    obterPolar
 }

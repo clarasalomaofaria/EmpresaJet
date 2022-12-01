@@ -105,7 +105,7 @@ function criarGrafico() {
         config_linha_fluxo_produtos
     );
 
-    setTimeout(() => obterDadosGrafico(), 2000);
+    setTimeout(() => obterDadosGrafico(), 7000);
 }
 
 /*Script do gráfico de barras que indica o fluxo do giro dos produtos no mercado, por semana*/

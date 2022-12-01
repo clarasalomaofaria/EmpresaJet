@@ -55,7 +55,7 @@ function criarGrafico(){
         document.getElementById('pizza_estado_mercado'),
         config
     );
-    setTimeout(() => obterPie(), 5000);
+    setTimeout(() => obterPie(), 10000);
 }
 
 
