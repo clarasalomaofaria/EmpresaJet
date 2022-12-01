@@ -1,31 +1,89 @@
 
 /*Script do gráfico de pizza que indica o estado atual das gôndolas do mercado (em tempo real)*/
+var faltando = 0;
+var estocadas = 0;
+function obterPie() {
+    var idEmpresa = sessionStorage.ID_EMPRESA;
+    console.log("chamando função obter dados gráfico");
+    fetch(`medidas/obterPie/${idEmpresa}`).then(function (resposta) {
+        if (resposta.ok) {
 
-const data_pizza_estado_mercado = {
-    labels: [
-        'Gôndolas estocadas',
-        'Gôndolas com produtos em falta'
-    ],
-    datasets: [{
-        label: 'Estoque das gôndolas',
-        data: [84, 16],
-        backgroundColor: [
-            'rgb(93, 208, 67)',
-            'rgb(246, 69, 69)',
+            resposta.json().then(function (resposta) {
+                console.log("Dados recebidos: ", JSON.stringify(resposta));
+                estocadas = resposta[0].abastecido;
+                faltando = resposta[0].nao_abastecido;
+                criarGrafico();
+            });
+
+        } else {
+            throw ('Houve um erro na API!');
+        }
+    }).catch(function (resposta) {
+        console.error(resposta);
+    });
+}
+
+function criarGrafico(){
+    var container = document.getElementById("grafico");
+    container.innerHTML = "";
+    
+    var canvas = document.createElement("canvas");
+    canvas.id = "pizza_estado_mercado"
+    container.appendChild(canvas)
+    const votacao = {
+        labels: [
+            'Gôndolas estocadas',
+            'Gôndolas com produtos em falta'
         ],
-        hoverOffset: 4
-    }]
-};
+        datasets: [{
+            label: 'Estoque das gôndolas',
+            data: [estocadas, faltando],
+            backgroundColor: [
+                'rgb(93, 208, 67)',
+                'rgb(246, 69, 69)',
+            ],
+            hoverOffset: 4
+        }]
+    };
+    
+    const config = {
+        type: 'pie',
+        data: votacao,
+    };
+    
+    const graficoVotacao = new Chart(
+        document.getElementById('pizza_estado_mercado'),
+        config
+    );
+    setTimeout(() => obterPie(), 5000);
+}
 
-const config_estado_mercado_pie = {
-    type: 'pie',
-    data: data_pizza_estado_mercado,
-};
 
-const grafico_estado_mercado = new Chart(
-    document.getElementById('pizza_estado_mercado'),
-    config_estado_mercado_pie
-);
+// const data_pizza_estado_mercado = {
+//     labels: [
+//         'Gôndolas estocadas',
+//         'Gôndolas com produtos em falta'
+//     ],
+//     datasets: [{
+//         label: 'Estoque das gôndolas',
+//         data: [84, 16],
+//         backgroundColor: [
+//             'rgb(93, 208, 67)',
+//             'rgb(246, 69, 69)',
+//         ],
+//         hoverOffset: 4
+//     }]
+// };
+
+// const config_estado_mercado_pie = {
+//     type: 'pie',
+//     data: data_pizza_estado_mercado,
+// };
+
+// const grafico_estado_mercado = new Chart(
+//     document.getElementById('pizza_estado_mercado'),
+//     config_estado_mercado_pie
+// );
 
 /*Script do gráfico de linha que indica o fluxo do giro dos produtos no mercado, por mês*/
 

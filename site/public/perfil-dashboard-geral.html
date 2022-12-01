@@ -12,7 +12,7 @@
 
 </head>
 
-<body onload="mostrarkpi()">
+<body onload="mostrarkpi(), obterPie()">
 
     <main>
 
@@ -50,8 +50,8 @@
                 <div class="titulo-estado-gondolas">
                     Estado atual das gôndolas (%)
                 </div>
-                <div class="graficos-container container-grafico-pizza-mercado">
-                    <canvas class="graficos-canvas" id="pizza_estado_mercado"></canvas>
+                <div id="grafico" class="graficos-container container-grafico-pizza-mercado">
+                    <!-- <canvas class="graficos-canvas" id="pizza_estado_mercado"></canvas> -->
                 </div>
             </div>
             <div class="graficos-card">
