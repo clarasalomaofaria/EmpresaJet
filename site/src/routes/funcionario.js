@@ -7,7 +7,7 @@ router.get("/", function (req, res) {
     funcionarioController.buscar(req, res);
 });
 
-router.get("/listarFuncionario", function (req, res) {
+router.get("/listarFuncionario/:idEmpresa", function (req, res) {
     funcionarioController.listarFuncionario(req, res);
 });
 

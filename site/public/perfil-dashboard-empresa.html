@@ -340,8 +340,8 @@
             <div class="estilo-box">
               <p>Função</p>
               <select class="combo-funcao" id="inputFuncao">
-                <option value="administrador">Administrador</option>
-                <option value="usuario">Usuário</option>
+                <option value="Administrador">Administrador</option>
+                <option value="Usuario">Usuário</option>
               </select>
             </div>
           </div>
@@ -566,6 +566,7 @@
     }
 
     function cadastrarFuncionario() {
+      var idEmpresa = sessionStorage.ID_EMPRESA
       //Recupere o valor da nova input pelo nome do id
       // Agora vá para o método fetch logo abaixo
       var userVar = inputUsuario.value;
@@ -574,7 +575,7 @@
       var emailVar = inputEmail.value;
       var contatoVar = inputContato.value;
       var funcaoVar = inputFuncao.value;
-      var idEmpresa = sessionStorage.ID_EMPRESA;
+
 
       fetch(`/funcionario/cadastrarFuncionario/${idEmpresa}`,{
         method: "POST",
