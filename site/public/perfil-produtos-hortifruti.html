@@ -274,16 +274,16 @@
           var tabela = document.getElementById("tbody_table");
 
           tabela.innerHTML = "";
-          for (let i = 0; i < resposta.length; i++) {
+          for (let i = resposta.length-1; i >= 0; i--) {
             var itens = resposta[i];
 
             var linhaTabela = document.createElement("tr");
             var colunaTabela1 = document.createElement("td");
             var colunaTabela2 = document.createElement("td");
 
-            colunaTabela2.id = i+19;
+            colunaTabela2.id = 27-i;
 
-            colunaTabela1.innerHTML = i+19;
+            colunaTabela1.innerHTML = 27-i;
             colunaTabela2.innerHTML = `${itens.nomeProduto} <img class="icon_editar" src="./assets/svg/icon_editar.svg" alt="" onclick="editar_produto(${itens.idProduto})">`;
 
             linhaTabela.className = "tr_table";

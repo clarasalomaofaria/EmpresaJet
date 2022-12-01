@@ -43,7 +43,7 @@ function listarprodutosHortifruti(idEmpresa) {
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
 				JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
 					JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
-						WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC LIMIT 10;
+						WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC LIMIT 9;
                         `;
                         console.log("Executando a instrução SQL: \n" + instrucao);
                         return database.executar(instrucao);
