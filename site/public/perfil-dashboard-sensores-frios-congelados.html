@@ -477,6 +477,8 @@ throw ('Houve um erro na API!');
 }).catch(function (resposta) {
 console.error(resposta);
 });
+
+setTimeout(() => mostrarkpi(), 10000);
 }
 
 function kpiSemEstoque() {
@@ -526,6 +528,9 @@ throw ('Houve um erro na API!');
 }).catch(function (resposta) {
 console.error(resposta);
 });
+
+setTimeout(() => kpiSemEstoque(), 10000);
+
 }
 
 function kpiSemEstoqueAlgum() {
@@ -575,6 +580,8 @@ throw ('Houve um erro na API!');
 }).catch(function (resposta) {
 console.error(resposta);
 });
+
+setTimeout(() => kpiSemEstoqueAlgum(), 10000);
 }
 
 </script>

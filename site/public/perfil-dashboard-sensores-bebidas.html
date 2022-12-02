@@ -474,10 +474,12 @@ throw ('Houve um erro na API!');
 }).catch(function (resposta) {
 console.error(resposta);
 });
+
+setTimeout(() => mostrarkpi() , 10000);
 }
 
 function kpiAunsencia() {
-
+  
 var idEmpresa = sessionStorage.ID_EMPRESA;
 
 fetch(`/kpigeral/kpiAunsenciaBebidas/${idEmpresa}`).then(function (resposta) {
@@ -522,6 +524,8 @@ throw ('Houve um erro na API!');
 }).catch(function (resposta) {
 console.error(resposta);
 });
+
+setTimeout(() => kpiAunsencia() , 10000);
 }
 
 function kpiSemEstoqueAlgum() {
@@ -570,5 +574,7 @@ throw ('Houve um erro na API!');
 }).catch(function (resposta) {
 console.error(resposta);
 });
+
+setTimeout(() => kpiSemEstoqueAlgum() , 10000);
 }
 </script>
