@@ -42,21 +42,21 @@
         <section class="dashboard-kpis">
 
             <!--KPI sobre produtos sem estoque algum-->
-            <div id="div_kpi_dado" class="kpis kpi-estoque-setor-hortifruti">
-                <p id="kpi_dado_estoqueHortifruti" class="kpi-titulo">Sem estoque algum</p>
-                <p class="kpi-dado">0 <span class="kpi-dado-palavra-ajuste">produtos</span></p>
+            <div id="div_kpi_dadoEstoque" class="kpis kpi-estoque-setor-hortifruti">
+                <p  class="kpi-titulo">Sem estoque algum</p>
+                <p id="kpi_dado_estoqueHortifruti" class="kpi-dado"></p><span class="kpi-dado-palavra-ajuste">produtos</span>
             </div>
 
             <!--KPI sobre sensores detectando ausência de produtos-->
-            <div id="div_kpi_dado" class="kpis kpi-ausencia-setor-hortifruti">
+            <div id="div_kpi_dadoAusencia" class="kpis kpi-ausencia-setor-hortifruti">
                 <p class="kpi-titulo">Ausência de produtos</p>
-                <p id="kpi_dado_ausencia" class="kpi-dado">1 <span class="kpi-dado-palavra-ajuste">sensores</span></p>
+                <p id="kpi_dado_ausencia" class="kpi-dado"></p><span class="kpi-dado-palavra-ajuste">sensores</span>
             </div>
 
             <!--KPI sobre a porcentagem de abastecimento do mercado-->
             <div id="div_kpi_dado" class="kpis kpi-abastecimento-setor-hortifruti">
                 <p class="kpi-titulo">Setor abastecido</p>
-                <p id="kpi_dadoSetorHorti"  class="kpi-dado">97%</p>
+                <p id="kpi_dadoSetorHorti"  class="kpi-dado"></p>
             </div>
 
             <!--Gráfico polar sobre a falta dos produtos nos setores do mercado-->
@@ -448,15 +448,27 @@ resposta.json().then(function (resposta) {
 
       kpi_dadoSetorHorti.innerHTML = `${produto.conta}% `
     
-if (produto <= 75) {
-    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
-} else if (produto.conta <= 85) {
-    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
-} else if (produto.conta <= 90) {
-    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
-} else {
-    div_kpi_dado.classList.add('kpi-otimo');
-}
+      if (produto.conta <= 75) {
+        div_kpi_dado.classList.remove('verde');
+            div_kpi_dado.classList.remove('verde-lima');
+            div_kpi_dado.classList.remove('amarelo');
+            div_kpi_dado.classList.add('vermelho');
+        } else if (produto.conta <= 85) {
+            div_kpi_dado.classList.remove('verde');
+            div_kpi_dado.classList.remove('verde-lima');
+            div_kpi_dado.classList.remove('vermelho');
+            div_kpi_dado.classList.add('amarelo');
+        } else if (produto.conta <= 90) {
+            div_kpi_dado.classList.remove('verde');
+            div_kpi_dado.classList.remove('amarelo');
+            div_kpi_dado.classList.remove('vermelho');
+            div_kpi_dado.classList.add('verde-lima');
+        } else {
+            div_kpi_dado.classList.remove('verde-lima');
+            div_kpi_dado.classList.remove('amarelo');
+            div_kpi_dado.classList.remove('vermelho');
+            div_kpi_dado.classList.add('verde');
+        }
 }});
 } else {
 throw ('Houve um erro na API!');
@@ -481,20 +493,28 @@ resposta.json().then(function (resposta) {
     for (let i = 0; i < resposta.length; i++) {
       var ProdutoAusencia  = resposta[i];
 
-      kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.conta}`
+      kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.falta_hortifruti}`
     
-      if (produto.conta <= 0) {
-   kpi_dado_ausencia.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-otimo');
-} else if (produto.conta <= 2) {
-   kpi_dado_ausencia.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
-} else if (produto.conta <= 4) {
-   kpi_dado_ausencia.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+      if (produto.falta_hortifruti <= 0) {
+        div_kpi_dadoAusencia.classList.remove('verde-lima');
+        div_kpi_dadoAusencia.classList.remove('amarelo');
+        div_kpi_dadoAusencia.classList.remove('vermelho');
+        div_kpi_dadoAusencia.classList.add('verde');
+} else if (produto.falta_hortifruti <= 2) {
+    div_kpi_dadoAusencia.classList.remove('verde');
+    div_kpi_dadoAusencia.classList.remove('vermelho');
+    div_kpi_dadoAusencia.classList.remove('amarelo');
+    div_kpi_dadoAusencia.classList.add('verde-lima');
+} else if (produto.falta_hortifruti <= 4) {
+    div_kpi_dadoAusencia.classList.remove('verde');
+    div_kpi_dadoAusencia.classList.remove('vermelho');
+    div_kpi_dadoAusencia.classList.remove('verde-lima');
+    div_kpi_dadoAusencia.classList.add('amarelo');
 } else {
-    kpi_dado_ausencia.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+    div_kpi_dadoAusencia.classList.remove('verde-lima');
+    div_kpi_dadoAusencia.classList.remove('amarelo');
+    div_kpi_dadoAusencia.classList.remove('verde');
+    div_kpi_dadoAusencia.classList.add('vermelho');
 }
   
 }});
@@ -521,20 +541,28 @@ resposta.json().then(function (resposta) {
     for (let i = 0; i < resposta.length; i++) {
       var produtoSemEstoque  = resposta[i];
       
-      kpi_dado_estoqueHortifruti.innerHTML = `${produto.conta}`
+      kpi_dado_estoqueHortifruti.innerHTML = `${produtoSemEstoque.falta_total_hortifruti}`
     
-if (produto.conta <= 0) {
-   kpi_dado_estoqueHortifruti.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-otimo');
-} else if (produto.conta <= 2) {
-   kpi_dado_estoqueHortifruti.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
-} else if (produto.conta <= 4) {
-   kpi_dado_estoqueHortifruti.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+if (produtoSemEstoque .falta_total_hortifruti <= 0) {
+    div_kpi_dadoEstoque.classList.remove('verde-lima');
+   div_kpi_dadoEstoque.classList.remove('amarelo');
+   div_kpi_dadoEstoque.classList.remove('vermelho');
+  div_kpi_dadoEstoque.classList.add('verde');
+} else if (produtoSemEstoque .falta_total_hortifruti <= 2) {
+    div_kpi_dadoEstoque.classList.remove('verde');
+   div_kpi_dadoEstoque.classList.remove('vermelho');
+   div_kpi_dadoEstoque.classList.remove('amarelo');
+   div_kpi_dadoEstoque.classList.add('verde-lima');
+} else if (produtoSemEstoque .falta_total_hortifruti <= 4) {
+    div_kpi_dadoEstoque.classList.remove('verde');
+   div_kpi_dadoEstoque.classList.remove('verde-lima');
+   div_kpi_dadoEstoque.classList.remove('vermelho');
+   div_kpi_dadoEstoque.classList.add('amarelo');
 } else {
-    kpi_dado_estoqueHortifruti.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+    div_kpi_dadoEstoque.classList.remove('verde-lima');
+   div_kpi_dadoEstoque.classList.remove('amarelo');
+   div_kpi_dadoEstoque.classList.add('vermelho');
+   div_kpi_dadoEstoque.classList.remove('verde');
 }
   
 }});

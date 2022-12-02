@@ -42,22 +42,22 @@
         <section class="dashboard-kpis">
 
             <!--KPI sobre produtos sem estoque algum-->
-            <div id="div_kpi_dado" class="kpis kpi-estoque-setor-cuidados-pessoais">
-                <p class="kpi-titulo">Sem estoque algum</p>
-                <p id="kpi_dado_estoqueCuidados"  class="kpi-dado">0 <span class="kpi-dado-palavra-ajuste">produtos</span></p>
-            </div>
+            <div id="div_kpi_dadoEstoque" class="kpis kpi-estoque-setor-cuidados-pessoais">
+              <p class="kpi-titulo">Sem estoque algum</p>
+              <p id="kpi_dado_estoqueCuidados"  class="kpi-dado"></p><span class="kpi-dado-palavra-ajuste">produtos</span>
+          </div>
 
-            <!--KPI sobre sensores detectando ausência de produtos-->
-            <div id="div_kpi_dado" class="kpis kpi-ausencia-setor-cuidados-pessoais">
-                <p class="kpi-titulo">Ausência de produtos</p>
-                <p id="kpi_dado_ausencia" class="kpi-dado">5 <span class="kpi-dado-palavra-ajuste">sensores</span></p>
-            </div>
+          <!--KPI sobre sensores detectando ausência de produtos-->
+          <div id="div_kpi_dadoAusencia" class="kpis kpi-ausencia-setor-cuidados-pessoais">
+              <p class="kpi-titulo">Ausência de produtos</p>
+              <p id="kpi_dado_ausencia" class="kpi-dado"></p><span class="kpi-dado-palavra-ajuste">sensores</span>
+          </div>
 
-            <!--KPI sobre a porcentagem de abastecimento do mercado-->
-            <div id="div_kpi_dado" class="kpis kpi-abastecimento-setor-cuidados-pessoais">
-                <p class="kpi-titulo">Setor abastecido</p>
-                <p id="kpi_dadoSetorCuidados" class="kpi-dado">90%</p>
-            </div>
+          <!--KPI sobre a porcentagem de abastecimento do mercado-->
+          <div id="div_kpi_dado" class="kpis kpi-abastecimento-setor-cuidados-pessoais">
+              <p class="kpi-titulo">Setor abastecido</p>
+              <p id="kpi_dadoSetorCuidados" class="kpi-dado"></p>
+          </div>
 
             <!--Gráfico polar sobre a falta dos produtos nos setores do mercado-->
             <div class="kpis kpi-grafico-polar">
@@ -439,13 +439,25 @@ resposta.json().then(function (resposta) {
       kpi_dadoSetorCuidados.innerHTML = `${produto.conta}% `
     
 if (produto <= 75) {
-    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+  div_kpi_dado.classList.remove('verde');
+  div_kpi_dado.classList.remove('verde-lima');
+  div_kpi_dado.classList.remove('amarelo');
+    div_kpi_dado.classList.add('vermelho');
 } else if (produto.conta <= 85) {
-    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
+  div_kpi_dado.classList.remove('verde');
+  div_kpi_dado.classList.remove('verde-lima');
+  div_kpi_dado.classList.remove('vermelho');
+  div_kpi_dado.classList.add('amarelo');
 } else if (produto.conta <= 90) {
-    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+  div_kpi_dado.classList.remove('verde');
+  div_kpi_dado.classList.remove('amarelo');
+  div_kpi_dado.classList.remove('vermelho');
+  div_kpi_dado.classList.add('verde-lima');
 } else {
-    div_kpi_dado.classList.add('kpi-otimo');
+  div_kpi_dado.classList.remove('verde-lima');
+  div_kpi_dado.classList.remove('amarelo');
+  div_kpi_dado.classList.remove('vermelho');
+  div_kpi_dado.classList.add('verde');
 }
 }});
 } else {
@@ -471,16 +483,28 @@ resposta.json().then(function (resposta) {
     for (let i = 0; i < resposta.length; i++) {
       var ProdutoAusencia  = resposta[i];
 
-      kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.conta}`
+      kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.falta_cuidados}`
     
-      if (produto.conta <= 0) {
-    div_kpi_dado.classList.add('kpi-otimo');
-} else if (produto.conta <= 2) {
-    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
-} else if (produto.conta <= 4) {
-    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+      if (ProdutoAusencia.falta_cuidados <= 0) {
+        div_kpi_dadoAusencia.classList.remove('verde-lima');
+        div_kpi_dadoAusencia.classList.remove('amarelo');
+        div_kpi_dadoAusencia.classList.remove('vermelho');
+        div_kpi_dadoAusencia.classList.add('verde');
+} else if (ProdutoAusencia.falta_cuidados <= 2) {
+  div_kpi_dadoAusencia.classList.remove('verde');
+    div_kpi_dadoAusencia.classList.remove('vermelho');
+    div_kpi_dadoAusencia.classList.remove('amarelo');
+    div_kpi_dadoAusencia.classList.add('verde-lima');
+} else if (ProdutoAusencia.falta_cuidados <= 4) {
+  div_kpi_dadoAusencia.classList.remove('verde');
+    div_kpi_dadoAusencia.classList.remove('vermelho');
+    div_kpi_dadoAusencia.classList.remove('verde-lima');
+    div_kpi_dadoAusencia.classList.add('amarelo');
 } else {
-    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+  div_kpi_dadoAusencia.classList.remove('verde-lima');
+    div_kpi_dadoAusencia.classList.remove('amarelo');
+    div_kpi_dadoAusencia.classList.remove('verde');
+    div_kpi_dadoAusencia.classList.add('vermelho');
 }
   
 }});
@@ -507,17 +531,28 @@ resposta.json().then(function (resposta) {
     for (let i = 0; i < resposta.length; i++) {
       var produtoSemEstoque  = resposta[i];
       
-      kpi_dado_estoqueCuidados.innerHTML = `${produto.conta}`
+      kpi_dado_estoqueCuidados.innerHTML = `${produtoSemEstoque .falta_total_cuidados}`
     
-if (produto.conta <= 0) {
-    div_kpi_dado.classList.add('kpi-otimo');
-} else if (produto.conta <= 2) {
-    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
-} else if (produto.conta <= 4) {
-    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+if (produtoSemEstoque .falta_total_cuidados <= 0) {
+  div_kpi_dadoEstoque.classList.remove('verde-lima');
+   div_kpi_dadoEstoque.classList.remove('amarelo');
+   div_kpi_dadoEstoque.classList.remove('vermelho');
+  div_kpi_dadoEstoque.classList.add('verde');
+} else if (produtoSemEstoque .falta_total_cuidados <= 2) {
+  div_kpi_dadoEstoque.classList.remove('verde');
+   div_kpi_dadoEstoque.classList.remove('vermelho');
+   div_kpi_dadoEstoque.classList.remove('amarelo');
+   div_kpi_dadoEstoque.classList.add('verde-lima');
+} else if (produtoSemEstoque .falta_total_cuidados <= 4) {
+  div_kpi_dadoEstoque.classList.remove('verde');
+   div_kpi_dadoEstoque.classList.remove('verde-lima');
+   div_kpi_dadoEstoque.classList.remove('vermelho');
+   div_kpi_dadoEstoque.classList.add('amarelo');
 } else {
-
-    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+  div_kpi_dadoEstoque.classList.remove('verde-lima');
+   div_kpi_dadoEstoque.classList.remove('amarelo');
+   div_kpi_dadoEstoque.classList.add('vermelho');
+   div_kpi_dadoEstoque.classList.remove('verde');
 }
   
 }});

@@ -12,7 +12,7 @@
 
 </head>
 
-<body onload="buscarNomeProdutos(), mostrarkpi(),obterPolar(), kpiAunsencia(), kpiSemEstoqueAlgum()">
+<body onload="buscarNomeProdutos(), mostrarkpi(),obterPolar(), kpiSemEstoque(), kpiSemEstoqueAlgum()">
 
     <header>
 
@@ -42,21 +42,21 @@
         <section class="dashboard-kpis">
 
             <!--KPI sobre produtos sem estoque algum-->
-            <div id="div_kpi_dado"  class="kpis kpi-estoque-setor-mercearia">
+            <div id="div_kpi_dadoEstoque"  class="kpis kpi-estoque-setor-mercearia">
                 <p class="kpi-titulo">Sem estoque algum</p>
-                <p id="kpi_dado_estoqueMarcearia"  class="kpi-dado">0 <span class="kpi-dado-palavra-ajuste">produtos</span></p>
+                <p id="kpi_dado_estoqueMarcearia" class="kpi-dado"></p><span class="kpi-dado-palavra-ajuste">produtos</span>
             </div>
 
             <!--KPI sobre sensores detectando ausência de produtos-->
-            <div id="div_kpi_dado"  class="kpis kpi-ausencia-setor-mercearia">
+            <div id="div_kpi_dadoAusencia"  class="kpis kpi-ausencia-setor-mercearia">
                 <p class="kpi-titulo">Ausência de produtos</p>
-                <p id="kpi_dado_ausencia" class="kpi-dado">7 <span class="kpi-dado-palavra-ajuste">sensores</span></p>
+                <p id="kpi_dado_ausencia" class="kpi-dado"></p><span id="sensores" class="kpi-dado-palavra-ajuste">sensores</span>
             </div>
 
             <!--KPI sobre a porcentagem de abastecimento do mercado-->
             <div id="div_kpi_dado"  class="kpis kpi-abastecimento-setor-mercearia">
                 <p class="kpi-titulo">Setor abastecido</p>
-                <p id="kpi_dadoSetor" class="kpi-dado">80%</p>
+                <p id="kpi_dadoSetor" class="kpi-dado"></p>
             </div>
 
             <!--Gráfico polar sobre a falta dos produtos nos setores do mercado-->
@@ -434,7 +434,7 @@ function mostrarkpi() {
 
 var idEmpresa = sessionStorage.ID_EMPRESA;
 
-fetch(`/kpigeral/kpisdosetorMarcearia/${idEmpresa}`).then(function (resposta) {
+fetch(`/kpigeral/kpisdoSetorMarcearia/${idEmpresa}`).then(function (resposta) {
 if (resposta.ok) {
 if (resposta.status == 204) {
   alert("Nenhuma prateleira encontrada")
@@ -448,13 +448,25 @@ resposta.json().then(function (resposta) {
       kpi_dadoSetor.innerHTML = `${produto.conta}% `
     
 if (produto <= 75) {
-    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+    div_kpi_dado.classList.remove('verde');
+  div_kpi_dado.classList.remove('verde-lima');
+  div_kpi_dado.classList.remove('amarelo');
+    div_kpi_dado.classList.add('vermelho');
 } else if (produto.conta <= 85) {
-    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
+    div_kpi_dado.classList.remove('verde');
+  div_kpi_dado.classList.remove('verde-lima');
+  div_kpi_dado.classList.remove('vermelho');
+  div_kpi_dado.classList.add('amarelo');
 } else if (produto.conta <= 90) {
-    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+    div_kpi_dado.classList.remove('verde');
+  div_kpi_dado.classList.remove('amarelo');
+  div_kpi_dado.classList.remove('vermelho');
+  div_kpi_dado.classList.add('verde-lima');
 } else {
-    div_kpi_dado.classList.add('kpi-otimo');
+    div_kpi_dado.classList.remove('verde-lima');
+  div_kpi_dado.classList.remove('amarelo');
+  div_kpi_dado.classList.remove('vermelho');
+  div_kpi_dado.classList.add('verde');
 }
 }});
 } else {
@@ -465,7 +477,7 @@ console.error(resposta);
 });
 }
 
-function kpiSemEstoque() {
+function kpiSemEstoque(){
 
 var idEmpresa = sessionStorage.ID_EMPRESA;
 
@@ -480,16 +492,28 @@ resposta.json().then(function (resposta) {
     for (let i = 0; i < resposta.length; i++) {
       var ProdutoAusencia  = resposta[i];
 
-      kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.conta}`
+      kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.falta_mercearia}`
     
-if (ProdutoAusencia.conta <= 25) {
-    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
-} else if (ProdutoAusencia.conta <= 50) {
-    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
-} else if (ProdutoAusencia.conta <= 75) {
-    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+if (ProdutoAusencia.falta_mercearia <= 6) {
+    div_kpi_dadoAusencia.classList.remove('verde-lima');
+        div_kpi_dadoAusencia.classList.remove('amarelo');
+        div_kpi_dadoAusencia.classList.remove('vermelho');
+        div_kpi_dadoAusencia.classList.add('verde');
+} else if (ProdutoAusencia.falta_mercearia <= 4) {
+    div_kpi_dadoAusencia.classList.remove('verde');
+    div_kpi_dadoAusencia.classList.remove('vermelho');
+    div_kpi_dadoAusencia.classList.remove('amarelo');
+    div_kpi_dadoAusencia.classList.add('verde-lima');
+} else if (ProdutoAusencia.falta_mercearia <= 2) {
+    div_kpi_dadoAusencia.classList.remove('verde');
+    div_kpi_dadoAusencia.classList.remove('vermelho');
+    div_kpi_dadoAusencia.classList.remove('verde-lima');
+    div_kpi_dadoAusencia.classList.add('amarelo');
 } else {
-    div_kpi_dado.classList.add('kpi-otimo');
+    div_kpi_dadoAusencia.classList.remove('verde-lima');
+    div_kpi_dadoAusencia.classList.remove('amarelo');
+    div_kpi_dadoAusencia.classList.remove('verde');
+    div_kpi_dadoAusencia.classList.add('vermelho');
 }
   
 }});
@@ -514,22 +538,30 @@ resposta.json().then(function (resposta) {
   console.log("Dados recebidos: ", JSON.stringify(resposta));
 
     for (let i = 0; i < resposta.length; i++) {
-      var produto  = resposta[i];
+      var produtofalta  = resposta[i];
       
-      kpi_dado_estoqueMarcearia.innerHTML = `${produto.conta}`
+      kpi_dado_estoqueMarcearia.nnerHTML = `${produtofalta.falta_total_mercearia}`
     
-if (produto.conta <= 0) {
-   kpi_dado_estoqueMarcearia.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-otimo');
-} else if (produto.conta <= 2) {
-   kpi_dado_estoqueMarcearia.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
-} else if (produto.conta <= 4) {
-   kpi_dado_estoqueMarcearia.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+if (produtofalta.falta_total_mercearia <= 0) {
+    div_kpi_dadoEstoque.classList.remove('verde-lima');
+   div_kpi_dadoEstoque.classList.remove('amarelo');
+   div_kpi_dadoEstoque.classList.remove('vermelho');
+  div_kpi_dadoEstoque.classList.add('verde');
+} else if (produtofalta.falta_total_mercearia <= 2) {
+    div_kpi_dadoEstoque.classList.remove('verde');
+   div_kpi_dadoEstoque.classList.remove('vermelho');
+   div_kpi_dadoEstoque.classList.remove('amarelo');
+   div_kpi_dadoEstoque.classList.add('verde-lima');
+} else if (produtofalta.falta_total_mercearia <= 4) {
+    div_kpi_dadoEstoque.classList.remove('verde');
+   div_kpi_dadoEstoque.classList.remove('verde-lima');
+   div_kpi_dadoEstoque.classList.remove('vermelho');
+   div_kpi_dadoEstoque.classList.add('amarelo');
 } else {
-    kpi_dado_estoqueMarcearia.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+    div_kpi_dadoEstoque.classList.remove('verde-lima');
+   div_kpi_dadoEstoque.classList.remove('amarelo');
+   div_kpi_dadoEstoque.classList.remove('verde');
+   div_kpi_dadoEstoque.classList.add('vermelho');
 }
   
 }});
@@ -540,5 +572,4 @@ throw ('Houve um erro na API!');
 console.error(resposta);
 });
 }
-
 </script>

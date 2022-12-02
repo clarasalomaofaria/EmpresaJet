@@ -74,11 +74,11 @@ function KpiSemEstoqueAlgum(req, res) {
     });
 }
 // Setor Mercearia
-function KpiSetorMarcearia(req, res) {
+function kpisdoSetorMarcearia(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    kpigeralModel.KpiSetorMarcearia(idEmpresa).then(function (resultado) {
+    kpigeralModel.kpisdoSetorMarcearia(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -285,7 +285,7 @@ module.exports = {
     KpiSetorFrios,
     KpiSemEstoque,
     KpiSemEstoqueAlgum,
-    KpiSetorMarcearia,
+    kpisdoSetorMarcearia,
     KpiSemEstoqueMarcearia,
     KpiSemEstoqueAlgumMarcearia,
     kpisdosetorHortifruti,

@@ -22,7 +22,7 @@ router.get("/kpiSemEstoqueAlgum/:idEmpresa", function (req, res) {
 });
 
 // Setor Marcearia
-router.get("/kpisdosetorMarcearia/:idEmpresa", function (req, res) {
+router.get("/kpisdoSetorMarcearia/:idEmpresa", function (req, res) {
     kpigeralController.kpisdoSetorMarcearia(req, res);
 });
 

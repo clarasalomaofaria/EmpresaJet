@@ -13,7 +13,7 @@
 
 </head>
 
-<body onload="buscarNomeProdutos(), mostrarkpi(),obterPolar(), kpiAunsencia(), kpiSemEstoqueAlgum()">
+<body onload="buscarNomeProdutos(), mostrarkpi(),obterPolar(),kpiSemEstoque(), kpiSemEstoqueAlgum()">
 
     <header>
 
@@ -43,15 +43,15 @@
         <section class="dashboard-kpis">
 
             <!--KPI sobre produtos sem estoque algum-->
-            <div id="div_kpi_dado" class="kpis kpi-estoque-setor-frios-congelados">
+            <div id="div_kpi_dadoEstoque" class="kpis kpi-estoque-setor-frios-congelados">
                 <p class="kpi-titulo">Sem estoque algum</p>
-                <p id="kpi_dado_estoqueFrios" class="kpi-dado">0 <span class="kpi-dado-palavra-ajuste">produtos</span></p>
+                <p id="kpi_dado_estoqueFrios" class="kpi-dado"></p><span id="produtos" class="kpi-dado-palavra-ajuste">produtos</span>
             </div>
 
             <!--KPI sobre sensores detectando ausência de produtos-->
-            <div id="div_kpi_dado" class="kpis kpi-ausencia-setor-frios-congelados">
+            <div id="div_kpi_dadoAusencia" class="kpis kpi-ausencia-setor-frios-congelados">
                 <p class="kpi-titulo">Ausência de produtos</p>
-                <p id="kpi_dado_ausencia" class="kpi-dado">4 <span class="kpi-dado-palavra-ajuste">sensores</span></p>
+                <p id="kpi_dado_ausencia" class="kpi-dado"></p><span id="sensores" class="kpi-dado-palavra-ajuste">sensores</span>
             </div>
 
             <!--KPI sobre a produto de abastecimento do mercado-->
@@ -446,20 +446,28 @@ resposta.json().then(function (resposta) {
     for (let i = 0; i < resposta.length; i++) {
       var produto  = resposta[i];
 
-kpi_abastecimento.innerHTML = `${produto.conta}% abastecido`
+kpi_abastecimento.innerHTML = `${produto.conta}%`
     
 if (produto <= 75) {
-    kpi_dado.innerHTML = `Crítico`;
-    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+    div_kpi_dado.classList.remove('verde');
+  div_kpi_dado.classList.remove('verde-lima');
+  div_kpi_dado.classList.remove('amarelo');
+    div_kpi_dado.classList.add('vermelho');
 } else if (produto.conta <= 85) {
-    kpi_dado.innerHTML = `Alerta`;
-    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
+    div_kpi_dado.classList.remove('verde');
+  div_kpi_dado.classList.remove('verde-lima');
+  div_kpi_dado.classList.remove('vermelho');
+  div_kpi_dado.classList.add('amarelo');
 } else if (produto.conta <= 90) {
-    kpi_dado.innerHTML = `Bom`;
-    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+    div_kpi_dado.classList.remove('verde');
+  div_kpi_dado.classList.remove('amarelo');
+  div_kpi_dado.classList.remove('vermelho');
+  div_kpi_dado.classList.add('verde-lima');
 } else {
-    kpi_dado.innerHTML = `Ótimo`;
-    div_kpi_dado.classList.add('kpi-otimo');
+    div_kpi_dado.classList.remove('verde-lima');
+  div_kpi_dado.classList.remove('amarelo');
+  div_kpi_dado.classList.remove('vermelho');
+  div_kpi_dado.classList.add('verde');
 }
   
 }});
@@ -486,20 +494,29 @@ resposta.json().then(function (resposta) {
     for (let i = 0; i < resposta.length; i++) {
       var ProdutoAusencia  = resposta[i];
 
-      kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.conta}% abastecido`
-    
-if (ProdutoAusencia.conta <= 25) {
-    kpi_dado_ausencia.innerHTML = `Crítico`;
-    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
-} else if (ProdutoAusencia.conta <= 50) {
-    kpi_dado_ausencia.innerHTML = `Alerta`;
-    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
-} else if (ProdutoAusencia.conta <= 75) {
-    kpi_dado_ausencia.innerHTML = `Bom`;
-    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+      kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.falta_frios}`
+        
+if (ProdutoAusencia.falta_frios <= 0) {
+    sensores.innerHTML = `Sensores`
+    div_kpi_dadoAusencia.classList.remove('verde-lima');
+        div_kpi_dadoAusencia.classList.remove('amarelo');
+        div_kpi_dadoAusencia.classList.remove('vermelho');
+        div_kpi_dadoAusencia.classList.add('verde');
+} else if (ProdutoAusencia.falta_frios <= 2) {
+    div_kpi_dadoAusencia.classList.remove('verde');
+    div_kpi_dadoAusencia.classList.remove('vermelho');
+    div_kpi_dadoAusencia.classList.remove('amarelo');
+    div_kpi_dadoAusencia.classList.add('verde-lima');
+} else if (ProdutoAusencia.falta_frios <= 4) {
+    div_kpi_dadoAusencia.classList.remove('verde');
+    div_kpi_dadoAusencia.classList.remove('vermelho');
+    div_kpi_dadoAusencia.classList.remove('verde-lima');
+    div_kpi_dadoAusencia.classList.add('amarelo');
 } else {
-    kpi_dado_ausencia.innerHTML = `Ótimo`;
-    div_kpi_dado.classList.add('kpi-otimo');
+    div_kpi_dadoAusencia.classList.remove('verde-lima');
+    div_kpi_dadoAusencia.classList.remove('amarelo');
+    div_kpi_dadoAusencia.classList.remove('verde');
+    div_kpi_dadoAusencia.classList.add('vermelho');
 }
   
 }});
@@ -524,25 +541,34 @@ resposta.json().then(function (resposta) {
   console.log("Dados recebidos: ", JSON.stringify(resposta));
 
     for (let i = 0; i < resposta.length; i++) {
-      var produto  = resposta[i];
+        var produto  = resposta[i];
 
-      kpi_dado_estoqueFrios.innerHTML = `${produto.conta}% abastecido`
-    
-if (produto.conta <= 0) {
-    kpi_dado_estoqueFrios.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-otimo');
-} else if (produto.conta <= 2) {
-    kpi_dado_estoqueFrios.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
-} else if (produto.conta <= 4) {
-    kpi_dado_estoqueFrios.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+        kpi_dado_estoqueFrios.innerHTML = `${produto.falta_total_frios}`
+        
+        if (produto.falta_total_frios <= 0) {
+   div_kpi_dadoEstoque.classList.remove('verde-lima');
+   div_kpi_dadoEstoque.classList.remove('amarelo');
+   div_kpi_dadoEstoque.classList.remove('vermelho');
+   div_kpi_dadoEstoque.classList.add('verde');
+} else if (produto.falta_total_frios <= 2) {
+    ddiv_kpi_dadoEstoque.classList.remove('verde');
+   div_kpi_dadoEstoque.classList.remove('vermelho');
+   div_kpi_dadoEstoque.classList.remove('amarelo');
+   div_kpi_dadoEstoque.classList.add('verde-lima');
+} else if (produto.falta_total_frios <= 4) {
+    div_kpi_dadoEstoque.classList.remove('verde');
+   div_kpi_dadoEstoque.classList.remove('verde-lima');
+   div_kpi_dadoEstoque.classList.remove('vermelho');
+   div_kpi_dadoEstoque.classList.add('amarelo');
 } else {
-    kpi_dado_estoqueFrios.innerHTML = `${produto.conta}`;
-    div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+    div_kpi_dadoEstoque.classList.remove('verde-lima');
+   div_kpi_dadoEstoque.classList.remove('amarelo');
+   div_kpi_dadoEstoque.classList.add('vermelho');
+   div_kpi_dadoEstoque.classList.remove('verde');
 }
-  
-}});
+
+} });
+
 } else {
 throw ('Houve um erro na API!');
 }
