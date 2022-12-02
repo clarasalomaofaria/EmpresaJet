@@ -5,12 +5,24 @@ var database = require("../database/config");
 function buscarMedidasEmTempoReal(idEmpresa, limite_linhas) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarMedidasEmTempoReal()");
     
-    var instrucao = `
-      SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (44 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-          JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-             JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
-                 ORDER BY ds.idDado DESC LIMIT ${limite_linhas}) as soma;   
-    `;
+    var instrucao = ''
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `
+        SELECT top ${limite_linhas}  DISTINCT (ROUND ((SUM(statusPrateleira) / (44 * 3) * 100))) as conta FROM (SELECT top ${limite_linhas} ds.statusPrateleira FROM dados_sensor ds 
+            JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+               JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
+                   ORDER BY ds.idDado DESC`;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `
+        SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (44 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+               JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
+                   ORDER BY ds.idDado DESC LIMIT ${limite_linhas}) as soma;   
+      `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
@@ -56,13 +68,27 @@ function KpiSetorFrios(idEmpresa) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarMedidasEmTempoReal()");
     
     // Select para mostrar o abastecimento do setor.
-    var instrucao = `
-    SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (8 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-        JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-           JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
-              WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa}
-                ORDER BY ds.idDado DESC LIMIT 8 ) as soma;     
-    `;
+    var instrucao = ''
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `
+        SELECT top 8 DISTINCT (ROUND ((SUM(statusPrateleira) / (8 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+               JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
+                  WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa}
+                    ORDER BY ds.idDado DESC ) as soma;
+            `;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `
+        SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (8 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+               JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
+                  WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa}
+                    ORDER BY ds.idDado DESC LIMIT 8 ) as soma;  
+      `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
@@ -72,12 +98,25 @@ function KpiSemEstoque(idEmpresa) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarMedidasEmTempoReal()");
     
     // Select para mostrar a Ausencia de Produto.
-    var instrucao = `
-    SELECT (SELECT (24 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+    var instrucao = ''
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `
+        SELECT top 8 (SELECT (24 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
         JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
         JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
-        ORDER BY ds.idDado DESC LIMIT 8) as empresa_dados) falta_frios;  
-    `;
+        ORDER BY ds.idDado DESC) as empresa_dados) falta_frios;  
+        `;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `
+        SELECT (SELECT (24 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
+            ORDER BY ds.idDado DESC LIMIT 8) as empresa_dados) falta_frios;   
+      `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }  
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
@@ -87,12 +126,26 @@ function KpiSemEstoqueAlgum(idEmpresa) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarMedidasEmTempoReal()");
     
     // Select para mostrar os Produtos sem estoque.
-    var instrucao = `
-    SELECT (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados' AND ds.statusPrateleira = 0
-        ORDER BY ds.idDado DESC LIMIT 8) as empresa_dados) falta_total_frios;  
-    `;
+    var instrucao = ''
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `
+        SELECT top 8 (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados' AND ds.statusPrateleira = 0
+            ORDER BY ds.idDado DESC ) as empresa_dados) falta_total_frios;   
+        `;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `
+        SELECT (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados' AND ds.statusPrateleira = 0
+            ORDER BY ds.idDado DESC LIMIT 8) as empresa_dados) falta_total_frios;   
+      `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }  
+     
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
@@ -102,15 +155,29 @@ function kpisdoSetorMarcearia(idEmpresa) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarMedidasEmTempoReal()");
     
     // Select para mostrar o abastecimento do setor.
-    var instrucao = `
-    SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (10 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-        JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-           JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
-              WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa}
-                ORDER BY ds.idDado DESC LIMIT 10 ) as soma;  
-                        `;
-                        console.log("Executando a instrução SQL: \n" + instrucao);
-                        return database.executar(instrucao);
+    var instrucao = ''
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `
+        SELECT top 10 DISTINCT (ROUND ((SUM(statusPrateleira) / (10 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+               JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
+                  WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa}
+                    ORDER BY ds.idDado DESC) as soma;    
+        `;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `
+        SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (10 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+               JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
+                  WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa}
+                    ORDER BY ds.idDado DESC LIMIT 10 ) as soma;  
+      `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }         
+        console.log("Executando a instrução SQL: \n" + instrucao);
+        return database.executar(instrucao);
 }
 
 function KpiSemEstoqueMarcearia(idEmpresa) {
