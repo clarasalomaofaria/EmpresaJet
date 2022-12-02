@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/perfil-empresa.css" />
   </head>
 
-  <body onload="buscarDadoFuncionario()">
+  <body onload="buscarDadosEmpresa(), buscarDadoFuncionario()">
     <main>
       <!-- Cor do fundo da pag -->
       <div class="background-color">
@@ -523,6 +523,7 @@
         idEmpresa
       })
     }).then(function (resposta) {
+      buscarDadosEmpresa();
        if (resposta.status == 404) {
         window.alert("Deu 404!");
       } else {
@@ -533,6 +534,90 @@
     })
     window.location = "./perfil-dashboard-empresa.html"
   }
+
+
+  function buscarDadosEmpresa() {
+    var idEmpresa = sessionStorage.ID_EMPRESA;
+      if (sessionStorage.ID_EMPRESA) {
+        fetch(`/empresa/buscarDadosEmpresa/${idEmpresa}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then(function (resposta) {
+            if (resposta.ok) {
+              // resposta.json().then((json) => {
+
+                resposta.json().then(function (resposta) {
+        console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+                // alert(resposta[0].idEmpresa);
+                // console.log(json);
+                //nome da empresa
+                // var nome_empresa = json.nomeEmpresa;
+                titulo_div_empresa.innerHTML = resposta[0].nomeEmpresa;
+                subtitulo_div_empresa.remove();
+                inputEmpresa.remove();
+                nome_empresa_cadastro.innerHTML = `Nome da Empresa`;
+                nome_empresa_box.innerHTML += resposta[0].nomeEmpresa;
+
+                //cnpj da empresa
+                var cnpj_empresa = resposta[0].cnpj
+                inputCNPJ.remove();
+                cnpj_empresa_box.innerHTML += cnpj_empresa;
+                cnpj_empresa_cadastro.innerHTML = "CNPJ";
+
+                //Logradouro da empresa
+                var logradouro_empresa = resposta[0].logradouro
+                inputLogradouro.remove();
+                logradouro_empresa_box.innerHTML += logradouro_empresa;
+                logradouro_empresa_cadastro.innerHTML = "Logradouro";
+
+                //Cidade da empresa
+                var cidade_empresa = resposta[0].cidade
+                inputCidade.remove();
+                cidade_empresa_box.innerHTML += cidade_empresa;
+                cidade_empresa_cadastro.innerHTML = "Cidade";
+
+                //Estado da empresa
+                var estado_empresa = resposta[0].estado
+                inputUF.remove();
+                estado_empresa_box.innerHTML += estado_empresa;
+                estado_empresa_cadastro.innerHTML = "UF";
+
+                //Cep da empresa
+                var cep_empresa = resposta[0].cep
+                inputCEP.remove();
+                cep_empresa_box.innerHTML += cep_empresa;
+                cep_empresa_cadastro.innerHTML = "CEP";
+
+                //Bairro da empresa
+                var bairro_empresa = resposta[0].bairro
+                inputBairro.remove();
+                bairro_empresa_box.innerHTML += bairro_empresa;
+
+                //Complemento da empresa
+                var complemento_empresa = resposta[0].complemento
+                inputComplemento.remove();
+                complemento_empresa_box.innerHTML += complemento_empresa;
+
+                btn_cadastrar_empresa.remove();
+                document.getElementById(
+                  "container_filho_empresa"
+                ).style.marginLeft = "17vw";
+                document.getElementById("titulo_2_empresa").style.marginLeft =
+                  "12vw";
+               });
+                
+            }
+          })
+          .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+          });
+      }
+    }
+
 
     function cadastrarFuncionario() {
       var idEmpresa = sessionStorage.ID_EMPRESA

@@ -1,37 +1,78 @@
 
+var idEmpresa = sessionStorage.ID_EMPRESA;
 /*Script do gráfico de pizza que indica o estado atual das gôndolas do mercado (em tempo real)*/
-const data_donut_fluxo_categorias = {
-    labels: [
-        'Frios e congelados',
-        'Mercearia',
-        'Hortifruti',
-        'Cuidados pessoais',
-        'Bebidas'
-    ],
-    datasets: [{
-        label: 'Giro dos produtos por categoria',
-        data: [188, 230, 210, 162, 265],
-        backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)',
-            'rgb(41, 41, 207)',
-            'purple'
+obterDonut();
+var frios = 0;
+var mercearia = 0;
+var hortifruti = 0;
+var cuidados = 0;
+var bebidas = 0;
+function obterDonut() {
+    console.log("chamando função obter dados gráfico");
+    fetch(`/medidas/obterDonut/${idEmpresa}`).then(function (resposta) {
+        if (resposta.ok) {
+
+            resposta.json().then(function (resposta) {
+                console.log("Dados recebidos: ", JSON.stringify(resposta));
+                frios = resposta[0].faltas_mes_frios
+                mercearia = resposta[0].faltas_mes_mercearia
+                hortifruti = resposta[0].faltas_mes_hortifruti
+                cuidados = resposta[0].faltas_mes_cuidados
+                bebidas = resposta[0].faltas_mes_bebidas
+                criarGraficoDonut();
+            });
+
+        } else {
+            throw ('Houve um erro na API!');
+        }
+    }).catch(function (resposta) {
+        console.error(resposta);
+    });
+}
+
+function criarGraficoDonut() {
+    var container = document.getElementById("graficoDonut");
+    container.innerHTML = "";
+
+    var div = document.getElementById("graficoDonut");
+    var canvas = document.createElement('canvas');
+    canvas.className = 'graficos-canvas';
+    canvas.id = 'donut_fluxo_categorias';
+    div.appendChild(canvas);
+
+    const data_donut_fluxo_categorias = {
+        labels: [
+            'Frios e congelados',
+            'Mercearia',
+            'Hortifruti',
+            'Cuidados pessoais',
+            'Bebidas'
         ],
-        hoverOffset: 4
-    }]
-};
-
-const config_donut_fluxo_categorias = {
-    type: 'doughnut',
-    data: data_donut_fluxo_categorias,
-};
-
-const grafico_donut_fluxo_categorias = new Chart(
-    document.getElementById('donut_fluxo_categorias'),
-    config_donut_fluxo_categorias
-);
-
+        datasets: [{
+            label: 'Giro dos produtos por categoria',
+            data: [frios, mercearia, hortifruti, cuidados, bebidas],
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)',
+                'rgb(41, 41, 207)',
+                'purple'
+            ],
+            hoverOffset: 4
+        }]
+    };
+    
+    const config_donut_fluxo_categorias = {
+        type: 'doughnut',
+        data: data_donut_fluxo_categorias,
+    };
+    
+    const grafico_donut_fluxo_categorias = new Chart(
+        document.getElementById('donut_fluxo_categorias'),
+        config_donut_fluxo_categorias
+    );
+    setTimeout(() => obterDonut(), 7000);
+}
 /*Script do gráfico de linha que indica o fluxo do giro dos produtos no mercado, por hora*/
 
 
@@ -39,7 +80,6 @@ var labels_horas = [];
 
 var qtd_prateleiras = [];
 
-var idEmpresa = sessionStorage.ID_EMPRESA;
 
 function limparDiv() {
     console.log("limpando div");

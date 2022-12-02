@@ -137,10 +137,59 @@ function obterPolar(idEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+function obterDonut(idEmpresa) {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `select top 1
+        dht11_temperatura as temperatura, 
+        dht11_umidade as umidade,  
+                        CONVERT(varchar, momento, 108) as momento_grafico, 
+                        fk_aquario 
+                        from medida where fk_aquario = ${idAquario} 
+                    order by id desc`;
+
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `SELECT 
+        (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
+        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
+        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_frios) faltas_mes_frios,
+        
+        (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
+        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
+        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_mercearia) faltas_mes_mercearia,
+        
+        (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
+        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
+        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_hortifruti) faltas_mes_hortifruti,
+        
+        (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
+        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
+        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_cuidados) faltas_mes_cuidados,
+        
+        (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
+        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
+        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_bebidas) faltas_mes_bebidas;`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 
 module.exports = {
     listarPorEmpresa,
     buscarMedidasEmTempoReal,
     obterPie,
-    obterPolar
+    obterPolar,
+    obterDonut
 }
