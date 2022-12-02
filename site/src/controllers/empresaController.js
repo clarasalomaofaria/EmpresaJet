@@ -1,61 +1,6 @@
 var empresaModel = require("../models/empresaModel");
 
-function buscar(req, res) {
-    const idEmpresa = req.query.id;
 
-    empresaModel.buscar(idEmpresa)
-        .then(
-            function (resultado) {
-                res.json(resultado[0]);
-            }
-        ).catch(
-            function (erro) {
-                console.log(erro);
-                console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
-}
-
-function updateFkEmpresa(req, res) {
-    var idEmpresa = req.params.idEmpresa;
-    var idPerfil = req.body.idPerfil;
-    if (idEmpresa == undefined) {
-        res.status(400).send("Seu user está undefined!");
-    } else {
-        empresaModel.updateFkEmpresa(idEmpresa, idPerfil)
-        .then(
-            function (resultado) {
-                res.json(resultado);
-            }
-        ).catch(
-            function (erro) {
-                console.log(erro);
-                console.log(
-                    "\nHouve um erro ao realizar o cadastro! Erro: ",
-                    erro.sqlMessage
-                );
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
-}
-}
-
-function selecionandoempresa(req, res) {
-
-    empresaModel.selecionandoempresa()
-        .then(
-            function (resultado) {
-                res.json(resultado[0]);
-            }
-        ).catch(
-            function (erro) {
-                console.log(erro);
-                console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
-}
 
 function cadastrarEmpresa(req, res) {
 
@@ -105,9 +50,23 @@ function cadastrarEmpresa(req, res) {
     }
 }
 
+
+function selectEmpresa(req, res) {
+
+    empresaModel.selectEmpresa().then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function(erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 module.exports = {
-    buscar,
     cadastrarEmpresa,
-    selecionandoempresa,
-    updateFkEmpresa
+    selectEmpresa
 };

@@ -39,4 +39,8 @@ router.put("/confirmar_telefone/:user", function (req, res) {
     usuarioController.confirmar_telefone(req, res);
 })
 
+router.put("/updateEmpresa", function (req, res) {
+    usuarioController.updateEmpresa(req, res);
+})
+
 module.exports = router;

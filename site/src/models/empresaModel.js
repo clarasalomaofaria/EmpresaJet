@@ -1,25 +1,4 @@
 var database = require("../database/config");
-
-function buscar(idEmpresa) {
-  const instrucao = `SELECT * FROM Empresa WHERE idEmpresa = ${idEmpresa}`;
-  return database.executar(instrucao);
-}
-
-function updateFkEmpresa(idEmpresa, idPerfil) {
-
-  var instrucao = `UPDATE Perfil SET fkEmpresa = ${idEmpresa}
-    WHERE idPerfil = ${idPerfil}`;
-
-  console.log("Executando a instrução SQL: \n" + instrucao);
-  return database.executar(instrucao);
-}
-
-function selecionandoempresa() {
-  const instrucao = `SELECT idEmpresa FROM empresa ORDER BY idEmpresa DESC LIMIT 1;`;
-  return database.executar(instrucao);
-}
-
-
   function cadastrarEmpresa(
   empresaNome,
   estado,
@@ -46,9 +25,19 @@ function selecionandoempresa() {
   return database.executar(instrucao);
 }
 
+
+function selectEmpresa() {
+  var instrucao = `
+  SELECT idEmpresa FROM empresa ORDER BY idEmpresa DESC LIMIT 1;
+    `;
+
+  console.log("Executando a instrução SQL: \n" + instrucao);
+  return database.executar(instrucao);
+}
+
+
+
 module.exports = {
-  buscar,
   cadastrarEmpresa,
-  selecionandoempresa,
-  updateFkEmpresa
+  selectEmpresa
 };

@@ -103,6 +103,32 @@ function confirmar_user(req, res) {
 }
 }
 
+
+function updateEmpresa(req, res) {
+    var idEmpresa = req.body.idEmpresa;
+    var idPerfil = req.body.idPerfil;
+
+    if (idPerfil == undefined) {
+        res.status(400).send("Seu usuario está undefined!");
+    } else {
+        usuarioModel.updateEmpresa(idPerfil, idEmpresa)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+}
+
 // FUNÇÃO QUE PEGA OS VALORES SETADOS EM PERFIL-CONFIG
 function confirmar_senha(req, res) {
     var senha = req.body.senha;
@@ -198,5 +224,6 @@ module.exports = {
     buscar,
     confirmar_user,
     confirmar_senha,
-    confirmar_telefone
+    confirmar_telefone,
+    updateEmpresa
 }

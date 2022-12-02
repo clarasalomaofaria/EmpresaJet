@@ -366,81 +366,7 @@
 
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
-    function buscarDadosEmpresa() {
-      if (sessionStorage.ID_EMPRESA) {
-        fetch(`/empresa?id=${sessionStorage.ID_EMPRESA}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then(function (resposta) {
-            if (resposta.ok) {
-              resposta.json().then((json) => {
-                console.log(json);
-                //nome da empresa
-                var nome_empresa = json.nomeEmpresa;
-                titulo_div_empresa.innerHTML = nome_empresa;
-                subtitulo_div_empresa.remove();
-                inputEmpresa.remove();
-                nome_empresa_cadastro.innerHTML = `Nome da Empresa`;
-                nome_empresa_box.innerHTML += nome_empresa;
-
-                //cnpj da empresa
-                var cnpj_empresa = Number(json.cnpj);
-                inputCNPJ.remove();
-                cnpj_empresa_box.innerHTML += cnpj_empresa;
-                cnpj_empresa_cadastro.innerHTML = "CNPJ";
-
-                //Logradouro da empresa
-                var logradouro_empresa = json.logradouro;
-                inputLogradouro.remove();
-                logradouro_empresa_box.innerHTML += logradouro_empresa;
-                logradouro_empresa_cadastro.innerHTML = "Logradouro";
-
-                //Cidade da empresa
-                var cidade_empresa = json.cidade;
-                inputCidade.remove();
-                cidade_empresa_box.innerHTML += cidade_empresa;
-                cidade_empresa_cadastro.innerHTML = "Cidade";
-
-                //Estado da empresa
-                var estado_empresa = json.estado;
-                inputUF.remove();
-                estado_empresa_box.innerHTML += estado_empresa;
-                estado_empresa_cadastro.innerHTML = "UF";
-
-                //Cep da empresa
-                var cep_empresa = Number(json.cep);
-                inputCEP.remove();
-                cep_empresa_box.innerHTML += cep_empresa;
-                cep_empresa_cadastro.innerHTML = "CEP";
-
-                //Bairro da empresa
-                var bairro_empresa = json.bairro;
-                inputBairro.remove();
-                bairro_empresa_box.innerHTML += bairro_empresa;
-
-                //Complemento da empresa
-                var complemento_empresa = json.complemento;
-                inputComplemento.remove();
-                complemento_empresa_box.innerHTML += complemento_empresa;
-
-                btn_cadastrar_empresa.remove();
-                document.getElementById(
-                  "container_filho_empresa"
-                ).style.marginLeft = "17vw";
-                document.getElementById("titulo_2_empresa").style.marginLeft =
-                  "12vw";
-              });
-            }
-          })
-          .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-          });
-      }
-    }
-
+   
     function buscarDadoFuncionario() {
       var idEmpresa = sessionStorage.ID_EMPRESA;
     fetch(`/funcionario/listarFuncionario/${idEmpresa}`)
@@ -507,57 +433,8 @@
       });
     }
 
-    var idEmpresa = 0
-    function selecionandoEmpresa() {
 
-      if (sessionStorage.ID_EMPRESA) {
-        fetch(`/selecionandoempresa`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then(function (resposta) {
-            if (resposta.ok) {
-              resposta.json().then((json) => {
-                console.log(json);
 
-                idEmpresa = resposta[0].idEmpresa;
-
-              });
-            }
-          })
-          .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-          });
-      }
-
-    }
-
-    function updatefkEmpresa() {
-      fetch(`/empresa/updateFkEmpresa/${idEmpresa}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        idPerfil: sessionStorage.ID_PERFIL
-      })
-    }).then(function (resposta) {
-      
-      if (resposta.ok) {
-        window.alert("Empresa cadastrada com sucesso");
-        
-      } else if (resposta.status == 404) {
-        window.alert("Deu 404!");
-      } else {
-        throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
-      }
-    }).catch(function (resposta) {
-      console.log(`#ERRO: ${resposta}`);
-    })
-    window.location = "./perfil-dashboard-empresa.html"
-    }
 
     function cadastrarEmpresa() {
       //Recupere o valor da nova input pelo nome do id
@@ -594,12 +471,10 @@
           console.log("resposta: ", resposta);
   // Se sucesso, ele atualiza o id da empresa dentro da sessionStorage e atualiza a pág
           if (resposta.ok) {
-            resposta.json().then((idEmpresa) => {
-              sessionStorage.ID_EMPRESA = idEmpresa;
-            });
+
+              selectEmpresa();
 
             alert("Cadastro realizado com sucesso!");
-            window.location.reload();
           } else {
             throw "Houve um erro ao tentar realizar o cadastro!";
           }
@@ -608,14 +483,56 @@
           console.log(`#ERRO: ${resposta}`);
           // finalizarAguardar();
         });
-        selecionandoEmpresa();
-        updatefkEmpresa();
+        
       return false;
     }
 
-    function sumirMensagem() {
-      cardErro.style.display = "none";
-    }
+  
+  function selectEmpresa() {
+    fetch("/empresa/selectEmpresa").then(function (resposta) {
+      if (resposta.ok) {
+        if (resposta.status == 204) {
+          alert("Nenhum produto encontrado");
+        }
+        resposta.json().then(function (resposta) {
+          console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+          sessionStorage.ID_EMPRESA = resposta[0].idEmpresa;
+          
+        });
+      } else {
+        throw ('Houve um erro na API!');
+      }
+    }).catch(function (resposta) {
+      console.error(resposta);
+    });
+  }
+
+    function updateEmpresa() {
+
+      var idPerfil = sessionStorage.ID_PERFIL;
+      var idEmpresa = sessionStorage.ID_EMPRESA;
+
+      fetch("/usuarios/updateEmpresa/", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        idPerfil,
+        idEmpresa
+      })
+    }).then(function (resposta) {
+       if (resposta.status == 404) {
+        window.alert("Deu 404!");
+      } else {
+        throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+      }
+    }).catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    })
+    window.location = "./perfil-dashboard-empresa.html"
+  }
 
     function cadastrarFuncionario() {
       var idEmpresa = sessionStorage.ID_EMPRESA
@@ -667,10 +584,6 @@
       return false;
     }
 
-    function sumirMensagem() {
-      cardErro.style.display = "none";
-    }
 
     // chama a função assim que a pagina carrega
-    buscarDadosEmpresa();
 </script>
