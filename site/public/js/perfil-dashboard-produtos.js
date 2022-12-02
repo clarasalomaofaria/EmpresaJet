@@ -71,7 +71,7 @@ function criarGraficoDonut() {
         document.getElementById('donut_fluxo_categorias'),
         config_donut_fluxo_categorias
     );
-    setTimeout(() => obterDonut(), 7000);
+    setTimeout(() => obterDonut(), 10000);
 }
 /*Script do gráfico de linha que indica o fluxo do giro dos produtos no mercado, por hora*/
 
@@ -145,7 +145,7 @@ function criarGrafico() {
         config_linha_fluxo_produtos
     );
 
-    setTimeout(() => obterDadosGrafico(), 7000);
+    setTimeout(() => obterDadosGrafico(), 10000);
 }
 
 /*Script do gráfico de barras que indica o fluxo do giro dos produtos no mercado, por semana*/
