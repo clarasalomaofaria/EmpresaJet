@@ -27,6 +27,7 @@ body {
 
 
 /*KPIs*/
+
 .dashboard-kpis {
     display: grid;
     position: absolute;
@@ -35,8 +36,7 @@ body {
     margin-left: 18%;
     margin-right: 3%;
     margin-top: 20vh;
-    justify-content: center;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 
