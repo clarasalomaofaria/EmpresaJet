@@ -25,6 +25,7 @@ var mySqlConfig = {
     password: "admin123",
 };
 
+
 function executar(instrucao) {
     // VERIFICA A VARIÁVEL DE AMBIENTE SETADA EM app.js
     if (process.env.AMBIENTE_PROCESSO == "producao") {
