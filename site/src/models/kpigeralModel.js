@@ -7,13 +7,13 @@ function buscarMedidasEmTempoReal(idEmpresa, limite_linhas) {
     
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top ${limite_linhas}  DISTINCT (ROUND ((SUM(statusPrateleira) / (44 * 3) * 100))) as conta FROM (SELECT top ${limite_linhas} ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
                    ORDER BY ds.idDado DESC`;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (44 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
@@ -70,7 +70,7 @@ function KpiSetorFrios(idEmpresa) {
     // Select para mostrar o abastecimento do setor.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 8 DISTINCT (ROUND ((SUM(statusPrateleira) / (8 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
@@ -78,7 +78,7 @@ function KpiSetorFrios(idEmpresa) {
                     ORDER BY ds.idDado DESC ) as soma;
             `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (8 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
@@ -100,14 +100,14 @@ function KpiSemEstoque(idEmpresa) {
     // Select para mostrar a Ausencia de Produto.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 8 (SELECT (24 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
         JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
         JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
         ORDER BY ds.idDado DESC) as empresa_dados) falta_frios;  
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT (SELECT (24 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
@@ -128,14 +128,14 @@ function KpiSemEstoqueAlgum(idEmpresa) {
     // Select para mostrar os Produtos sem estoque.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 8 (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados' AND ds.statusPrateleira = 0
             ORDER BY ds.idDado DESC ) as empresa_dados) falta_total_frios;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados' AND ds.statusPrateleira = 0
@@ -157,7 +157,7 @@ function kpisdoSetorMarcearia(idEmpresa) {
     // Select para mostrar o abastecimento do setor.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 10 DISTINCT (ROUND ((SUM(statusPrateleira) / (10 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
@@ -165,7 +165,7 @@ function kpisdoSetorMarcearia(idEmpresa) {
                     ORDER BY ds.idDado DESC) as soma;    
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (10 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
@@ -186,7 +186,7 @@ function KpiSemEstoqueMarcearia(idEmpresa) {
     // Select para mostrar a ausencia..
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 10 (SELECT (30 - SUM(statusPrateleira)) FROM
          (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
@@ -195,7 +195,7 @@ function KpiSemEstoqueMarcearia(idEmpresa) {
                   ORDER BY ds.idDado DESC) as empresa_dados) falta_mercearia;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT (SELECT (30 - SUM(statusPrateleira)) FROM 
           (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
@@ -217,7 +217,7 @@ function KpiSemEstoqueAlgumMarcearia(idEmpresa) {
     // Select para mostrar o estoque do setor.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 10 (SELECT COUNT(statusPrateleira) FROM 
         (SELECT ds.statusPrateleira FROM dados_sensor ds 
           JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
@@ -226,7 +226,7 @@ function KpiSemEstoqueAlgumMarcearia(idEmpresa) {
                 ORDER BY ds.idDado DESC ) as empresa_dados) falta_total_mercearia;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT (SELECT COUNT(statusPrateleira) FROM 
           (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
@@ -250,7 +250,7 @@ function kpisdosetorHortifruti(idEmpresa) {
     // Select para mostrar o abastecimento do setor.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 10 DISTINCT (ROUND ((SUM(statusPrateleira) / (10 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
@@ -258,7 +258,7 @@ function kpisdosetorHortifruti(idEmpresa) {
                     ORDER BY ds.idDado DESC ) as soma;    
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (10 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
@@ -281,14 +281,14 @@ function kpiAunsenciaHortifruti(idEmpresa) {
     // Select para mostrar a ausencia do setor.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 9 (SELECT (27 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
             ORDER BY ds.idDado DESC ) as empresa_dados) falta_hortifruti;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT (SELECT (27 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
@@ -309,14 +309,14 @@ function kpiSemEstoqueAlgumHorti(idEmpresa) {
     // Select para mostrar o estoque do setor.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 9 (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti' AND ds.statusPrateleira = 0
             ORDER BY ds.idDado DESC) as empresa_dados) falta_total_hortifruti;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti' AND ds.statusPrateleira = 0
@@ -337,7 +337,7 @@ function kpisdosetorCuidados(idEmpresa) {
     // Select para mostrar o abastecimento do setor.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 7 DISTINCT (ROUND ((SUM(statusPrateleira) / (7 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
@@ -345,7 +345,7 @@ function kpisdosetorCuidados(idEmpresa) {
                     ORDER BY ds.idDado DESC) as soma;    
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (7 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
@@ -366,14 +366,14 @@ function kpiAunsenciaCuidados(idEmpresa) {
     // Select para mostrar a ausencia de produtos do setor.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 7 (SELECT (21 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
             ORDER BY ds.idDado DESC ) as empresa_dados) falta_cuidados;  
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT (SELECT (21 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
@@ -393,14 +393,14 @@ function kpiSemEstoqueAlgumCuidados(idEmpresa) {
     // Select para mostrar o estado do setor.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 7 (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais' AND ds.statusPrateleira = 0
             ORDER BY ds.idDado DESC ) as empresa_dados) falta_total_cuidados; 
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais' AND ds.statusPrateleira = 0
@@ -422,7 +422,7 @@ function kpisdosetorBebidas(idEmpresa) {
     // Select para mostrar o abastecimento do setor.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 7 DISTINCT (ROUND ((SUM(statusPrateleira) / (10 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
@@ -430,7 +430,7 @@ function kpisdosetorBebidas(idEmpresa) {
                     ORDER BY ds.idDado DESC ) as soma;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (10 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
@@ -452,14 +452,14 @@ function kpiAunsenciaBebidas(idEmpresa) {
     // Select para mostrar a aunsencia de produtos do setor.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 7 (SELECT (30 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
             ORDER BY ds.idDado DESC ) as empresa_dados) falta_bebidas;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT (SELECT (30 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
@@ -480,14 +480,14 @@ function kpiSemEstoqueAlgumBebidas(idEmpresa) {
     // Select para mostrar o estado do setor.
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `
+        instrucao = `
         SELECT top 7 (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas' AND ds.statusPrateleira = 0
             ORDER BY ds.idDado DESC ) as empresa_dados) falta_bebidas;    
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `
+        instrucao = `
         SELECT (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas' AND ds.statusPrateleira = 0
