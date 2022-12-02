@@ -108,7 +108,13 @@ const serial = async (
     .pipe(new serialport.ReadlineParser({ delimiter: "\r\n" }))
     .on("data", async (data) => {
       //console.log(data);
+      const teste = []; 
+
       const valores = data.split(";");
+
+      for (let a = 0; a < valores.length - 1; a++) {
+        teste.push(valores[a])
+      }
       const Prat1 = parseInt(valores[0]);
       const Prat2 = parseInt(valores[1]);
       const Prat3 = parseInt(valores[2]);
@@ -208,11 +214,13 @@ const serial = async (
           // Este insert irá inserir dados de fk_aquario id=1 (fixo no comando do insert abaixo)
           // >> Importante! você deve ter o aquario de id 1 cadastrado.
 
-          for (let i = 0; i > valores.length ; i++) {
+          for (let i = 0; i < valores.length ; i++) {
             await poolBancoDados.execute(
             `INSERT INTO dados_sensor (statusPrateleira,fkPrateleira) 
-                VALUES (${Prat[i+1]},${[i+1]})`,
-            );}
+                VALUES (${Prat[i+1]},${[i+1]});`,
+            );
+              console.log("entrou prod")
+          }
         
           // CREDENCIAIS DO BANCO REMOTO - SQL SERVER
           // Importante! você deve ter criado o usuário abaixo com os comandos presentes no arquivo
@@ -241,11 +249,12 @@ const serial = async (
           // -> altere nome da tabela e colunas se necessário
           // Este insert irá inserir dados de fk_aquario id=1 (fixo no comando do insert abaixo)
           // >> você deve ter o aquario de id 1 cadastrado.
-          for (let i = 0; i > valores.length ; i++) {
+          for (let i = 0; i < teste.length ; i++) {
             await poolBancoDados.execute(
             `INSERT INTO dados_sensor (statusPrateleira, fkPrateleira) 
-                VALUES (${Prat[i+1]},${[i+1]})`,
+                VALUES (${teste[i]},${[i+1]});`,
             );
+            // console.log(teste);
         }
           console.log(
             "valores inseridos no banco: ", data.toString()

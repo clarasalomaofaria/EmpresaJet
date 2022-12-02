@@ -305,18 +305,18 @@
 
             kpi_abastecimento.innerHTML = `${porcentagem.conta}% abastecido`
 
-            if (porcentagem <= 75) {
+            if (porcentagem.conta <= 75) {
               kpi_dado.innerHTML = `Crítico`;
-              div_kpi_dado.classList.add('kpi-setor-ausencia-informacoes_gerais');
+              div_kpi_dado.classList.add('vermelho');
             } else if (porcentagem.conta <= 85) {
               kpi_dado.innerHTML = `Alerta`;
-              div_kpi_dado.classList.add('kpi-status-informacoes_gerais');
+              div_kpi_dado.classList.add('amarelo');
             } else if (porcentagem.conta <= 90) {
               kpi_dado.innerHTML = `Bom`;
-              div_kpi_dado.classList.add('kpi-ausencia-informacoes_gerais');
+              div_kpi_dado.classList.add('verde-lima');
             } else {
               kpi_dado.innerHTML = `Ótimo`;
-              div_kpi_dado.classList.add('kpi-otimo');
+              div_kpi_dado.classList.add('verde-escuro');
             }
 
           }
@@ -361,7 +361,7 @@
             setor = 'Hortifruti'
           } else if (menosAbastecido == cuidadosPessoais) {
             setor = 'Cuidados Pessoais'
-          } else if (menosAbastecido = bebidas) {
+          } else if (menosAbastecido == bebidas) {
             setor = 'Bebidas'
           }
 
@@ -374,7 +374,7 @@
 
           SetorHortifruti.innerHTML = `${hortifruti}% abastecido`;
 
-          SetorCuidadosPessoais.innerHTML = `${cuidadosPessoais}% abastecido`;
+          SetorCuidados.innerHTML = `${cuidadosPessoais}% abastecido`;
 
           SetorBebidas.innerHTML = `${bebidas}% abastecido`;
 

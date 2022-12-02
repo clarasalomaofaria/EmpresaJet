@@ -67,7 +67,7 @@ CREATE TABLE
     );
    
 CREATE TABLE
-    dado(
+    dados_sensor(
         idDado INT PRIMARY KEY IDENTITY(1,1),
         statusPrateleira INT,
         dtPrateleira DATETIME DEFAULT CURRENT_TIMESTAMP,
