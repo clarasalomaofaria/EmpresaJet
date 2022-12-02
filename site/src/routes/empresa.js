@@ -16,5 +16,9 @@ router.get("/selectEmpresa", function (req, res) {
     empresaController.selectEmpresa(req, res);
 });
 
+router.get("/buscarDadosEmpresa/:idEmpresa", function (req, res) {
+    empresaController.buscarDadosEmpresa(req, res);
+});
+
 
 module.exports = router;

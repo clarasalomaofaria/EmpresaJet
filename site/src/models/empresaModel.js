@@ -36,8 +36,19 @@ function selectEmpresa() {
 }
 
 
+function buscarDadosEmpresa(idEmpresa) {
+  var instrucao = `
+  SELECT * FROM Empresa WHERE idEmpresa = ${idEmpresa};
+    `;
+
+  console.log("Executando a instrução SQL: \n" + instrucao);
+  return database.executar(instrucao);
+}
+
+
 
 module.exports = {
   cadastrarEmpresa,
-  selectEmpresa
+  selectEmpresa,
+  buscarDadosEmpresa
 };

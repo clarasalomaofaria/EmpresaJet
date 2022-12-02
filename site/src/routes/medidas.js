@@ -15,6 +15,10 @@ router.get("/obterPolar/:idEmpresa", function (req, res) {
     medidaController.obterPolar(req, res);
 });
 
+router.get("/obterDonut/:idEmpresa", function (req, res) {
+    medidaController.obterDonut(req, res);
+});
+
 router.get("/tempo-real/:idAquario", function (req, res) {
     medidaController.buscarMedidasEmTempoReal(req, res);
 })
