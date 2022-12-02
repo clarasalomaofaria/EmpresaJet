@@ -55,7 +55,6 @@ CREATE TABLE
     produto (
         idProduto INT PRIMARY KEY IDENTITY(1,1),
         nomeProduto VARCHAR(45) NOT NULL,
-        descricao VARCHAR(45)
     );
     
 CREATE TABLE 
@@ -83,8 +82,7 @@ CREATE TABLE
         setor VARCHAR(45),
         abastecimento int,
 		estado VARCHAR(45),
-        produto VARCHAR(45),
-		fkDado INT, FOREIGN KEY (fkDado) REFERENCES dado (idDado)
+		fkPrateleira INT, FOREIGN KEY (fkPrateleira) REFERENCES prateleira (idPrateleira)
 );
 insert into historico_alerta(statusHistorico,titulo,setor,abastecimento,estado,produto) VALUES
 ('n sei oque vai aqui','Falta de estoque em tal lugar','Congelados',65,'Alerta','Coca-Cola Congelada'),
@@ -94,6 +92,13 @@ DESC Sensor;
 	
 -- Exibir dados das tabelas
 SELECT * FROM Perfil;
+
+SELECT * FROM historico_alerta ha
+    JOIN prateleira prat ON ha.`fkPrateleira` = prat.`idPrateleira`
+        JOIN prateleira_produto pp ON pp.`fkPrateleira` = prat.`idPrateleira`
+            JOIN produto prod ON prod.`idProduto` = pp.`fkProduto`
+                ;
+
 desc historico_alerta;
 SELECT * FROM Empresa;
 SELECT * FROM Dado;

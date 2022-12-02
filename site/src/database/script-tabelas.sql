@@ -251,3 +251,6 @@ INSERT INTO Prateleira_Produto(fkPrateleira, fkProduto) values
 (43,43),
 (44,44);
 */
+
+SELECT * from dados_sensor order by idDado desc;
+
