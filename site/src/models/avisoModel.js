@@ -4,9 +4,10 @@ function listar(idEmpresa) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     
     var instrucao = `
-        SELECT ha.idHistorico, ha.produto, ha.setor, ha.abastecimento, ha.estado, ha.dtHistorico FROM historico_alerta ha
-            JOIN dados_sensor on fkDado = idDado
-                JOIN prateleira on fkPrateleira = idPrateleira
+    SELECT * FROM historico_alerta ha
+    JOIN prateleira prat ON ha.fkPrateleira = prat.idPrateleira
+        JOIN prateleira_produto pp ON pp.fkPrateleira = prat.idPrateleira
+            JOIN produto prod ON prod.idProduto = pp.fkProduto
                     JOIN empresa on fkEmpresa = idEmpresa where idEmpresa = ${idEmpresa};    
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);

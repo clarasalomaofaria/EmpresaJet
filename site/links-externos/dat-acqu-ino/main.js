@@ -16,7 +16,7 @@ const HABILITAR_OPERACAO_INSERIR = true;
 // altere o valor da variável AMBIENTE para o valor desejado:
 // API conectada ao banco de dados remoto, SQL Server -> 'producao'
 // API conectada ao banco de dados local, MySQL Workbench - 'desenvolvimento'
-const AMBIENTE = "desenvolvimento";
+const AMBIENTE = "producao";
 
 const serial = async (
   valoresPrat1,
@@ -213,24 +213,28 @@ const serial = async (
           // -> altere nome da tabela e colunas se necessário
           // Este insert irá inserir dados de fk_aquario id=1 (fixo no comando do insert abaixo)
           // >> Importante! você deve ter o aquario de id 1 cadastrado.
-
-          for (let i = 0; i < valores.length ; i++) {
-            await poolBancoDados.execute(
-            `INSERT INTO dados_sensor (statusPrateleira,fkPrateleira) 
-                VALUES (${Prat[i+1]},${[i+1]});`,
-            );
-              console.log("entrou prod")
-          }
-        
+          
           // CREDENCIAIS DO BANCO REMOTO - SQL SERVER
           // Importante! você deve ter criado o usuário abaixo com os comandos presentes no arquivo
           // "script-criacao-usuario-sqlserver.sql", presente neste diretório.
-          const connStr =
-            `Server=svr-projeto-empresajet.database.windows.net;
-            Database=bd-projeto-empresajet;
-            User Id=admin-projeto-empresajet;
-            Password=#Gfgrupo1;`;
+          for (let i = 0; i < teste.length ; i++) {
+            const connStr =
+              `Server=svr-projeto-empresajet.database.windows.net;
+              Database=bd-projeto-empresajet;
+              User Id=admin-projeto-empresajet;
+              Password=#Gfgrupo1;`;
+            
+              sqlquery = `INSERT INTO dados_sensor (statusPrateleira) 
+          VALUES (${teste[i]});`;
+            sql
+            .connect(connStr)
+            .then((conn) => inserirComando(conn, sqlquery))
+            .catch((err) => console.log("erro! " + err));
+          }
 
+
+            
+            
           function inserirComando(conn, sqlquery) {
             conn.query(sqlquery);
             console.log(
@@ -239,10 +243,6 @@ const serial = async (
             );
           }
 
-          sql
-            .connect(connStr)
-            .then((conn) => inserirComando(conn, sqlquery))
-            .catch((err) => console.log("erro! " + err));
         } else if (AMBIENTE == "desenvolvimento") {
           // altere!
           // Este insert irá inserir os dados na tabela "medida"

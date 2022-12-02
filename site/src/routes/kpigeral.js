@@ -8,6 +8,10 @@ router.get("/kpisdashboardgeral/:idEmpresa", function (req, res) {
     kpigeralController.buscarMedidasEmTempoReal(req, res);
 });
 
+router.get("/kpiMenosAbastecido/:idEmpresa", function (req, res) {
+    kpigeralController.setorMenosAbastecido(req, res);
+});
+
 // Setor Frios 
 router.get("/kpisdosetorFrios/:idEmpresa", function (req, res) {
     kpigeralController.KpiSetorFrios(req, res);
@@ -73,8 +77,6 @@ router.get("/kpiSemEstoqueAlgumBebidas/:idEmpresa", function (req, res) {
     kpigeralController.kpiSemEstoqueAlgumBebidas(req, res);
 });
 
-router.get("/kpiMenosAbastecido/:idEmpresa", function (req, res) {
-    kpigeralController.setorMenosAbastecido(req, res);
-});
+
 
 module.exports = router;
