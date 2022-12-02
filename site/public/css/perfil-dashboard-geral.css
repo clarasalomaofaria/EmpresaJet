@@ -85,18 +85,23 @@ body {
 
 
 /*Cor de efeito de cada KPI indicando o estado da situação (crítico, alerta, bom ou ótimo)*/
-.kpi-status-informacoes_gerais {
+.amarelo {
     border: 3px solid rgb(255, 224, 86);
     box-shadow: 0px 0px 12px 0.6px rgba(255, 255, 12,0.22);
 }
 
-.kpi-setor-ausencia-informacoes_gerais {
+.vermelho {
     border: 3px solid rgb(246, 69, 69);
     box-shadow: 0px 0px 12px 0.6px rgba(201, 33, 33, 0.22);
 }
 
-.kpi-ausencia-informacoes_gerais {
+.verde-lima {
     border: 3px solid rgb(178, 220, 80);
+    box-shadow: 0px 0px 16px 1px rgba(12, 192, 0, 0.32);
+}
+
+.verde-escuro{
+    border: 3px solid rgb(93, 208, 67);
     box-shadow: 0px 0px 16px 1px rgba(12, 192, 0, 0.32);
 }
 
@@ -230,31 +235,26 @@ body {
     margin-left: -2vw;
 }
 
-.cor-porcentagem-frios-congelados {
-    width: 8vw;
-    height: 0.4vh;
-    background-color:  rgb(178, 220, 80);
-}
 
-.cor-porcentagem-mercearia {
+.linha-amarela {
     width: 8vw;
     height: 0.4vh;
     background-color:  rgb(255, 224, 86);
 }
 
-.cor-porcentagem-hortifruti {
+.cor-linha-verde-escuro {
     width: 8vw;
     height: 0.4vh;
     background-color:  rgb(93, 208, 67);
 }
 
-.cor-porcentagem-cuidados-pessoais {
+.linha-verde-lima{
     width: 8vw;
     height: 0.4vh;
     background-color:  rgb(178, 220, 80);
 }
 
-.cor-porcentagem-bebidas {
+.linha-vermelha {
     width: 8vw;
     height: 0.4vh;
     background-color:  rgb(246, 69, 69);
