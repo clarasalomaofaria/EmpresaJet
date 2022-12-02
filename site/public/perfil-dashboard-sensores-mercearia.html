@@ -473,7 +473,7 @@ if (produto <= 75) {
 throw ('Houve um erro na API!');
 }
 }).catch(function (resposta) {
-console.error(resposta);
+console.error(resposta); 
 });
 }
 
@@ -540,7 +540,7 @@ resposta.json().then(function (resposta) {
     for (let i = 0; i < resposta.length; i++) {
       var produtofalta  = resposta[i];
       
-      kpi_dado_estoqueMarcearia.nnerHTML = `${produtofalta.falta_total_mercearia}`
+      kpi_dado_estoqueMarcearia.innerHTML = `${produtofalta.falta_total_mercearia}`
     
 if (produtofalta.falta_total_mercearia <= 0) {
     div_kpi_dadoEstoque.classList.remove('verde-lima');

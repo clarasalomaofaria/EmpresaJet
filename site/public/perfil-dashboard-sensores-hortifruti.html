@@ -440,7 +440,7 @@ if (resposta.ok) {
 if (resposta.status == 204) {
   alert("Nenhuma prateleira encontrada")
 }
-resposta.json().then(function (resposta) {
+resposta.json().then(function (resposta) { 
   console.log("Dados recebidos: ", JSON.stringify(resposta));
 
     for (let i = 0; i < resposta.length; i++) {
@@ -495,17 +495,17 @@ resposta.json().then(function (resposta) {
 
       kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.falta_hortifruti}`
     
-      if (produto.falta_hortifruti <= 0) {
+      if (ProdutoAusencia.falta_hortifruti <= 0) {
         div_kpi_dadoAusencia.classList.remove('verde-lima');
         div_kpi_dadoAusencia.classList.remove('amarelo');
         div_kpi_dadoAusencia.classList.remove('vermelho');
         div_kpi_dadoAusencia.classList.add('verde');
-} else if (produto.falta_hortifruti <= 2) {
+} else if (ProdutoAusencia.falta_hortifruti <= 2) {
     div_kpi_dadoAusencia.classList.remove('verde');
     div_kpi_dadoAusencia.classList.remove('vermelho');
     div_kpi_dadoAusencia.classList.remove('amarelo');
     div_kpi_dadoAusencia.classList.add('verde-lima');
-} else if (produto.falta_hortifruti <= 4) {
+} else if (ProdutoAusencia.falta_hortifruti <= 4) {
     div_kpi_dadoAusencia.classList.remove('verde');
     div_kpi_dadoAusencia.classList.remove('vermelho');
     div_kpi_dadoAusencia.classList.remove('verde-lima');

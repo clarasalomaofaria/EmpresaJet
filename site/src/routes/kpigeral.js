@@ -18,7 +18,7 @@ router.get("/kpiSemEstoque/:idEmpresa", function (req, res) {
 });
 
 router.get("/kpiSemEstoqueAlgum/:idEmpresa", function (req, res) {
-    kpigeralController.KpiSemEstoqueAlgum(req, res);
+    kpigeralController.KpiSemEstoqueAlgum(req, res); 
 });
 
 // Setor Marcearia
@@ -27,11 +27,11 @@ router.get("/kpisdoSetorMarcearia/:idEmpresa", function (req, res) {
 });
 
 router.get("/kpiSemEstoqueMarcearia/:idEmpresa", function (req, res) {
-    kpigeralController.kpiSemEstoqueMarcearia(req, res);
+    kpigeralController.KpiSemEstoqueMarcearia(req, res);
 });
 
 router.get("/kpiSemEstoqueAlgumMarcearia/:idEmpresa", function (req, res) {
-    kpigeralController.kpiSemEstoqueAlgumMarcearia(req, res);
+    kpigeralController.KpiSemEstoqueAlgumMarcearia(req, res);
 });
 
 // Setor hortifruti

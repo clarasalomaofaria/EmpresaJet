@@ -22,7 +22,7 @@
         </section>
 
     </header>
-
+ 
     <main>
 
         <!--Dashboard-->
@@ -493,17 +493,17 @@ resposta.json().then(function (resposta) {
 
       kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.falta_bebidas}`
     
-      if (produto.falta_bebidas <= 0) {
+      if (ProdutoAusencia.falta_bebidas <= 0) {
         div_kpi_dadoAusencia.classList.remove('verde-lima');
         div_kpi_dadoAusencia.classList.remove('amarelo');
         div_kpi_dadoAusencia.classList.remove('vermelho');
         div_kpi_dadoAusencia.classList.add('verde');
-} else if (produto.falta_bebidas <= 2) {
+} else if (ProdutoAusencia.falta_bebidas <= 2) {
     div_kpi_dadoAusencia.classList.remove('verde');
     div_kpi_dadoAusencia.classList.remove('vermelho');
     div_kpi_dadoAusencia.classList.remove('amarelo');
     div_kpi_dadoAusencia.classList.add('verde-lima');
-} else if (produto.falta_bebidas <= 4) {
+} else if (ProdutoAusencia.falta_bebidas <= 4) {
     div_kpi_dadoAusencia.classList.remove('verde');
     div_kpi_dadoAusencia.classList.remove('vermelho');
     div_kpi_dadoAusencia.classList.remove('verde-lima');
