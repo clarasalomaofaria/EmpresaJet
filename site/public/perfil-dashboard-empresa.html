@@ -498,7 +498,7 @@
           console.log("Dados recebidos: ", JSON.stringify(resposta));
 
           sessionStorage.ID_EMPRESA = resposta[0].idEmpresa;
-          
+          updateEmpresa();
         });
       } else {
         throw ('Houve um erro na API!');
