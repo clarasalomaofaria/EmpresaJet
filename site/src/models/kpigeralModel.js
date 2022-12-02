@@ -15,6 +15,42 @@ function buscarMedidasEmTempoReal(idEmpresa, limite_linhas) {
     return database.executar(instrucao);
 }
 
+function setorMenosAbastecido(){
+    console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function setorMenosAbastecido()");
+    
+    
+        var instrucao = `
+        SELECT
+    
+    (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (8 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+    JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+    JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
+    ORDER BY ds.idDado DESC LIMIT 8) as wip_frios) as abastecimento_frios,
+    
+    (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (10 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+    JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+    JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia'
+    ORDER BY ds.idDado DESC LIMIT 10) as wip_mercearia) as abastecimento_mercearia,
+      
+    (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (9 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+    JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+    JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
+    ORDER BY ds.idDado DESC LIMIT 9) as wip_hortifruti) as abastecimento_hortifruti,
+    
+    (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (7 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+    JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+    JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
+    ORDER BY ds.idDado DESC LIMIT 7) as wip_cuidados) as abastecimento_cuidados,
+    
+    (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (10 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+    JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+    JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
+    ORDER BY ds.idDado DESC LIMIT 10) as wip_bebidas) AS abastecimento_bebidas ;
+        `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 // Setor Frios
 function KpiSetorFrios(idEmpresa) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarMedidasEmTempoReal()");
@@ -239,6 +275,7 @@ function kpiSemEstoqueAlgumBebidas(idEmpresa) {
 
 module.exports = {
     buscarMedidasEmTempoReal,
+    setorMenosAbastecido,
     KpiSetorFrios,
     KpiSemEstoque,
     KpiSemEstoqueAlgum,

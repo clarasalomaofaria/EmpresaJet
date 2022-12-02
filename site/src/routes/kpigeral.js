@@ -73,4 +73,8 @@ router.get("/kpiSemEstoqueAlgumBebidas/:idEmpresa", function (req, res) {
     kpigeralController.kpiSemEstoqueAlgumBebidas(req, res);
 });
 
+router.get("/kpiMenosAbastecido/:idEmpresa", function (req, res) {
+    kpigeralController.setorMenosAbastecido(req, res);
+});
+
 module.exports = router;
