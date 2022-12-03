@@ -199,7 +199,8 @@
 
     <!-- Avisos -->
     <div class="container">
-      <h1>Notificações</h1>
+      <h1> Notificações </h1>
+      <span style="font-size: 100%;" >Última vez atualizada em:</span><span style="font-size: 100%;" id="data"></span>
       <div class="notificacoes" id="feed">
       </div>
   </main>
@@ -211,6 +212,18 @@
 
 
   chamarFuncoes();
+  horaAtual();
+  function horaAtual(){
+    const hoje = new Date();
+    const dia = hoje.getDate().toString().padStart(2, "0")
+    const mes = String(hoje.getMonth() + 1).padStart(2, "0")
+    const ano = hoje.getFullYear();
+    const hora = hoje.getHours();
+    const minuto = hoje.getMinutes();
+    const dataAtual = `${dia} / ${mes} / ${ano}. ${hora}:${minuto}`
+    var span = document.getElementById("data");
+    span.innerHTML = dataAtual;
+  }
 
   function chamarFuncoes() {
     buscarCuidados();
@@ -240,14 +253,14 @@
 
             if (itens.statusPrateleira == 3) {
               tirarAlerta(itens.idPrateleira);
-              removerAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              removerCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
-              mostrarAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
               gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
             } else {
-              mostrarAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
               gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
             }
           }
@@ -279,14 +292,14 @@
 
             if (itens.statusPrateleira == 3) {
               tirarAlerta(itens.idPrateleira);
-              removerAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              removerCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
-              mostrarAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
               gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
             } else {
-              mostrarAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
               gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
             }
           }
@@ -318,14 +331,14 @@
 
             if (itens.statusPrateleira == 3) {
               tirarAlerta(itens.idPrateleira);
-              removerAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              removerCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
-              mostrarAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
               gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
             } else {
-              mostrarAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
               gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
             }
           }
@@ -357,14 +370,14 @@
 
             if (itens.statusPrateleira == 3) {
               tirarAlerta(itens.idPrateleira);
-              removerAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              removerCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
-              mostrarAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
               gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
             } else {
-              mostrarAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
               gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
             }
           }
@@ -396,14 +409,14 @@
 
             if (itens.statusPrateleira == 3) {
               tirarAlerta(itens.idPrateleira);
-              removerAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              removerCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
-              mostrarAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
               gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
             } else {
-              mostrarAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
               gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
             }
           }
@@ -419,15 +432,7 @@
   var listaAlerta = []
   var existe = false;
 
-  function mostrarAlerta(nomeProduto, setorMercado, statusPrat) {
-
-    const hoje = new Date();
-    const dia = hoje.getDate().toString().padStart(2, "0")
-    const mes = String(hoje.getMonth() + 1).padStart(2, "0")
-    const ano = hoje.getFullYear();
-    const hora = hoje.getHours();
-    const minuto = hoje.getMinutes();
-    const dataAtual = `${dia} / ${mes} / ${ano} ${hora}:${minuto}`
+  function mostrarCardAlerta(nomeProduto, setorMercado, statusPrat) {
 
     var estado = "";
     if (statusPrat == 1) {
@@ -466,7 +471,7 @@
                             <p><b>Produto:</b>${listaAlerta[i].nome}</p>
                             <p><b>Setor:</b> ${listaAlerta[i].setor}</p>
                             <p><b>Estado: </b> ${listaAlerta[i].estado}</p>
-                            <p class="data-hora"><b>${dataAtual}</b></p>
+                            <p class="data-hora"><b></b></p>
                             `;
 
       divPublicacao.className = "publicacao";
@@ -480,7 +485,7 @@
     }
   }
 
-  function removerAlerta(nomeProduto, setorMercado, statusPrat) {
+  function removerCardAlerta(nomeProduto, setorMercado, statusPrat) {
     jsonAlerta = {
       nome: nomeProduto,
       setor: setorMercado,
@@ -557,13 +562,6 @@
 
   function apenasAlerta() {
     clearInterval(interval);
-    const hoje = new Date();
-    const dia = hoje.getDate().toString().padStart(2, "0")
-    const mes = String(hoje.getMonth() + 1).padStart(2, "0")
-    const ano = hoje.getFullYear();
-    const hora = hoje.getHours();
-    const minuto = hoje.getMinutes();
-    const dataAtual = `${dia} / ${mes} / ${ano} ${hora}:${minuto}`
 
     var notificacoes = document.getElementById("feed");
     notificacoes.innerHTML = "";
@@ -575,7 +573,7 @@
                               <p><b>Produto:</b>${listaAlerta[i].nome}</p>
                               <p><b>Setor:</b> ${listaAlerta[i].setor}</p>
                               <p><b>Estado: </b> ${listaAlerta[i].estado}</p>
-                              <p class="data-hora"><b>${dataAtual}</b></p>
+                              <p class="data-hora"><b></b></p>
                               `;
 
         divPublicacao.className = "publicacao";
@@ -587,14 +585,6 @@
 
   function apenasCritico() {
     clearInterval(interval);
-    const hoje = new Date();
-    const dia = hoje.getDate().toString().padStart(2, "0")
-    const mes = String(hoje.getMonth() + 1).padStart(2, "0")
-    const ano = hoje.getFullYear();
-    const hora = hoje.getHours();
-    const minuto = hoje.getMinutes();
-    const dataAtual = `${dia} / ${mes} / ${ano} ${hora}:${minuto}`
-
     var notificacoes = document.getElementById("feed");
     notificacoes.innerHTML = "";
     for (var i = 0; i < listaAlerta.length; i++) {
@@ -605,7 +595,7 @@
                           <p><b>Produto:</b>${listaAlerta[i].nome}</p>
                           <p><b>Setor:</b> ${listaAlerta[i].setor}</p>
                           <p><b>Estado: </b> ${listaAlerta[i].estado}</p>
-                          <p class="data-hora"><b>${dataAtual}</b></p>
+                          <p class="data-hora"><b></b></p>
                           `;
 
         divPublicacao.className = "publicacao";
