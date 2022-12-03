@@ -536,19 +536,19 @@ resposta.json().then(function (resposta) {
     for (let i = 0; i < resposta.length; i++) {
       var produtoSemEstoque  = resposta[i];
       
-      kpi_dado_estoqueCuidados.innerHTML = `${produtoSemEstoque .falta_total_cuidados}`
+      kpi_dado_estoqueCuidados.innerHTML = `${produtoSemEstoque.falta_total_cuidados}`
     
-if (produtoSemEstoque .falta_total_cuidados <= 0) {
+if (produtoSemEstoque.falta_total_cuidados <= 0) {
   div_kpi_dadoEstoque.classList.remove('verde-lima');
    div_kpi_dadoEstoque.classList.remove('amarelo');
    div_kpi_dadoEstoque.classList.remove('vermelho');
   div_kpi_dadoEstoque.classList.add('verde');
-} else if (produtoSemEstoque .falta_total_cuidados <= 2) {
+} else if (produtoSemEstoque.falta_total_cuidados <= 2) {
   div_kpi_dadoEstoque.classList.remove('verde');
    div_kpi_dadoEstoque.classList.remove('vermelho');
    div_kpi_dadoEstoque.classList.remove('amarelo');
    div_kpi_dadoEstoque.classList.add('verde-lima');
-} else if (produtoSemEstoque .falta_total_cuidados <= 4) {
+} else if (produtoSemEstoque.falta_total_cuidados <= 4) {
   div_kpi_dadoEstoque.classList.remove('verde');
    div_kpi_dadoEstoque.classList.remove('verde-lima');
    div_kpi_dadoEstoque.classList.remove('vermelho');

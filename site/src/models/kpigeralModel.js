@@ -169,18 +169,19 @@ function KpiSemEstoque(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 8 (SELECT (24 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
-        ORDER BY ds.idDado DESC) as empresa_dados) falta_frios;  
+        SELECT ( SELECT (24 - SUM(statusPrateleira)) FROM (SELECT top 8 ds.statusPrateleira FROM dados_sensor ds
+            JOIN prateleira prat ON
+               ds.fkPrateleira = prat.idPrateleira
+                JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
+                   ORDER BY ds.idDado DESC) as empresa_dados) falta_frios;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
         SELECT (SELECT (24 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
-            AND ds.idDado >= (SELECT idDado FROM dados_sensor 
-            ORDER BY idDado DESC LIMIT 9,1))wip) falta_frios; 
+            AND ds.idDado >= (SELECT ds.idDado FROM dados_sensor ds JOIN prateleira prat on prat.idPrateleira = ds.fkPrateleira
+            WHERE prat.setor = 'Frios e congelados' ORDER BY idDado DESC LIMIT 7,1))wip) falta_frios;   
       `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -200,24 +201,38 @@ function KpiSemEstoqueAlgum(idEmpresa) {
         instrucao = `
         SELECT (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} 
-              AND prat.setor = 'Frios e congelados' AND ds.statusPrateleira = 0
-               AND ds.idDado < (SELECT TOP 1 idDado FROM dados_sensor ORDER BY idDado
-                DESC) AND ds.idDado = (SELECT idDado FROM dados_sensor 
-                 ORDER BY idDado DESC  offset 1 rows
-                  fetch next 1 rows only) AND ds.idDado = (SELECT idDado FROM dados_sensor 
-                  ORDER BY idDado DESC  offset 2 rows
-                   fetch next 1 rows only) AND ds.idDado = (SELECT idDado FROM dados_sensor
-                    ORDER BY idDado DESC  offset 3 rows
-                     fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
-                               ORDER BY idDado DESC  offset 4 rows
-                     fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
-                               ORDER BY idDado DESC  offset 5 rows
-                     fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
-                               ORDER BY idDado DESC  offset 6 rows
-                     fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
-                               ORDER BY idDado DESC  offset 7 rows
-                     fetch next 1 rows only))wip) falta_total_frios;    
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
+            AND prat.setor = 'Frios e congelados' AND ds.statusPrateleira = 0
+            AND ds.idDado = (SELECT TOP 1 ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Frios e congelados' ORDER BY idDado
+             DESC) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Frios e congelados'
+            ORDER BY idDado DESC  offset 1 rows
+  fetch next 1 rows only) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Frios e congelados'
+            ORDER BY idDado DESC  offset 2 rows
+  fetch next 1 rows only) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Frios e congelados' 
+            ORDER BY idDado DESC  offset 3 rows
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Frios e congelados' 
+            ORDER BY idDado DESC  offset 4 rows
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Frios e congelados' 
+            ORDER BY idDado DESC  offset 5 rows
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Frios e congelados' 
+            ORDER BY idDado DESC  offset 6 rows
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Frios e congelados' 
+            ORDER BY idDado DESC  offset 7 rows
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Frios e congelados' 
+            ORDER BY idDado DESC  offset 8 rows
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+            JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Frios e congelados' 
+            ORDER BY idDado DESC  offset 9 rows
+  fetch next 1 rows only))wip) falta_total_frios;    
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -273,20 +288,19 @@ function KpiSemEstoqueMarcearia(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 10 (SELECT (30 - SUM(statusPrateleira)) FROM
-         (SELECT ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-              JOIN empresa e ON prat.fkEmpresa = e.idEmpresa 
-                WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia'
-                  ORDER BY ds.idDado DESC) as empresa_dados) falta_mercearia;   
+        SELECT ( SELECT (30 - SUM(statusPrateleira)) FROM (SELECT top 10 ds.statusPrateleira FROM dados_sensor ds
+            JOIN prateleira prat ON
+               ds.fkPrateleira = prat.idPrateleira
+                JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia'
+                   ORDER BY ds.idDado DESC) as empresa_dados) falta_mercearia;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
         SELECT (SELECT (30 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia'
-            AND ds.idDado >= (SELECT idDado FROM dados_sensor 
-            ORDER BY idDado DESC LIMIT 9,1))wip) falta_mercearia; 
+            AND ds.idDado >= (SELECT ds.idDado FROM dados_sensor ds JOIN prateleira prat on prat.idPrateleira = ds.fkPrateleira
+            WHERE prat.setor = 'Mercearia' ORDER BY idDado DESC LIMIT 9,1))wip) falta_mercearia; 
       `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -305,26 +319,36 @@ function KpiSemEstoqueAlgumMarcearia(idEmpresa) {
         instrucao = `
         SELECT (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} 
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
             AND prat.setor = 'Mercearia' AND ds.statusPrateleira = 0
-            AND ds.idDado < (SELECT TOP 1 idDado FROM dados_sensor ORDER BY idDado
-             DESC) AND ds.idDado = (SELECT idDado FROM dados_sensor 
+            AND ds.idDado = (SELECT TOP 1 ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Mercearia' ORDER BY idDado
+             DESC) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Mercearia'
             ORDER BY idDado DESC  offset 1 rows
-  fetch next 1 rows only) AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Mercearia'
             ORDER BY idDado DESC  offset 2 rows
-  fetch next 1 rows only) AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Mercearia' 
             ORDER BY idDado DESC  offset 3 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Mercearia' 
             ORDER BY idDado DESC  offset 4 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Mercearia' 
             ORDER BY idDado DESC  offset 5 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Mercearia' 
             ORDER BY idDado DESC  offset 6 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Mercearia' 
             ORDER BY idDado DESC  offset 7 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Mercearia' 
             ORDER BY idDado DESC  offset 8 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+            JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Mercearia' 
             ORDER BY idDado DESC  offset 9 rows
   fetch next 1 rows only))wip) falta_total_mercearia;  
         `;
@@ -384,18 +408,19 @@ function kpiAunsenciaHortifruti(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 9 (SELECT (27 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
-            ORDER BY ds.idDado DESC ) as empresa_dados) falta_hortifruti;   
+        SELECT ( SELECT (27 - SUM(statusPrateleira)) FROM (SELECT top 9 ds.statusPrateleira FROM dados_sensor ds
+            JOIN prateleira prat ON
+               ds.fkPrateleira = prat.idPrateleira
+                JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
+                   ORDER BY ds.idDado DESC) as empresa_dados) falta_hortifruti;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
         SELECT (SELECT (27 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
-            AND ds.idDado >= (SELECT idDado FROM dados_sensor 
-            ORDER BY idDado DESC LIMIT 8,1))wip) falta_hortifruti; 
+            AND ds.idDado >= (SELECT ds.idDado FROM dados_sensor ds JOIN prateleira prat on prat.idPrateleira = ds.fkPrateleira
+            WHERE prat.setor = 'Hortifruti' ORDER BY idDado DESC LIMIT 8,1))wip) falta_hortifruti;   
       `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -415,24 +440,33 @@ function kpiSemEstoqueAlgumHorti(idEmpresa) {
         instrucao = `
         SELECT (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} 
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
             AND prat.setor = 'Hortifruti' AND ds.statusPrateleira = 0
-            AND ds.idDado < (SELECT TOP 1 idDado FROM dados_sensor ORDER BY idDado
-             DESC) AND ds.idDado = (SELECT idDado FROM dados_sensor 
+            AND ds.idDado = (SELECT TOP 1 ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Hortifruti' ORDER BY idDado
+             DESC) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Hortifruti'
             ORDER BY idDado DESC  offset 1 rows
-  fetch next 1 rows only) AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Hortifruti'
             ORDER BY idDado DESC  offset 2 rows
-  fetch next 1 rows only) AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Hortifruti' 
             ORDER BY idDado DESC  offset 3 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Hortifruti' 
             ORDER BY idDado DESC  offset 4 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Hortifruti' 
             ORDER BY idDado DESC  offset 5 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Hortifruti' 
             ORDER BY idDado DESC  offset 6 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Hortifruti' 
             ORDER BY idDado DESC  offset 7 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Hortifruti' 
             ORDER BY idDado DESC  offset 8 rows
   fetch next 1 rows only))wip) falta_total_hortifruti;  
         `;
@@ -489,18 +523,19 @@ function kpiAunsenciaCuidados(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 7 (SELECT (21 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
-            ORDER BY ds.idDado DESC ) as empresa_dados) falta_cuidados;  
+        SELECT ( SELECT(21-SUM(statusPrateleira)) FROM (SELECT top 7 ds.statusPrateleira FROM dados_sensor ds
+            JOIN prateleira prat ON
+               ds.fkPrateleira = prat.idPrateleira
+                JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
+                   ORDER BY ds.idDado DESC) as empresa_dados) falta_cuidados;  
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
         SELECT (SELECT (21 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
-            AND ds.idDado >= (SELECT idDado FROM dados_sensor 
-            ORDER BY idDado DESC LIMIT 6,1))wip) falta_cuidados;    
+            AND ds.idDado >= (SELECT ds.idDado FROM dados_sensor ds JOIN prateleira prat on prat.idPrateleira = ds.fkPrateleira
+            WHERE prat.setor = 'Cuidados Pessoais' ORDER BY idDado DESC LIMIT 6,1))wip) falta_cuidados;   
       `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -519,20 +554,27 @@ function kpiSemEstoqueAlgumCuidados(idEmpresa) {
         instrucao = `
         SELECT (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} 
-            AND prat.setor = 'Cuidados pessoais' AND ds.statusPrateleira = 0
-            AND ds.idDado < (SELECT TOP 1 idDado FROM dados_sensor ORDER BY idDado
-             DESC) AND ds.idDado = (SELECT idDado FROM dados_sensor 
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
+            AND prat.setor = 'Cuidados Pessoais' AND ds.statusPrateleira = 0
+            AND ds.idDado = (SELECT TOP 1 ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Cuidados Pessoais' ORDER BY idDado
+             DESC) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Cuidados Pessoais'
             ORDER BY idDado DESC  offset 1 rows
-  fetch next 1 rows only) AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Cuidados Pessoais'
             ORDER BY idDado DESC  offset 2 rows
-  fetch next 1 rows only) AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Cuidados Pessoais' 
             ORDER BY idDado DESC  offset 3 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Cuidados Pessoais' 
             ORDER BY idDado DESC  offset 4 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Cuidados Pessoais' 
             ORDER BY idDado DESC  offset 5 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Cuidados Pessoais' 
             ORDER BY idDado DESC  offset 6 rows
   fetch next 1 rows only))wip) falta_total_cuidados; 
         `;
@@ -591,18 +633,19 @@ function kpiAunsenciaBebidas(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 7 (SELECT (30 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
-            ORDER BY ds.idDado DESC ) as empresa_dados) falta_bebidas;   
+       SELECT ( SELECT(30-SUM(statusPrateleira)) FROM (SELECT top 10 ds.statusPrateleira FROM dados_sensor ds
+         JOIN prateleira prat ON
+            ds.fkPrateleira = prat.idPrateleira
+             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
+                ORDER BY ds.idDado DESC) as empresa_dados) falta_bebidas;  
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
         SELECT (SELECT (30 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
-            AND ds.idDado >= (SELECT idDado FROM dados_sensor 
-            ORDER BY idDado DESC LIMIT 9,1))wip) falta_bebidas;         
+            AND ds.idDado >= (SELECT ds.idDado FROM dados_sensor ds JOIN prateleira prat on prat.idPrateleira = ds.fkPrateleira
+            WHERE prat.setor = 'Bebidas' ORDER BY idDado DESC LIMIT 9,1))wip) falta_bebidas;      
       `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -622,26 +665,36 @@ function kpiSemEstoqueAlgumBebidas(idEmpresa) {
         instrucao = `
         SELECT (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} 
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
             AND prat.setor = 'Bebidas' AND ds.statusPrateleira = 0
-            AND ds.idDado < (SELECT TOP 1 idDado FROM dados_sensor ORDER BY idDado
-             DESC) AND ds.idDado = (SELECT idDado FROM dados_sensor 
+            AND ds.idDado = (SELECT TOP 1 ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Bebidas' ORDER BY idDado
+             DESC) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Bebidas'
             ORDER BY idDado DESC  offset 1 rows
-  fetch next 1 rows only) AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Bebidas'
             ORDER BY idDado DESC  offset 2 rows
-  fetch next 1 rows only) AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only) AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Bebidas' 
             ORDER BY idDado DESC  offset 3 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Bebidas' 
             ORDER BY idDado DESC  offset 4 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Bebidas' 
             ORDER BY idDado DESC  offset 5 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Bebidas' 
             ORDER BY idDado DESC  offset 6 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Bebidas' 
             ORDER BY idDado DESC  offset 7 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Bebidas' 
             ORDER BY idDado DESC  offset 8 rows
-  fetch next 1 rows only)AND ds.idDado = (SELECT idDado FROM dados_sensor 
+  fetch next 1 rows only)AND ds.idDado = (SELECT ds.idDado FROM dados_sensor ds
+			JOIN prateleira prat ON prat.idPrateleira = ds.fkPrateleira WHERE setor = 'Bebidas' 
             ORDER BY idDado DESC  offset 9 rows
   fetch next 1 rows only))wip) falta_total_bebidas; 
         `;
@@ -650,8 +703,8 @@ function kpiSemEstoqueAlgumBebidas(idEmpresa) {
         SELECT (SELECT COUNT(statusPrateleira) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas' AND ds.statusPrateleira = 0
-            AND ds.idDado < (SELECT idDado FROM dados_sensor ORDER BY idDado DESC LIMIT 1) AND ds.idDado > (SELECT idDado FROM dados_sensor 
-            ORDER BY idDado DESC LIMIT 9,1))wip) falta_total_bebidas;     
+            AND ds.idDado >= (SELECT ds.idDado FROM dados_sensor ds JOIN prateleira prat on prat.idPrateleira = ds.fkPrateleira
+            WHERE prat.setor = 'Bebidas' ORDER BY idDado DESC LIMIT 9,1))wip) falta_total_bebidas;     
       `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
