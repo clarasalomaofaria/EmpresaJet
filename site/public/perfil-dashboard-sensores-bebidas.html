@@ -32,7 +32,7 @@
             <div class="container-setor-e-titulo">
                 Setor :
                 <span class="setor-titulo">
-                    Bebidas e doces
+                    Bebidas
                 </span>
             </div>
         </section>
@@ -381,10 +381,10 @@
             var container = document.getElementById("containerDashProdutos");
             container.innerHTML = "";
 
-            for (let i = 0; i < resposta.length; i++) {
+            for (let i = resposta.length-1; i >= 0; i--) {
               var itens = resposta[i];
 
-              console.log(itens.statusPrateleira);
+              console.log(itens.statusPrateleira); 
 
               if (itens.statusPrateleira == 3) {
                 var bolinhas = `<span class="bolinha green"></span>
@@ -543,19 +543,19 @@ resposta.json().then(function (resposta) {
     for (let i = 0; i < resposta.length; i++) {
       var produtoSemEstoque  = resposta[i];
       
-      kpi_dado_estoqueBebidas.innerHTML = `${produtoSemEstoque.falta_bebidas}`
+      kpi_dado_estoqueBebidas.innerHTML = `${produtoSemEstoque.falta_total_bebidas}`
     
-if (produtoSemEstoque.falta_bebidas <= 0) {
+if (produtoSemEstoque.falta_total_bebidas <= 0) {
   div_kpi_dadoEstoque.classList.remove('verde-lima');
    div_kpi_dadoEstoque.classList.remove('amarelo');
    div_kpi_dadoEstoque.classList.remove('vermelho');
   div_kpi_dadoEstoque.classList.add('verde');
-} else if (produtoSemEstoque.falta_bebidas <= 2) {
+} else if (produtoSemEstoque.falta_total_bebidas <= 2) {
    div_kpi_dadoEstoque.classList.remove('verde');
    div_kpi_dadoEstoque.classList.remove('vermelho');
    div_kpi_dadoEstoque.classList.remove('amarelo');
    div_kpi_dadoEstoque.classList.add('verde-lima');
-} else if (produtoSemEstoque.falta_bebidas <= 4) {
+} else if (produtoSemEstoque.falta_total_bebidas <= 4) {
    div_kpi_dadoEstoque.classList.remove('verde');
    div_kpi_dadoEstoque.classList.remove('verde-lima');
    div_kpi_dadoEstoque.classList.remove('vermelho');
