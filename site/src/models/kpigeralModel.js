@@ -131,7 +131,7 @@ function statusPredominanteMes(idEmpresa) {
      JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
          JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
              WHERE e.idEmpresa = ${idEmpresa} AND MONTH(ds.dtPrateleira) = MONTH(getdate())) 
-                 AS wip_count)*3)), 2 ) AS INT)
+                 AS wip_count)*3)), 2 ) AS INT) as estado_predominante_mes
                  ;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
