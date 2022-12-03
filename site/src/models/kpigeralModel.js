@@ -35,32 +35,41 @@ function setorMenosAbastecido(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-            SELECT
-    
-            (SELECT top 8 DISTINCT ROUND (SUM(statusPrateleira) / (8 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
-            ORDER BY ds.idDado DESC) as wip_frios) as abastecimento_frios,
-            
-            (SELECT top 10 DISTINCT ROUND (SUM(statusPrateleira) / (10 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia'
-            ORDER BY ds.idDado DESC) as wip_mercearia) as abastecimento_mercearia,
-              
-            (SELECT top 9 DISTINCT ROUND (SUM(statusPrateleira) / (9 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
-            ORDER BY ds.idDado DESC) as wip_hortifruti) as abastecimento_hortifruti,
-            
-            (SELECT top 7 DISTINCT ROUND (SUM(statusPrateleira) / (7 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
-            ORDER BY ds.idDado DESC) as wip_cuidados) as abastecimento_cuidados,
-            
-            (SELECT top 10 DISTINCT ROUND (SUM(statusPrateleira) / (10 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
-            ORDER BY ds.idDado DESC) as wip_bebidas) AS abastecimento_bebidas ;
+        SELECT 
+        (SELECT FLOOR(((SELECT (SUM(statusPrateleira)) FROM 
+(SELECT TOP 8 ds.statusPrateleira FROM dados_sensor ds 
+JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+   JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
+      WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa}
+        ORDER BY ds.idDado DESC) as soma) / 0.24)) as conta) abastecimento_frios,
+        
+        (SELECT FLOOR(((SELECT (SUM(statusPrateleira)) FROM 
+(SELECT TOP 10 ds.statusPrateleira FROM dados_sensor ds 
+JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+   JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
+      WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa}
+        ORDER BY ds.idDado DESC) as soma) / 0.3)) as conta) abastecimento_mercearia, 
+        
+        (SELECT FLOOR(((SELECT (SUM(statusPrateleira)) FROM 
+(SELECT TOP 9 ds.statusPrateleira FROM dados_sensor ds 
+JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+   JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
+      WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa}
+        ORDER BY ds.idDado DESC) as soma) / 0.27)) as conta) abastecimento_hortifruti, 
+        
+        (SELECT FLOOR(((SELECT (SUM(statusPrateleira)) FROM 
+(SELECT TOP 7 ds.statusPrateleira FROM dados_sensor ds 
+JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+   JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
+      WHERE prat.setor = 'Cuidados pessoais' AND e.idEmpresa = ${idEmpresa}
+        ORDER BY ds.idDado DESC) as soma) / 0.21)) as conta) abastecimento_cuidados, 
+        
+        (SELECT FLOOR(((SELECT (SUM(statusPrateleira)) FROM 
+(SELECT TOP 10 ds.statusPrateleira FROM dados_sensor ds 
+JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+   JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
+      WHERE prat.setor = 'Bebidas' AND e.idEmpresa = ${idEmpresa}
+        ORDER BY ds.idDado DESC) as soma) / 0.3)) as conta) abastecimento_bebidas;
                 `
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
