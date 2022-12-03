@@ -5,7 +5,7 @@ function listarprodutos(idEmpresa) {
 
     console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function ListarProdutosFrioseCongelados()");
 
-    var instrucao = `SELECT prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+    var instrucao = `SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
 	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
 		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -21,7 +21,7 @@ function listarprodutosMercearia(idEmpresa) {
 
     console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function ListarProdutosFrioseCongelados()");
 
-    var instrucao = `SELECT prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+    var instrucao = `SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
 	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
 		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -37,7 +37,7 @@ function listarprodutosHortifruti(idEmpresa) {
 
     console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function ListarProdutosFrioseCongelados()");
 
-    var instrucao = `SELECT prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+    var instrucao = `SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
 	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
 		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -50,7 +50,7 @@ function listarprodutosHortifruti(idEmpresa) {
 }
 
 function listarProdutosBebidas(idEmpresa) {
-    var instrucao = `SELECT prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+    var instrucao = `SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
 	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
 		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -63,9 +63,9 @@ function listarProdutosBebidas(idEmpresa) {
 }
 
 function listarProdutosCuidados(idEmpresa) {
-    var instrucao = `SELECT prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+    var instrucao = `SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
 	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
-		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
 				JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
 					JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
