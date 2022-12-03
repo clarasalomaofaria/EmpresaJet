@@ -113,7 +113,7 @@ function statusPredominanteMes(idEmpresa) {
                 JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
                     WHERE e.idEmpresa = ${idEmpresa} AND MONTH(ds.dtPrateleira) = MONTH(curdate())) 
                         AS wip_estado) estado_predominante_mes;
-        `
+        `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
         SELECT 
@@ -122,7 +122,7 @@ function statusPredominanteMes(idEmpresa) {
                 JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
                     WHERE e.idEmpresa = ${idEmpresa} AND MONTH(ds.dtPrateleira) = MONTH(curdate())) 
                         AS wip_estado) estado_predominante_mes;
-        `
+        `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
