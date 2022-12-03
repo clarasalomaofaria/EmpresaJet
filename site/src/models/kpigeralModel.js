@@ -139,11 +139,12 @@ function KpiSetorFrios(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 8 DISTINCT (ROUND ((SUM(statusPrateleira) / (8 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+        SELECT FLOOR(((SELECT (SUM(statusPrateleira)) FROM 
+         (SELECT TOP 8 ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
                   WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa}
-                    ORDER BY ds.idDado DESC ) as soma;
+                    ORDER BY ds.idDado DESC) as soma) / 0.24)) as conta;  
             `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -259,11 +260,12 @@ function kpisdoSetorMarcearia(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 10 DISTINCT (ROUND ((SUM(statusPrateleira) / (10 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+        SELECT FLOOR(((SELECT (SUM(statusPrateleira)) FROM 
+         (SELECT TOP 10 ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
                   WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa}
-                    ORDER BY ds.idDado DESC) as soma;    
+                    ORDER BY ds.idDado DESC) as soma) / 0.3)) as conta;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -377,11 +379,12 @@ function kpisdosetorHortifruti(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 10 DISTINCT (ROUND ((SUM(statusPrateleira) / (10 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+        SELECT FLOOR(((SELECT (SUM(statusPrateleira)) FROM 
+         (SELECT TOP 9 ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
                   WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa}
-                    ORDER BY ds.idDado DESC ) as soma;    
+                    ORDER BY ds.idDado DESC) as soma) / 0.27)) as conta;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -389,7 +392,7 @@ function kpisdosetorHortifruti(idEmpresa) {
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
                   WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa}
-                    ORDER BY ds.idDado DESC LIMIT 10 ) as soma;    
+                    ORDER BY ds.idDado DESC LIMIT 9 ) as soma;    
         
       `;
     } else {
@@ -494,11 +497,12 @@ function kpisdosetorCuidados(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 7 DISTINCT (ROUND ((SUM(statusPrateleira) / (7 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+        SELECT FLOOR(((SELECT (SUM(statusPrateleira)) FROM 
+         (SELECT TOP 7 ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
                   WHERE prat.setor = 'Cuidados pessoais' AND e.idEmpresa = ${idEmpresa}
-                    ORDER BY ds.idDado DESC) as soma;    
+                    ORDER BY ds.idDado DESC) as soma) / 0.21)) as conta;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -603,11 +607,12 @@ function kpisdosetorBebidas(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 7 DISTINCT (ROUND ((SUM(statusPrateleira) / (10 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+        SELECT FLOOR(((SELECT (SUM(statusPrateleira)) FROM 
+         (SELECT TOP 10 ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
                   WHERE prat.setor = 'Bebidas' AND e.idEmpresa = ${idEmpresa}
-                    ORDER BY ds.idDado DESC ) as soma;   
+                    ORDER BY ds.idDado DESC) as soma) / 0.3)) as conta;  
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
