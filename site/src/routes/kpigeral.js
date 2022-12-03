@@ -12,6 +12,10 @@ router.get("/kpiMenosAbastecido/:idEmpresa", function (req, res) {
     kpigeralController.setorMenosAbastecido(req, res);
 });
 
+router.get("/kpiStatusPredominanteMes/:idEmpresa", function (req, res){
+    kpigeralController.statusPredominanteMes(req, res)
+});
+
 // Setor Frios 
 router.get("/kpisdosetorFrios/:idEmpresa", function (req, res) {
     kpigeralController.KpiSetorFrios(req, res);

@@ -31,34 +31,102 @@ function setorMenosAbastecido(idEmpresa){
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function setorMenosAbastecido()");
     
     
-        var instrucao = `
-        SELECT
+        var instrucao = ''
+
+        if(process.env.AMBIENTE_PROCESSO == "producao"){
+            instrucao = `
+            SELECT
     
-    (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (8 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-    JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-    JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
-    ORDER BY ds.idDado DESC LIMIT 8) as wip_frios) as abastecimento_frios,
+            (SELECT top 8 DISTINCT ROUND (SUM(statusPrateleira) / (8 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
+            ORDER BY ds.idDado DESC) as wip_frios) as abastecimento_frios,
+            
+            (SELECT top 10 DISTINCT ROUND (SUM(statusPrateleira) / (10 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia'
+            ORDER BY ds.idDado DESC) as wip_mercearia) as abastecimento_mercearia,
+              
+            (SELECT top 9 DISTINCT ROUND (SUM(statusPrateleira) / (9 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
+            ORDER BY ds.idDado DESC) as wip_hortifruti) as abastecimento_hortifruti,
+            
+            (SELECT top 7 DISTINCT ROUND (SUM(statusPrateleira) / (7 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
+            ORDER BY ds.idDado DESC) as wip_cuidados) as abastecimento_cuidados,
+            
+            (SELECT top 10 DISTINCT ROUND (SUM(statusPrateleira) / (10 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
+            ORDER BY ds.idDado DESC) as wip_bebidas) AS abastecimento_bebidas ;
+                `
+        }else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+            instrucao = `
+            SELECT
     
-    (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (10 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-    JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-    JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia'
-    ORDER BY ds.idDado DESC LIMIT 10) as wip_mercearia) as abastecimento_mercearia,
-      
-    (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (9 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-    JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-    JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
-    ORDER BY ds.idDado DESC LIMIT 9) as wip_hortifruti) as abastecimento_hortifruti,
+            (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (8 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
+            ORDER BY ds.idDado DESC LIMIT 8) as wip_frios) as abastecimento_frios,
+            
+            (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (10 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia'
+            ORDER BY ds.idDado DESC LIMIT 10) as wip_mercearia) as abastecimento_mercearia,
+              
+            (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (9 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
+            ORDER BY ds.idDado DESC LIMIT 9) as wip_hortifruti) as abastecimento_hortifruti,
+            
+            (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (7 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
+            ORDER BY ds.idDado DESC LIMIT 7) as wip_cuidados) as abastecimento_cuidados,
+            
+            (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (10 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
+            ORDER BY ds.idDado DESC LIMIT 10) as wip_bebidas) AS abastecimento_bebidas ;
+            `
+        } else{
+            console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+        }
+
+        console.log("Executando a instrução SQL: \n" + instrucao);
+        return database.executar(instrucao);
+}
+
+function statusPredominanteMes(idEmpresa){
+    console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function statusPredominanteMes()");
     
-    (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (7 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-    JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-    JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
-    ORDER BY ds.idDado DESC LIMIT 7) as wip_cuidados) as abastecimento_cuidados,
+    var instrucao = ''
     
-    (SELECT DISTINCT ROUND (SUM(statusPrateleira) / (10 * 3) * 100) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-    JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-    JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
-    ORDER BY ds.idDado DESC LIMIT 10) as wip_bebidas) AS abastecimento_bebidas ;
-        `;
+    if(process.env.AMBIENTE_PROCESSO == "producao"){
+        instrucao = `
+        SELECT 
+        (SELECT (SELECT DISTINCT ROUND ((SUM(statusPrateleira) / (COUNT(statusPrateleira) * 3) * 100)) FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+                JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
+                    WHERE e.idEmpresa = ${idEmpresa} AND MONTH(ds.dtPrateleira) = MONTH(curdate())) 
+                        AS wip_estado) estado_predominante_mes;
+        `
+    }else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+        instrucao = `
+        SELECT 
+        (SELECT (SELECT DISTINCT ROUND ((SUM(statusPrateleira) / (COUNT(statusPrateleira) * 3) * 100)) FROM dados_sensor ds 
+            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+                JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
+                    WHERE e.idEmpresa = ${idEmpresa} AND MONTH(ds.dtPrateleira) = MONTH(curdate())) 
+                        AS wip_estado) estado_predominante_mes;
+        `
+    }else{
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return 
+    }
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
@@ -504,6 +572,7 @@ function kpiSemEstoqueAlgumBebidas(idEmpresa) {
 module.exports = {
     buscarMedidasEmTempoReal,
     setorMenosAbastecido,
+    statusPredominanteMes,
     KpiSetorFrios,
     KpiSemEstoque,
     KpiSemEstoqueAlgum,
