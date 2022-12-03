@@ -525,7 +525,7 @@
       if (resposta.ok) {
         console.log("alerta registrado com sucesso!")
       } else {
-        alert("Houve um erro ao tentar realizar o cadastro!");
+        console.log("Erro no cadastro do alerta");
       }
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
