@@ -104,6 +104,52 @@ function confirmarProduto(req, res) {
     });
 }
 
+function alerta(req, res) {
+    // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
+    var idPrat = req.body.idPrat;
+    var tipo = req.body.tipo;
+
+    // Faça as validações dos valore
+    if (idPrat == undefined) {
+        res.status(400).send("Seu user está undefined!");
+    } else if (tipo == undefined) {
+        res.status(400).send("Sua senha está undefined!");
+    } else {
+        
+        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
+        produtosModel.alerta(idPrat, tipo)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
+function tirarAlerta(req, res) {
+    var idPrat = req.body.idPrat
+   
+    produtosModel.tirarAlerta(idPrat).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function(erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
 module.exports = {
     listarprodutos,
     confirmarProduto,
@@ -111,4 +157,6 @@ module.exports = {
     listarprodutosHortifruti,
     listarProdutosCuidados,
     listarProdutosBebidas,
+    alerta,
+    tirarAlerta
 }

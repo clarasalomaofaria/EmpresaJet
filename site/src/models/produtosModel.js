@@ -5,7 +5,7 @@ function listarprodutos(idEmpresa) {
 
     console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function ListarProdutosFrioseCongelados()");
 
-    var instrucao = `SELECT p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+    var instrucao = `SELECT prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
 	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
 		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -21,7 +21,7 @@ function listarprodutosMercearia(idEmpresa) {
 
     console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function ListarProdutosFrioseCongelados()");
 
-    var instrucao = `SELECT p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+    var instrucao = `SELECT prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
 	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
 		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -37,7 +37,7 @@ function listarprodutosHortifruti(idEmpresa) {
 
     console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function ListarProdutosFrioseCongelados()");
 
-    var instrucao = `SELECT p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+    var instrucao = `SELECT prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
 	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
 		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -50,7 +50,7 @@ function listarprodutosHortifruti(idEmpresa) {
 }
 
 function listarProdutosBebidas(idEmpresa) {
-    var instrucao = `SELECT p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+    var instrucao = `SELECT prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
 	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
 		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -63,7 +63,7 @@ function listarProdutosBebidas(idEmpresa) {
 }
 
 function listarProdutosCuidados(idEmpresa) {
-    var instrucao = `SELECT p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+    var instrucao = `SELECT prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
 	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
 		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -87,6 +87,29 @@ function confirmarProduto(idProduto, nome){
     return database.executar(instrucao);
 }
 
+function alerta(idPrat, tipo){
+
+    console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function alerta()");
+
+    var instrucao = `
+        INSERT INTO historico_alerta (dtHistorico, tipo, fkPrateleira) VALUES (now(), '${tipo}', '${idPrat}')
+    `
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function tirarAlerta(idPrat){
+
+    console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function tirarAlerta()");
+
+    var instrucao = `
+        UPDATE historico_alerta SET statusHistorico = "resolvido" WHERE fkPrateleira = ${idPrat};
+    `
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+
 
 module.exports = {
     listarprodutos,
@@ -95,4 +118,6 @@ module.exports = {
     listarprodutosHortifruti,
     listarProdutosBebidas,
     listarProdutosCuidados,
+    alerta,
+    tirarAlerta
 }

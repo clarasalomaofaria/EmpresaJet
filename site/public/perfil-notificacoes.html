@@ -9,7 +9,7 @@
     <title>Notificações</title>
   </head>
 
-  <body onload="atualizarFeed()">
+  <body>
     <main>
       <section class="background-color">
         <!-- SideBar do Perfil-->
@@ -216,6 +216,19 @@
 <script>
   b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
   
+  
+  chamarFuncoes();
+  function chamarFuncoes(){
+    buscarCuidados();
+    buscarBebidas();
+    buscarFrios();
+    buscarHortifruti();
+    buscarMercearia();
+    atualizarFeed();
+
+    setTimeout(() => chamarFuncoes(), 10000);
+  }
+
   function atualizarFeed() {
     var idEmpresa = sessionStorage.ID_EMPRESA;
     fetch(`/avisos/listar/${idEmpresa}`)
@@ -238,31 +251,32 @@
             for (let i = 0; i < resposta.length; i++) {
               var publicacao = resposta[i];
 
-              // criando e manipulando elementos do HTML via JavaScript
-              var divPublicacao = document.createElement("div");
-              feed.appendChild(divPublicacao);
-
-              divPublicacao.innerHTML+=`
-                        
-                        <h4>Informações da prateleira</h4>
-                        <p><b>Produto:</b>${publicacao.produto}</p>
-                        <p><b>Setor:</b> ${publicacao.setor}</p>
-                        <p><b>Abastecimento:</b>${publicacao.abastecimento}%</p>
-                        <p><b>Estado: </b> ${publicacao.estado}</p>
-                        <p class="data-hora"><b>${publicacao.dtHistorico}</b></p>
-                        
-                        `;
-                    
-              divPublicacao.className = "publicacao";
-
-              if(
-                Number(publicacao.abastecimento) < 75 &&
-                Number(publicacao.abastecimento) >  50 
-              ){
-                divPublicacao.classList.add("alerta");
-              }else{
-                divPublicacao.classList.add("critico");
+              if(publicacao.statusHistorico == "pendente"){
+                var divPublicacao = document.createElement("div");
+                feed.appendChild(divPublicacao);
+  
+                divPublicacao.innerHTML+=`
+                          
+                          <h4>Informações da prateleira</h4>
+                          <p><b>Produto:</b>${publicacao.produto}</p>
+                          <p><b>Setor:</b> ${publicacao.setor}</p>
+                          <p><b>Estado: </b> ${publicacao.tipo}</p>
+                          <p class="data-hora"><b>${publicacao.dtHistorico}</b></p>
+                          
+                          `;
+                      
+                divPublicacao.className = "publicacao";
+                
+                if(
+                  Number(publicacao.abastecimento) < 75 &&
+                  Number(publicacao.abastecimento) >  50 
+                ){
+                  divPublicacao.classList.add("alerta");
+                }else{
+                  divPublicacao.classList.add("critico");
+                }
               }
+              // criando e manipulando elementos do HTML via JavaScript
             }
           });
         } else {
@@ -276,4 +290,262 @@
   function buscarHistorio() {
     
   }
+
+function buscarHortifruti() {
+
+var idEmpresa = sessionStorage.ID_EMPRESA;
+
+fetch(`/produtos/listarprodutosHortifruti/${idEmpresa}`).then(function (resposta) {
+    if (resposta.ok) {
+        if (resposta.status == 204) {
+            alert("Nenhum produto encontrado")
+        }
+        resposta.json().then(function (resposta) {
+            console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+            for (let i = 0; i < resposta.length; i++) {
+                var itens = resposta[i];
+
+                console.log(itens.statusPrateleira)
+
+                if (itens.statusPrateleira == 3) {
+                  tirarAlerta(itens.idPrateleira);
+                }
+                else if (itens.statusPrateleira == 2) {
+                  console.log("prat metade")
+                }
+                else if (itens.statusPrateleira == 1) {
+                    gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+                }
+                else {
+                    gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+                }
+            }
+        });
+    } else {
+        throw ('Houve um erro na API!');
+    }
+}).catch(function (resposta) {
+    console.error(resposta);
+});
+}
+
+function buscarMercearia() {
+
+var idEmpresa = sessionStorage.ID_EMPRESA;
+
+fetch(`/produtos/listarprodutosMercearia/${idEmpresa}`).then(function (resposta) {
+    if (resposta.ok) {
+        if (resposta.status == 204) {
+            alert("Nenhum produto encontrado")
+        }
+        resposta.json().then(function (resposta) {
+            console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+            for (let i = 0; i < resposta.length; i++) {
+                var itens = resposta[i];
+
+                console.log(itens.statusPrateleira)
+
+                if (itens.statusPrateleira == 3) {
+                  tirarAlerta(itens.idPrateleira);
+                }
+                else if (itens.statusPrateleira == 2) {
+                  console.log("prat metade")
+                }
+                else if (itens.statusPrateleira == 1) {
+                    gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+                }
+                else {
+                    gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+                }
+            }
+        });
+    } else {
+        throw ('Houve um erro na API!');
+    }
+}).catch(function (resposta) {
+    console.error(resposta);
+});
+}
+
+function buscarFrios() {
+
+var idEmpresa = sessionStorage.ID_EMPRESA;
+
+fetch(`/produtos/listarprodutos/${idEmpresa}`).then(function (resposta) {
+    if (resposta.ok) {
+        if (resposta.status == 204) {
+            alert("Nenhum produto encontrado")
+        }
+        resposta.json().then(function (resposta) {
+            console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+            for (let i = 0; i < resposta.length; i++) {
+                var itens = resposta[i];
+
+                console.log(itens.statusPrateleira)
+
+                if (itens.statusPrateleira == 3) {
+                  tirarAlerta(itens.idPrateleira);
+                }
+                else if (itens.statusPrateleira == 2) {
+                  console.log("prat metade")
+                }
+                else if (itens.statusPrateleira == 1) {
+                    gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+                }
+                else {
+                    gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+                }
+            }
+        });
+    } else {
+        throw ('Houve um erro na API!');
+    }
+}).catch(function (resposta) {
+    console.error(resposta);
+});
+}
+
+function buscarCuidados() {
+
+var idEmpresa = sessionStorage.ID_EMPRESA;
+
+fetch(`/produtos/listarprodutosCuidados/${idEmpresa}`).then(function (resposta) {
+    if (resposta.ok) {
+        if (resposta.status == 204) {
+            alert("Nenhum produto encontrado")
+        }
+        resposta.json().then(function (resposta) {
+            console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+            for (let i = 0; i < resposta.length; i++) {
+                var itens = resposta[i];
+
+                console.log(itens.statusPrateleira)
+
+                if (itens.statusPrateleira == 3) {
+                  tirarAlerta(itens.idPrateleira);
+                }
+                else if (itens.statusPrateleira == 2) {
+                  console.log("prat metade")
+                }
+                else if (itens.statusPrateleira == 1) {
+                    gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+                }
+                else {
+                    gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+                }
+            }
+        });
+    } else {
+        throw ('Houve um erro na API!');
+    }
+}).catch(function (resposta) {
+    console.error(resposta);
+});
+}
+
+function buscarBebidas() {
+
+var idEmpresa = sessionStorage.ID_EMPRESA;
+
+fetch(`/produtos/listarprodutosBebidas/${idEmpresa}`).then(function (resposta) {
+    if (resposta.ok) {
+        if (resposta.status == 204) {
+            alert("Nenhum produto encontrado")
+        }
+        resposta.json().then(function (resposta) {
+            console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+            for (let i = 0; i < resposta.length; i++) {
+                var itens = resposta[i];
+
+                console.log(itens.statusPrateleira)
+
+                if (itens.statusPrateleira == 3) {
+                  tirarAlerta(itens.idPrateleira);
+                }
+                else if (itens.statusPrateleira == 2) {
+                  console.log("prat metade")
+                }
+                else if (itens.statusPrateleira == 1) {
+                    gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+                }
+                else {
+                    gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+                }
+            }
+        });
+    } else {
+        throw ('Houve um erro na API!');
+    }
+}).catch(function (resposta) {
+    console.error(resposta);
+});
+}
+
+  function gerarAlerta(idPrateleira, status){
+    var idPrat = idPrateleira;
+    var tipo = "";
+    if(status == 1){
+      tipo = "Alerta"
+    } else{
+      tipo = "Crítico"
+    }
+
+    fetch("/produtos/alerta", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+          // crie um atributo que recebe o valor recuperado aqui
+          // Agora vá para o arquivo routes/usuario.js
+          idPrat,
+          tipo
+      })
+  }).then(function (resposta) {
+
+      console.log("resposta: ", resposta);
+
+      if (resposta.ok) {
+        console.log("alerta registrado com sucesso!")
+      } else {
+          alert ("Houve um erro ao tentar realizar o cadastro!");
+      }
+  }).catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+  });
+
+  return false;
+}
+
+function tirarAlerta(idPrateleira){
+    var idPrat = idPrateleira;
+  
+    fetch(`/produtos/tirarAlerta`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        idPrat,
+      })
+    }).then(function (resposta) {
+      
+      if (resposta.ok) {
+        console.log("alerta atualizado com sucesso!")
+        
+      } else if (resposta.status == 404) {
+        window.alert("Deu 404!");
+      } else {
+        throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+      }
+    }).catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    })
+  }
+
 </script>

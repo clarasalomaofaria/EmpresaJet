@@ -28,5 +28,13 @@ router.put("/confirmarProduto/:idProduto", function (req, res) {
     produtosController.confirmarProduto(req, res);
 });
 
+router.post("/alerta", function (req, res) {
+    produtosController.alerta(req, res);
+});
+
+router.put("/tirarAlerta", function (req, res) {
+    produtosController.tirarAlerta(req, res);
+});
+
 
 module.exports = router;
