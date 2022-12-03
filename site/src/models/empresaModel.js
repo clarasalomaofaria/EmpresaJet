@@ -27,9 +27,16 @@ var database = require("../database/config");
 
 
 function selectEmpresa() {
-  var instrucao = `
-  SELECT idEmpresa FROM empresa ORDER BY idEmpresa DESC LIMIT 1;
-    `;
+  var instrucao = '';
+  if (process.env.AMBIENTE_PROCESSO == "producao") {
+    instrucao = `
+    SELECT TOP 1 idEmpresa FROM empresa ORDER BY idEmpresa DESC;
+      `;
+  } else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+    instrucao = `
+    SELECT idEmpresa FROM empresa ORDER BY idEmpresa DESC LIMIT 1;
+      `;
+  }
 
   console.log("Executando a instrução SQL: \n" + instrucao);
   return database.executar(instrucao);
