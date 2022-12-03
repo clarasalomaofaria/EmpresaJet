@@ -12,7 +12,7 @@
 
 </head>
 
-<body onload="mostrarkpi(), obterPie(), setorMenosAbastecido()">
+<body onload="mostrarkpi(), obterPie(), setorMenosAbastecido(), statusPredominanteMes()">
 
   <main>
 
@@ -31,15 +31,18 @@
     <div class="dashboard-kpis">
       <div id="div_kpi_dado" class="kpis kpi-status-informacoes_gerais">
         <p class="kpi-titulo">Status do mercado</p>
-        <p id="kpi_dado" class="kpi-dado"></p><span id="kpi_abastecimento" class="kpi-dado-palavra-ajuste"></span>
+        <p id="kpi_dado" class="kpi-dado"></p>
+        <span id="kpi_abastecimento" class="kpi-dado-palavra-ajuste"></span>
       </div>
       <div id="kpi_menor_percentual" class="kpis ">
-         <p class="kpi-titulo">Setor com maior falta de produtos </p>
-        <p id="kpiComMenorPercentual" class="kpi-dado"></p><span id="SetorMenorPercentual" class="kpi-dado-palavra-ajuste"></span>
+        <p class="kpi-titulo">Setor com maior falta de produtos </p>
+        <p id="kpiComMenorPercentual" class="kpi-dado"></p>
+        <span id="SetorMenorPercentual"class="kpi-dado-palavra-ajuste"></span>
       </div>
-      <div class="kpis kpi-ausencia-informacoes_gerais">
+      <div id="kpi_status_predominante_mes" class="kpis ">
         <p class="kpi-titulo">Status predominante no mês</p>
-        <p class="kpi-dado">Bom <span class="kpi-dado-palavra-ajuste">91% abastecido</span></p>
+        <p id="estadoPredominanteMes" class="kpi-dado"></p>
+        <span id="percentualPredominanteMes" class="kpi-dado-palavra-ajuste"></span>
       </div>
     </div>
 
@@ -307,15 +310,27 @@
 
             if (porcentagem.conta <= 75) {
               kpi_dado.innerHTML = `Crítico`;
+              div_kpi_dado.classList.remove('amarelo');
+              div_kpi_dado.classList.remove('verde-lima');
+              div_kpi_dado.classList.remove('verde-escuro');
               div_kpi_dado.classList.add('vermelho');
             } else if (porcentagem.conta <= 85) {
               kpi_dado.innerHTML = `Alerta`;
+              div_kpi_dado.classList.remove('verde-lima');
+              div_kpi_dado.classList.remove('verde-escuro');
+              div_kpi_dado.classList.remove('vermelho');
               div_kpi_dado.classList.add('amarelo');
             } else if (porcentagem.conta <= 90) {
               kpi_dado.innerHTML = `Bom`;
+              div_kpi_dado.classList.remove('amarelo');
+              div_kpi_dado.classList.remove('vermelho');
+              div_kpi_dado.classList.remove('verde-escuro');
               div_kpi_dado.classList.add('verde-lima');
             } else {
               kpi_dado.innerHTML = `Ótimo`;
+              div_kpi_dado.classList.remove('verde-amarelo');
+              div_kpi_dado.classList.remove('vermelhor');
+              div_kpi_dado.classList.remove('verde-lima');
               div_kpi_dado.classList.add('verde-escuro');
             }
 
@@ -530,4 +545,52 @@
     });
   }
 
+  function statusPredominanteMes() {
+    var idEmpresa = sessionStorage.ID_EMPRESA;
+
+    fetch(`kpigeral/kpiStatusPredominanteMes/${idEmpresa}`).then(function (resposta) {
+      if (resposta.ok) {
+        if (resposta.status == 204) {
+          alert("Nenhuma prateleira encontrada")
+        }
+        resposta.json().then(function (resposta) {
+          console.log("Dados recebidos: ", JSON.stringify(resposta))
+
+          var status = resposta[0].estado_predominante_mes
+          
+          percentualPredominanteMes.innerHTML = `${status}% abastecido`
+
+          if(status <= 75){
+            estadoPredominanteMes.innerHTML = `Crítico`;
+            kpi_status_predominante_mes.classList.remove('amarela')
+            kpi_status_predominante_mes.classList.remove('verde-lima')
+            kpi_status_predominante_mes.classList.remove('verde-escuro')
+            kpi_status_predominante_mes.classList.add('vermelho')
+          }else if(status <= 85){
+            EstadoPredominanteMes.innerHTML = `Alerta`;
+            kpi_status_predominante_mes.classList.remove('vermelho');
+            kpi_status_predominante_mes.classList.remove('verde-lima');
+            kpi_status_predominante_mes.classList.remove('verde-escuro');
+            kpi_status_predominante_mes.classList.add('amarelo');
+          }else if(status <= 90){
+            EstadoPredominanteMes.innerHTML = `Bom`;
+            kpi_status_predominante_mes.classList.remove('amarelo');
+            kpi_status_predominante_mes.classList.remove('vermelho');
+            kpi_status_predominante_mes.classList.remove('verde-escuro');
+            kpi_status_predominante_mes.classList.add('verde-lima');
+          }else{
+            EstadoPredominanteMes.innerHTML = `Ótimo`;
+            kpi_status_predominante_mes.classList.remove('amarelo');
+            kpi_status_predominante_mes.classList.remove('vermelho');
+            kpi_status_predominante_mes.classList.remove('verde-lima');
+            kpi_status_predominante_mes.classList.add('verde-escuro');
+          }
+        });
+      } else {
+        throw ('Houve um erro na API!');
+      }
+    }).catch(function (resposta) {
+      console.error(resposta);
+    });
+  }
 </script>
