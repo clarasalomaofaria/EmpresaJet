@@ -5,9 +5,10 @@ function listarPorEmpresa(idEmpresa) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT TOP 12 count(*) as status_falta, DATE_FORMAT(dtPrateleira,'%H:00') as hora from dados_sensor
+        instrucaoSql = `SELECT TOP 12 ((count(*)*3) - (SUM(statusPrateleira))) as status_falta, DATEPART(HOUR,dtPrateleira) as hora from dados_sensor
         JOIN Prateleira on idPrateleira = fkEmpresa
-        where statusPrateleira <> 3 and fkEmpresa = ${idEmpresa} group by day(dtPrateleira), hour(dtPrateleira) order by idDado desc;`;
+        where statusPrateleira <> 3 and fkEmpresa = ${idEmpresa} GROUP BY DATEPART(DAY, [dtPrateleira]), DATEPART(HOUR, [dtPrateleira]) 
+        ORDER BY DATEPART(HOUR, [dtPrateleira]) DESC;`;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
 
         instrucaoSql = `	SELECT count(*) as status_falta, DATE_FORMAT(dtPrateleira,'%H:00') as hora from dados_sensor
@@ -57,15 +58,18 @@ function obterPie(idEmpresa) {
     instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT (SELECT DISTINCT ROUND ((SUM(statusPrateleira) / (44 * 3) * 100)) FROM (SELECT TOP 44 ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
-            ORDER BY ds.idDado DESC) as wip1 ) as abastecido,
-                                    (SELECT DISTINCT ROUND ((100 - (SUM(statusPrateleira) / (44 * 3) * 100))) FROM 
-                                    (SELECT TOP 44 ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
-            ORDER BY ds.idDado DESC) AS wip2)  as nao_abastecido;`;
+        instrucaoSql = `
+
+        SELECT (SELECT CAST ( ROUND ((SUM(statusPrateleira) / 1.32), 0) as INT ) FROM (SELECT top 44 ds.statusPrateleira FROM dados_sensor ds 
+                  JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+                  JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
+                  ORDER BY ds.idDado DESC) as wip1 ) as abastecido,
+                                          (SELECT CAST ( ROUND ((100 - (SUM(statusPrateleira) / 1.32)), 0) as INT ) FROM 
+                                          (SELECT top 44 ds.statusPrateleira FROM dados_sensor ds 
+                  JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+                  JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
+                  ORDER BY ds.idDado DESC) AS wip2)  as nao_abastecido;
+      `;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT (SELECT DISTINCT ROUND ((SUM(statusPrateleira) / (44 * 3) * 100)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
