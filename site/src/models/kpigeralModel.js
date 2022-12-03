@@ -8,10 +8,11 @@ function buscarMedidasEmTempoReal(idEmpresa, limite_linhas) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top ${limite_linhas}  DISTINCT (ROUND ((SUM(statusPrateleira) / (44 * 3) * 100))) as conta FROM (SELECT top ${limite_linhas} ds.statusPrateleira FROM dados_sensor ds 
+        SELECT DISTINCT (FLOOR ((SUM(statusPrateleira) / 1.32))) as conta 
+		FROM (SELECT TOP 44 ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-               JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa}
-                   ORDER BY ds.idDado DESC`;
+               JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = 1
+                   ORDER BY ds.idDado DESC) as soma; `
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
         SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (44 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
