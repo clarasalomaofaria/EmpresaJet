@@ -179,8 +179,8 @@ function KpiSemEstoque(idEmpresa) {
         SELECT (SELECT (24 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
-            AND ds.idDado >= (SELECT idDado FROM dados_sensor 
-            ORDER BY idDado DESC LIMIT 9,1))wip) falta_frios; 
+            AND ds.idDado >= (select idDado from dados_sensor ds join prateleira prat on ds.fkprateleira = prat.idprateleira 
+            where prat.setor = 'Frios e congelados' ORDER BY idDado DESC limit 7,1))wip) falta_frios;   
       `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -269,8 +269,8 @@ function KpiSemEstoqueMarcearia(idEmpresa) {
         SELECT (SELECT (30 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia'
-            AND ds.idDado >= (SELECT idDado FROM dados_sensor 
-            ORDER BY idDado DESC LIMIT 9,1))wip) falta_mercearia; 
+            AND ds.idDado >= (select idDado from dados_sensor ds join prateleira prat on ds.fkprateleira = prat.idprateleira 
+            where prat.setor = 'Mercearia' ORDER BY idDado DESC limit 9,1))wip) falta_mercearia;  
       `; 
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -327,11 +327,11 @@ function kpisdosetorHortifruti(idEmpresa) {
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
-        SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (10 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+        SELECT DISTINCT (ROUND ((SUM(statusPrateleira) / (9 * 3) * 100))) as conta FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN Prateleira prat ON ds.fkPrateleira = prat.idPrateleira
                JOIN Empresa e ON prat.fkEmpresa = e.idEmpresa 
                   WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa}
-                    ORDER BY ds.idDado DESC LIMIT 10 ) as soma;    
+                    ORDER BY ds.idDado DESC LIMIT 9 ) as soma;    
         
       `; 
     } else {
@@ -360,8 +360,8 @@ function kpiAunsenciaHortifruti(idEmpresa) {
         SELECT (SELECT (27 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
-            AND ds.idDado >= (SELECT idDado FROM dados_sensor 
-            ORDER BY idDado DESC LIMIT 8,1))wip) falta_hortifruti; 
+            AND ds.idDado >= (select idDado from dados_sensor ds join prateleira prat on ds.fkprateleira = prat.idprateleira 
+            where prat.setor = 'Hortifruti' ORDER BY idDado DESC limit 8,1))wip) falta_hortifruti; 
       `; 
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -447,8 +447,8 @@ function kpiAunsenciaCuidados(idEmpresa) {
         SELECT (SELECT (21 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
-            AND ds.idDado >= (SELECT idDado FROM dados_sensor 
-            ORDER BY idDado DESC LIMIT 6,1))wip) falta_cuidados;    
+            AND ds.idDado >= (select idDado from dados_sensor ds join prateleira prat on ds.fkprateleira = prat.idprateleira 
+            where prat.setor = 'Cuidados Pessoais' ORDER BY idDado DESC limit 6,1))wip2) falta_cuidados;  
       `; 
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -535,8 +535,8 @@ function kpiAunsenciaBebidas(idEmpresa) {
         SELECT (SELECT (30 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
-            AND ds.idDado >= (SELECT idDado FROM dados_sensor 
-            ORDER BY idDado DESC LIMIT 9,1))wip) falta_bebidas;         
+            AND ds.idDado >= (select idDado from dados_sensor ds join prateleira prat on ds.fkprateleira = prat.idprateleira 
+            where prat.setor = 'Bebidas' ORDER BY idDado DESC limit 9,1))wip) falta_bebidas;           
       `; 
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
