@@ -169,10 +169,11 @@ function KpiSemEstoque(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 8 (SELECT (24 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
-        ORDER BY ds.idDado DESC) as empresa_dados) falta_frios;  
+        SELECT ( SELECT (24 - SUM(statusPrateleira)) FROM (SELECT top 8 ds.statusPrateleira FROM dados_sensor ds
+            JOIN prateleira prat ON
+               ds.fkPrateleira = prat.idPrateleira
+                JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados'
+                   ORDER BY ds.idDado DESC) as empresa_dados) falta_frios;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -287,12 +288,11 @@ function KpiSemEstoqueMarcearia(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 10 (SELECT (30 - SUM(statusPrateleira)) FROM
-         (SELECT ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-              JOIN empresa e ON prat.fkEmpresa = e.idEmpresa 
-                WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia'
-                  ORDER BY ds.idDado DESC) as empresa_dados) falta_mercearia;   
+        SELECT ( SELECT (30 - SUM(statusPrateleira)) FROM (SELECT top 10 ds.statusPrateleira FROM dados_sensor ds
+            JOIN prateleira prat ON
+               ds.fkPrateleira = prat.idPrateleira
+                JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia'
+                   ORDER BY ds.idDado DESC) as empresa_dados) falta_mercearia;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -408,10 +408,11 @@ function kpiAunsenciaHortifruti(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 9 (SELECT (27 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
-            ORDER BY ds.idDado DESC ) as empresa_dados) falta_hortifruti;   
+        SELECT ( SELECT (27 - SUM(statusPrateleira)) FROM (SELECT top 9 ds.statusPrateleira FROM dados_sensor ds
+            JOIN prateleira prat ON
+               ds.fkPrateleira = prat.idPrateleira
+                JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti'
+                   ORDER BY ds.idDado DESC) as empresa_dados) falta_hortifruti;   
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -522,10 +523,11 @@ function kpiAunsenciaCuidados(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 7 (SELECT (21 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
-            ORDER BY ds.idDado DESC ) as empresa_dados) falta_cuidados;  
+        SELECT ( SELECT(21-SUM(statusPrateleira)) FROM (SELECT top 7 ds.statusPrateleira FROM dados_sensor ds
+            JOIN prateleira prat ON
+               ds.fkPrateleira = prat.idPrateleira
+                JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais'
+                   ORDER BY ds.idDado DESC) as empresa_dados) falta_cuidados;  
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -631,10 +633,11 @@ function kpiAunsenciaBebidas(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT (SELECT (30 - SUM(statusPrateleira)) FROM (SELECT top 10 ds.statusPrateleira FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-            JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
-            ORDER BY ds.idDado DESC ) as empresa_dados) falta_bebidas; 
+       SELECT ( SELECT(30-SUM(statusPrateleira)) FROM (SELECT top 10 ds.statusPrateleira FROM dados_sensor ds
+         JOIN prateleira prat ON
+            ds.fkPrateleira = prat.idPrateleira
+             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
+                ORDER BY ds.idDado DESC) as empresa_dados) falta_bebidas;  
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
