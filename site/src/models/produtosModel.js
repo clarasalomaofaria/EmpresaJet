@@ -9,7 +9,13 @@ function listarprodutos(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-       
+        SELECT TOP 8 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                    JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                            WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -37,7 +43,13 @@ function listarprodutosMercearia(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-       
+        SELECT TOP 10 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                    JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                            WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -65,7 +77,13 @@ function listarprodutosHortifruti(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-       
+        SELECT top 9 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                    JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                            WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
@@ -90,7 +108,13 @@ function listarProdutosBebidas(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-       
+        SELECT TOP 10 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                    JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                            WHERE prat.setor = 'Bebidas' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -116,7 +140,13 @@ function listarProdutosCuidados(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-       
+        SELECT TOP 7 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira
+                JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                    JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                            WHERE prat.setor = 'Cuidados pessoais' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -144,7 +174,7 @@ function confirmarProduto(idProduto, nome){
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-       
+        update produto set nomeProduto = "${nome}" where idProduto = ${idProduto};
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -166,7 +196,7 @@ function alerta(idPrat, tipo){
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-       
+        INSERT INTO historico_alerta (dtHistorico, tipo, fkPrateleiraHistorico) VALUES (getutcdate(), '${tipo}', '${idPrat}')
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -188,7 +218,7 @@ function tirarAlerta(idPrat){
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-       
+        UPDATE historico_alerta SET statusHistorico = "resolvido" WHERE fkPrateleiraHistorico = ${idPrat};
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
