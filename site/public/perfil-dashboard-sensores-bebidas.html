@@ -2,234 +2,234 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Setor:Bebidas</title>
-    <link rel="stylesheet" href="css/perfil-sidebar.css">
-    <link rel="stylesheet" href="css/perfil-dashboard-sensores-bebidas.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Setor:Bebidas</title>
+  <link rel="stylesheet" href="css/perfil-sidebar.css">
+  <link rel="stylesheet" href="css/perfil-dashboard-sensores-bebidas.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
-<body onload="buscarNomeProdutos(), mostrarkpi(), kpiAunsencia(), kpiSemEstoqueAlgum(), obterPolar()">
+<body onload="buscarNomeProdutos(), mostrarkpi(), kpiAunsencia(), obterPolar()">
 
-    <header>
+  <header>
 
-        <!--Titulo do dashboard-->
-        <section class="dashboard-titulo">
-            <h1>Estado dos sensores</h1>
-        </section>
+    <!--Titulo do dashboard-->
+    <section class="dashboard-titulo">
+      <h1>Estado dos sensores</h1>
+    </section>
 
-    </header>
- 
-    <main>
+  </header>
 
-        <!--Dashboard-->
+  <main>
 
-        <!--Titulo setor-->
-        <section class="container-setor">
-            <div class="container-setor-e-titulo">
-                Setor :
-                <span class="setor-titulo">
-                    Bebidas
-                </span>
-            </div>
-        </section>
+    <!--Dashboard-->
+
+    <!--Titulo setor-->
+    <section class="container-setor">
+      <div class="container-setor-e-titulo">
+        Setor :
+        <span class="setor-titulo">
+          Bebidas
+        </span>
+      </div>
+    </section>
 
 
-        <!--Sessão de KPIs-->
-        <section class="dashboard-kpis">
+    <!--Sessão de KPIs-->
+    <section class="dashboard-kpis">
 
-            <!--KPI sobre produtos sem estoque algum-->
-            <!--KPI sobre produtos sem estoque algum-->
-            <div id="div_kpi_dadoEstoque"  class="kpis kpi-estoque-setor-bebidas">
-              <p class="kpi-titulo">Sem estoque algum</p>
-              <p id="kpi_dado_estoqueBebidas" class="kpi-dado"></p><span class="kpi-dado-palavra-ajuste">produtos</span>
+      <!--KPI sobre produtos sem estoque algum-->
+      <!--KPI sobre produtos sem estoque algum-->
+      <div id="div_kpi_dadoEstoque" class="kpis kpi-estoque-setor-bebidas">
+        <p class="kpi-titulo">Sem estoque algum</p>
+        <p id="kpi_dado_estoqueBebidas" class="kpi-dado"></p><span class="kpi-dado-palavra-ajuste">produtos</span>
+      </div>
+
+      <!--KPI sobre sensores detectando ausência de produtos-->
+      <div id="div_kpi_dadoAusencia" class="kpis kpi-ausencia-setor-bebidas">
+        <p class="kpi-titulo">Ausência de produtos</p>
+        <p id="kpi_dado_ausencia" class="kpi-dado"></p><span class="kpi-dado-palavra-ajuste">sensores</span>
+      </div>
+
+      <!--KPI sobre a porcentagem de abastecimento do mercado-->
+      <div id="div_kpi_dado" class="kpis kpi-abastecimento-setor-bebidas">
+        <p class="kpi-titulo">Setor abastecido</p>
+        <p id="kpi_dadoSetorBebidas" class="kpi-dado"></p>
+      </div>
+
+      <!--Gráfico polar sobre a falta dos produtos nos setores do mercado-->
+      <div class="kpis kpi-grafico-polar">
+        <div id="grafico" class="grafico-kpi-container grafico-container-polar-setores">
+          <!-- <canvas class="graficos-canvas" id="polar_setor_falta_produto"></canvas> -->
+        </div>
+        <div class="kpi-grafico-titulos-container">
+          <div class="kpi-grafico-titulo">
+            Ausência de produtos em cada setor
           </div>
+        </div>
+      </div>
+    </section>
 
-          <!--KPI sobre sensores detectando ausência de produtos-->
-          <div id="div_kpi_dadoAusencia"  class="kpis kpi-ausencia-setor-bebidas">
-              <p class="kpi-titulo">Ausência de produtos</p>
-              <p id="kpi_dado_ausencia" class="kpi-dado"></p><span class="kpi-dado-palavra-ajuste">sensores</span>
+
+    <!--Sessão de Gráficos dos produtos-->
+    <section class="dashboard-graficos">
+      <div class="graficos-card-produtos">
+        <div class="produtos-titulo-e-legenda">
+          <div class="titulo-produtos">
+            Produtos
           </div>
-
-          <!--KPI sobre a porcentagem de abastecimento do mercado-->
-          <div id="div_kpi_dado"  class="kpis kpi-abastecimento-setor-bebidas">
-              <p class="kpi-titulo">Setor abastecido</p>
-              <p id="kpi_dadoSetorBebidas" class="kpi-dado"></p>
+          <div class="estado-produto-legenda">
+            <img src="assets/perfil/dashboard/perfil-dashboard-sensores/bolinha-vermelha.svg"
+              alt="Icone de ausência vermelho">
+            - Ausência de produto
+            <img src="assets/perfil/dashboard/perfil-dashboard-sensores/bolinha-verde.svg"
+              alt="Icone de presença verde">
+            - Presença de produto
           </div>
+        </div>
 
-            <!--Gráfico polar sobre a falta dos produtos nos setores do mercado-->
-            <div class="kpis kpi-grafico-polar">
-                <div id="grafico" class="grafico-kpi-container grafico-container-polar-setores">
-                    <!-- <canvas class="graficos-canvas" id="polar_setor_falta_produto"></canvas> -->
+        <div class="lista-produtos">
+          <div class="lista-produtos-nomes">
+            <ul class="lista-produtos-nome-ul" id="containerDashProdutos">
+
+            </ul>
+
+          </div>
+        </div>
+        </li>
+        </ul>
+      </div>
+      </div>
+
+      </div>
+
+
+      <!--Setores do mercado-->
+      <div class="graficos-card">
+        <div class="sessao-setores">
+          <h2>Setores</h2>
+        </div>
+        <ul class="setores">
+          <li>
+            <a href="perfil-dashboard-sensores-frios-congelados.html">
+              <div class="container-setores">
+                <div class="titulos-setores">
+                  Frios e congelados
                 </div>
-                <div class="kpi-grafico-titulos-container">
-                    <div class="kpi-grafico-titulo">
-                        Ausência de produtos em cada setor
-                    </div>
+                <div>
+                  <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
+                    alt="Seta lateral indicando um link">
                 </div>
-            </div>
-        </section>
-
-
-        <!--Sessão de Gráficos dos produtos-->
-        <section class="dashboard-graficos">
-            <div class="graficos-card-produtos">
-                <div class="produtos-titulo-e-legenda">
-                    <div class="titulo-produtos">
-                        Produtos
-                    </div>
-                    <div class="estado-produto-legenda">
-                        <img src="assets/perfil/dashboard/perfil-dashboard-sensores/bolinha-vermelha.svg"
-                            alt="Icone de ausência vermelho">
-                        - Ausência de produto
-                        <img src="assets/perfil/dashboard/perfil-dashboard-sensores/bolinha-verde.svg"
-                            alt="Icone de presença verde">
-                        - Presença de produto
-                    </div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="perfil-dashboard-sensores-mercearia.html">
+              <div class="container-setores">
+                <div class="titulos-setores">
+                  Mercearia
                 </div>
-
-                <div class="lista-produtos">
-                    <div class="lista-produtos-nomes">
-                        <ul class="lista-produtos-nome-ul" id="containerDashProdutos">
-
-                        </ul>
-                        
-                    </div>
+                <div>
+                  <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
+                    alt="Seta lateral indicando um link">
                 </div>
-                </li>
-                </ul>
-            </div>
-            </div>
-
-            </div>
-
-
-            <!--Setores do mercado-->
-            <div class="graficos-card">
-                <div class="sessao-setores">
-                    <h2>Setores</h2>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="perfil-dashboard-sensores-hortifruti.html">
+              <div class="container-setores">
+                <div class="titulos-setores">
+                  Hortifruti
                 </div>
-                <ul class="setores">
-                    <li>
-                        <a href="perfil-dashboard-sensores-frios-congelados.html">
-                            <div class="container-setores">
-                                <div class="titulos-setores">
-                                    Frios e congelados
-                                </div>
-                                <div>
-                                    <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
-                                        alt="Seta lateral indicando um link">
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="perfil-dashboard-sensores-mercearia.html">
-                            <div class="container-setores">
-                                <div class="titulos-setores">
-                                    Mercearia
-                                </div>
-                                <div>
-                                    <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
-                                        alt="Seta lateral indicando um link">
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="perfil-dashboard-sensores-hortifruti.html">
-                            <div class="container-setores">
-                                <div class="titulos-setores">
-                                    Hortifruti
-                                </div>
-                                <div>
-                                    <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
-                                        alt="Seta lateral indicando um link">
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="perfil-dashboard-sensores-cuidados-pessoais.html">
-                            <div class="container-setores">
-                                <div class="titulos-setores">
-                                    Cuidados Pessoais
-                                </div>
-                                <div>
-                                    <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
-                                        alt="Seta lateral indicando um link">
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="perfil-dashboard-sensores-bebidas.html">
-                            <div class="container-setores">
-                                <div class="titulos-setores">
-                                    Bebidas
-                                </div>
-                                <div>
-                                    <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
-                                        alt="Seta lateral indicando um link">
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </section>
+                <div>
+                  <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
+                    alt="Seta lateral indicando um link">
+                </div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="perfil-dashboard-sensores-cuidados-pessoais.html">
+              <div class="container-setores">
+                <div class="titulos-setores">
+                  Cuidados Pessoais
+                </div>
+                <div>
+                  <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
+                    alt="Seta lateral indicando um link">
+                </div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="perfil-dashboard-sensores-bebidas.html">
+              <div class="container-setores">
+                <div class="titulos-setores">
+                  Bebidas
+                </div>
+                <div>
+                  <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
+                    alt="Seta lateral indicando um link">
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
 
-        <!--Categorias-->
-        <section class="dashboard-sessoes">
-            <div class="sessao-espaco-para-categorias">
-            </div>
-            <div class="sessoes sessao-categorias">
-                <h2>Categorias</h2>
-                <ul class="categorias">
-                    <li><a href="perfil-dashboard-geral.html">
-                            <div class="container-categorias">
-                                <div class="titulos-categorias">
-                                    Informações gerais
-                                </div>
-                                <div>
-                                    <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
-                                        alt="Seta lateral indicando um link">
-                                </div>
-                            </div>
-                        </a></li>
-                    <li><a href="perfil-dashboard-sensores-frios-congelados.html">
-                            <div class="container-categorias">
-                                <div class="titulos-categorias">
-                                    Estado dos sensores
-                                </div>
-                                <div>
-                                    <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
-                                        alt="Seta lateral indicando um link">
-                                </div>
-                            </div>
-                        </a></li>
-                    <li><a href="perfil-dashboard-produtos.html">
-                            <div class="container-categorias">
-                                <div class="titulos-categorias">
-                                    Fluxo dos produtos
-                                </div>
-                                <div>
-                                    <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
-                                        alt="Seta lateral indicando um link">
-                                </div>
-                            </div>
-                        </a></li>
-                </ul>
-            </div>
-        </section>
+    <!--Categorias-->
+    <section class="dashboard-sessoes">
+      <div class="sessao-espaco-para-categorias">
+      </div>
+      <div class="sessoes sessao-categorias">
+        <h2>Categorias</h2>
+        <ul class="categorias">
+          <li><a href="perfil-dashboard-geral.html">
+              <div class="container-categorias">
+                <div class="titulos-categorias">
+                  Informações gerais
+                </div>
+                <div>
+                  <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
+                    alt="Seta lateral indicando um link">
+                </div>
+              </div>
+            </a></li>
+          <li><a href="perfil-dashboard-sensores-frios-congelados.html">
+              <div class="container-categorias">
+                <div class="titulos-categorias">
+                  Estado dos sensores
+                </div>
+                <div>
+                  <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
+                    alt="Seta lateral indicando um link">
+                </div>
+              </div>
+            </a></li>
+          <li><a href="perfil-dashboard-produtos.html">
+              <div class="container-categorias">
+                <div class="titulos-categorias">
+                  Fluxo dos produtos
+                </div>
+                <div>
+                  <img src="assets/perfil/dashboard/seta-lateral.svg" class="svg-seta"
+                    alt="Seta lateral indicando um link">
+                </div>
+              </div>
+            </a></li>
+        </ul>
+      </div>
+    </section>
 
-        <!--Fundo Azul-->
-        <section class="background-color">
+    <!--Fundo Azul-->
+    <section class="background-color">
 
-          
+
       <!-- SideBar do Perfil-->
       <div class="sidebar">
         <svg class="icone-perfil" width="130" height="110" viewBox="0 0 130 110" fill="none"
@@ -313,9 +313,12 @@
             </li>
             <li>
               <a href="https://suportejet.auvo.com.br/Ticket/Novo" target="_blank">
-                <svg class="sidebar-icone-lista" width="46" height="52" viewBox="0 0 133 151" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M57.7502 0.63182C51.653 1.68999 44.8489 3.98431 40.1929 6.55215C28.8207 12.824 20.4341 24.3579 19.163 35.4736C19.0495 36.4632 18.8672 37.4087 18.7571 37.5748C18.6472 37.7412 17.7283 38.3149 16.7152 38.8504C13.1676 40.7253 11.1629 43.0463 10.088 46.5234C9.55001 48.2638 9.50131 49.3021 9.50131 59.0383C9.50131 71.0561 9.63107 71.96 11.8006 75.063C13.999 78.2067 17.252 79.9845 21.3892 80.3031L23.6853 80.4802L24.1399 82.7378C25.0725 87.3721 26.4766 89.9334 29.2195 92.0046C31.5518 93.7659 33.0479 94.1308 38.3924 94.2411C41.4171 94.3034 43.3281 94.4701 43.7699 94.7098C44.1467 94.9145 45.6906 96.2391 47.2013 97.6532L49.9478 100.225L49.1749 101.911C48.0369 104.395 46.0015 107.31 44.0401 109.266C41.6309 111.668 39.1303 112.823 34.2938 113.767C25.75 115.435 18.404 117.75 11.1492 121.06C6.16784 123.333 3.81478 125.274 2.40829 128.269C0.838194 131.612 0 137.376 0 144.831V149.823L0.964977 150.411C1.91927 150.992 2.65354 150.999 66.421 151C113.993 151.001 131.107 150.912 131.653 150.664C132.061 150.478 132.535 149.924 132.707 149.433C133.182 148.07 133.074 143.698 132.423 137.948C131.664 131.246 131.37 129.859 130.265 127.769C128.9 125.19 126.957 123.638 122.181 121.314C115.748 118.184 107.839 115.669 98.1076 113.658C93.2836 112.661 91.4519 111.845 89.1389 109.662C87.3411 107.965 84.3236 103.59 83.5436 101.549L83.0379 100.226L85.5424 97.8025C89.6413 93.8353 92.6019 89.923 95.3911 84.7873C96.3668 82.9905 98.6411 77.9818 99.4491 75.8494L99.7673 75.0093L101.027 76.8776C101.964 78.2666 102.661 78.9361 103.742 79.4864C105.093 80.1735 105.509 80.2275 109.532 80.2378C113.804 80.2488 113.896 80.2352 115.874 79.2995C119.848 77.4184 122.556 73.8826 123.21 69.7179C123.604 67.2091 123.607 50.101 123.214 48.0298C122.448 43.9938 120.004 40.7908 116.145 38.7647C114.21 37.7486 114.026 37.5694 113.873 36.5567C112.968 30.5313 111.64 26.4968 109.257 22.5371C102.257 10.9002 90.6446 3.37261 75.634 0.741878C70.2331 -0.204449 62.8328 -0.250134 57.7502 0.63182ZM75.4167 4.3047C85.54 6.29525 96.1871 12.4253 101.89 19.5465C105.281 23.7818 107.869 29.5891 108.692 34.8156C108.997 36.7477 108.99 37.1853 108.657 37.3915C108.342 37.5855 104.931 38.0666 103.522 38.1156C103.385 38.1203 102.823 36.7999 102.274 35.1817C100.075 28.709 97.0295 23.6427 92.8008 19.4246C89.736 16.3676 86.8007 14.3343 83.0753 12.6882C72.9392 8.20956 57.8945 8.54893 48.1648 13.4758C40.0284 17.5963 33.7323 25.457 30.5387 35.4834L29.5844 38.479L28.2548 38.0791C27.5235 37.8593 26.2088 37.6792 25.3335 37.6792C23.8406 37.6792 23.7503 37.638 23.8783 37.0117C23.9531 36.6448 24.0971 35.61 24.1981 34.7127C24.6117 31.0445 27.3362 24.6932 30.2884 20.5151C33.3383 16.1985 38.6344 11.7297 43.774 9.13542C47.8531 7.07664 55.0402 4.8366 59.6801 4.17832C60.9049 4.00478 62.241 3.80454 62.6493 3.73393C64.3224 3.44381 73.0152 3.83242 75.4167 4.3047ZM74.5259 15.1255C87.7776 18.3872 96.3985 27.7297 98.7709 41.4001C99.49 45.5435 99.49 56.2171 98.7709 60.3605C97.5993 67.1127 95.664 73.06 92.4496 79.7875C89.1191 86.758 85.8913 90.9402 79.6005 96.437C76.9191 98.7802 76.8846 99.0576 78.7837 103.001C82.3844 110.479 87.1327 115.513 92.136 117.156C93.1467 117.489 95.6441 118.104 97.6854 118.525C108.841 120.823 120.739 125.074 123.985 127.921C126.481 130.111 126.999 131.641 127.534 138.393C127.766 141.33 128.035 144.301 128.13 144.994L128.304 146.255H66.6336H4.96325L5.13873 141.582C5.33677 136.298 5.99622 131.867 6.8261 130.241C7.69725 128.535 9.34039 127.305 13.2122 125.459C19.119 122.644 24.8373 120.87 35.6299 118.506C42.7601 116.943 45.6027 115.334 49.2643 110.786C52.1673 107.181 55.5102 100.956 55.5197 99.138C55.5236 98.4142 54.8285 97.6443 52.3932 95.6751L50.9259 94.4885L59.5872 94.3402C67.7464 94.2005 68.296 94.1563 69.0677 93.5802C70.6114 92.428 71.1114 91.465 71.1114 89.6462C71.1114 87.5794 70.2684 86.2294 68.4685 85.4124C67.09 84.787 62.1276 84.6245 60.257 85.1436C58.9346 85.5109 57.7383 86.7367 57.208 88.2677L56.8003 89.4454L52.0791 89.5303C49.4825 89.5768 47.0618 89.5421 46.6995 89.4528C45.2375 89.0927 38.8319 77.0464 36.722 70.69C34.1575 62.9628 33.3995 57.5509 33.6397 48.6815C33.8178 42.0985 34.2683 39.2384 35.7923 35.0093C39.8081 23.8673 49.0235 16.4827 61.3191 14.5541C64.2615 14.0925 71.623 14.4111 74.5259 15.1255ZM26.5223 42.7573C28.5476 43.2863 28.5369 43.1922 28.4404 59.5254L28.3555 73.923L27.5223 74.6385C26.7539 75.2988 26.4436 75.3543 23.514 75.3525C21.7675 75.3517 19.8625 75.2187 19.2802 75.0571C17.7202 74.6243 15.9224 72.9351 15.1107 71.14C14.404 69.5773 14.4004 69.5173 14.4004 58.89C14.4004 48.2511 14.4031 48.2051 15.1041 46.7954C15.9209 45.1525 17.9605 43.2433 19.3634 42.8084C20.6419 42.412 25.0784 42.3803 26.5223 42.7573ZM114.637 43.3773C116.226 44.3077 117.415 45.7553 118.057 47.5382C118.752 49.4706 118.747 68.6906 118.05 70.5874C117.35 72.4946 116.304 73.715 114.692 74.5083C113.426 75.1309 112.864 75.206 109.463 75.206C105.816 75.206 105.627 75.1757 105.083 74.5056C104.54 73.8366 104.514 73.1448 104.514 59.0454C104.514 40.8997 103.993 42.426 110.156 42.5274C112.954 42.5734 113.413 42.6603 114.637 43.3773ZM36.4363 82.3999C40.187 90.1283 40.1903 89.7539 36.3722 89.519C32.3986 89.2742 30.3356 87.4602 29.2035 83.2157C28.5206 80.6549 28.6165 80.3372 30.7308 78.1613C31.7923 77.069 32.6608 76.0574 32.6608 75.9132C32.6608 74.9286 33.5628 76.478 36.4363 82.3999Z" fill="white"/>
-                  </svg>
+                <svg class="sidebar-icone-lista" width="46" height="52" viewBox="0 0 133 151" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M57.7502 0.63182C51.653 1.68999 44.8489 3.98431 40.1929 6.55215C28.8207 12.824 20.4341 24.3579 19.163 35.4736C19.0495 36.4632 18.8672 37.4087 18.7571 37.5748C18.6472 37.7412 17.7283 38.3149 16.7152 38.8504C13.1676 40.7253 11.1629 43.0463 10.088 46.5234C9.55001 48.2638 9.50131 49.3021 9.50131 59.0383C9.50131 71.0561 9.63107 71.96 11.8006 75.063C13.999 78.2067 17.252 79.9845 21.3892 80.3031L23.6853 80.4802L24.1399 82.7378C25.0725 87.3721 26.4766 89.9334 29.2195 92.0046C31.5518 93.7659 33.0479 94.1308 38.3924 94.2411C41.4171 94.3034 43.3281 94.4701 43.7699 94.7098C44.1467 94.9145 45.6906 96.2391 47.2013 97.6532L49.9478 100.225L49.1749 101.911C48.0369 104.395 46.0015 107.31 44.0401 109.266C41.6309 111.668 39.1303 112.823 34.2938 113.767C25.75 115.435 18.404 117.75 11.1492 121.06C6.16784 123.333 3.81478 125.274 2.40829 128.269C0.838194 131.612 0 137.376 0 144.831V149.823L0.964977 150.411C1.91927 150.992 2.65354 150.999 66.421 151C113.993 151.001 131.107 150.912 131.653 150.664C132.061 150.478 132.535 149.924 132.707 149.433C133.182 148.07 133.074 143.698 132.423 137.948C131.664 131.246 131.37 129.859 130.265 127.769C128.9 125.19 126.957 123.638 122.181 121.314C115.748 118.184 107.839 115.669 98.1076 113.658C93.2836 112.661 91.4519 111.845 89.1389 109.662C87.3411 107.965 84.3236 103.59 83.5436 101.549L83.0379 100.226L85.5424 97.8025C89.6413 93.8353 92.6019 89.923 95.3911 84.7873C96.3668 82.9905 98.6411 77.9818 99.4491 75.8494L99.7673 75.0093L101.027 76.8776C101.964 78.2666 102.661 78.9361 103.742 79.4864C105.093 80.1735 105.509 80.2275 109.532 80.2378C113.804 80.2488 113.896 80.2352 115.874 79.2995C119.848 77.4184 122.556 73.8826 123.21 69.7179C123.604 67.2091 123.607 50.101 123.214 48.0298C122.448 43.9938 120.004 40.7908 116.145 38.7647C114.21 37.7486 114.026 37.5694 113.873 36.5567C112.968 30.5313 111.64 26.4968 109.257 22.5371C102.257 10.9002 90.6446 3.37261 75.634 0.741878C70.2331 -0.204449 62.8328 -0.250134 57.7502 0.63182ZM75.4167 4.3047C85.54 6.29525 96.1871 12.4253 101.89 19.5465C105.281 23.7818 107.869 29.5891 108.692 34.8156C108.997 36.7477 108.99 37.1853 108.657 37.3915C108.342 37.5855 104.931 38.0666 103.522 38.1156C103.385 38.1203 102.823 36.7999 102.274 35.1817C100.075 28.709 97.0295 23.6427 92.8008 19.4246C89.736 16.3676 86.8007 14.3343 83.0753 12.6882C72.9392 8.20956 57.8945 8.54893 48.1648 13.4758C40.0284 17.5963 33.7323 25.457 30.5387 35.4834L29.5844 38.479L28.2548 38.0791C27.5235 37.8593 26.2088 37.6792 25.3335 37.6792C23.8406 37.6792 23.7503 37.638 23.8783 37.0117C23.9531 36.6448 24.0971 35.61 24.1981 34.7127C24.6117 31.0445 27.3362 24.6932 30.2884 20.5151C33.3383 16.1985 38.6344 11.7297 43.774 9.13542C47.8531 7.07664 55.0402 4.8366 59.6801 4.17832C60.9049 4.00478 62.241 3.80454 62.6493 3.73393C64.3224 3.44381 73.0152 3.83242 75.4167 4.3047ZM74.5259 15.1255C87.7776 18.3872 96.3985 27.7297 98.7709 41.4001C99.49 45.5435 99.49 56.2171 98.7709 60.3605C97.5993 67.1127 95.664 73.06 92.4496 79.7875C89.1191 86.758 85.8913 90.9402 79.6005 96.437C76.9191 98.7802 76.8846 99.0576 78.7837 103.001C82.3844 110.479 87.1327 115.513 92.136 117.156C93.1467 117.489 95.6441 118.104 97.6854 118.525C108.841 120.823 120.739 125.074 123.985 127.921C126.481 130.111 126.999 131.641 127.534 138.393C127.766 141.33 128.035 144.301 128.13 144.994L128.304 146.255H66.6336H4.96325L5.13873 141.582C5.33677 136.298 5.99622 131.867 6.8261 130.241C7.69725 128.535 9.34039 127.305 13.2122 125.459C19.119 122.644 24.8373 120.87 35.6299 118.506C42.7601 116.943 45.6027 115.334 49.2643 110.786C52.1673 107.181 55.5102 100.956 55.5197 99.138C55.5236 98.4142 54.8285 97.6443 52.3932 95.6751L50.9259 94.4885L59.5872 94.3402C67.7464 94.2005 68.296 94.1563 69.0677 93.5802C70.6114 92.428 71.1114 91.465 71.1114 89.6462C71.1114 87.5794 70.2684 86.2294 68.4685 85.4124C67.09 84.787 62.1276 84.6245 60.257 85.1436C58.9346 85.5109 57.7383 86.7367 57.208 88.2677L56.8003 89.4454L52.0791 89.5303C49.4825 89.5768 47.0618 89.5421 46.6995 89.4528C45.2375 89.0927 38.8319 77.0464 36.722 70.69C34.1575 62.9628 33.3995 57.5509 33.6397 48.6815C33.8178 42.0985 34.2683 39.2384 35.7923 35.0093C39.8081 23.8673 49.0235 16.4827 61.3191 14.5541C64.2615 14.0925 71.623 14.4111 74.5259 15.1255ZM26.5223 42.7573C28.5476 43.2863 28.5369 43.1922 28.4404 59.5254L28.3555 73.923L27.5223 74.6385C26.7539 75.2988 26.4436 75.3543 23.514 75.3525C21.7675 75.3517 19.8625 75.2187 19.2802 75.0571C17.7202 74.6243 15.9224 72.9351 15.1107 71.14C14.404 69.5773 14.4004 69.5173 14.4004 58.89C14.4004 48.2511 14.4031 48.2051 15.1041 46.7954C15.9209 45.1525 17.9605 43.2433 19.3634 42.8084C20.6419 42.412 25.0784 42.3803 26.5223 42.7573ZM114.637 43.3773C116.226 44.3077 117.415 45.7553 118.057 47.5382C118.752 49.4706 118.747 68.6906 118.05 70.5874C117.35 72.4946 116.304 73.715 114.692 74.5083C113.426 75.1309 112.864 75.206 109.463 75.206C105.816 75.206 105.627 75.1757 105.083 74.5056C104.54 73.8366 104.514 73.1448 104.514 59.0454C104.514 40.8997 103.993 42.426 110.156 42.5274C112.954 42.5734 113.413 42.6603 114.637 43.3773ZM36.4363 82.3999C40.187 90.1283 40.1903 89.7539 36.3722 89.519C32.3986 89.2742 30.3356 87.4602 29.2035 83.2157C28.5206 80.6549 28.6165 80.3372 30.7308 78.1613C31.7923 77.069 32.6608 76.0574 32.6608 75.9132C32.6608 74.9286 33.5628 76.478 36.4363 82.3999Z"
+                    fill="white" />
+                </svg>
                 <span class="sidebar-titulo">Suporte</span>
               </a>
             </li>
@@ -350,14 +353,14 @@
           </ul>
         </nav>
       </div>
-        </section>
-    </main>
+    </section>
+  </main>
 
-    <footer>
-        <!--Espaço vazio no fim do dashboard-->
-        <section class="footer-space"></section>
+  <footer>
+    <!--Espaço vazio no fim do dashboard-->
+    <section class="footer-space"></section>
 
-    </footer>
+  </footer>
 
 </body>
 
@@ -365,10 +368,12 @@
 
 </html>
 <script>
-    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-    function buscarNomeProdutos() {
-    var idEmpresa = sessionStorage.ID_EMPRESA;
+  b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+  var faltaTotal = 0;
 
+  function buscarNomeProdutos() {
+    faltaTotal = 0;
+    var idEmpresa = sessionStorage.ID_EMPRESA;
     fetch(`/produtos/listarProdutosBebidas/${idEmpresa}`)
       .then(function (resposta) {
         if (resposta.ok) {
@@ -381,29 +386,34 @@
             var container = document.getElementById("containerDashProdutos");
             container.innerHTML = "";
 
-            for (let i = resposta.length-1; i >= 0; i--) {
+            for (let i = resposta.length - 1; i >= 0; i--) {
               var itens = resposta[i];
 
-              console.log(itens.statusPrateleira); 
+              console.log(itens.statusPrateleira);
 
               if (itens.statusPrateleira == 3) {
                 var bolinhas = `<span class="bolinha green"></span>
                                      <span class="bolinha green"></span>
                                        <span class="bolinha green"></span>`;
+                mostrarFaltaTotal();
               } else if (itens.statusPrateleira == 2) {
                 var bolinhas = `<span class="bolinha green"></span>
                                      <span class="bolinha green"></span>
                                        <span class="bolinha red"></span>`;
+                mostrarFaltaTotal();
               } else if (itens.statusPrateleira == 1) {
                 var bolinhas = `<span class="bolinha green"></span>
                                      <span class="bolinha red"></span>
                                        <span class="bolinha red"></span>`;
+                mostrarFaltaTotal();
                 console.log(itens.idPrateleira)
               } else {
                 var bolinhas = `<span class="bolinha red"></span>
                                      <span class="bolinha red"></span>
                                        <span class="bolinha red"></span>`;
                 console.log(itens.idPrateleira)
+                faltaTotal += 1;
+                mostrarFaltaTotal();
               }
 
               var lista = document.createElement("li");
@@ -431,152 +441,130 @@
       });
   }
 
+  function mostrarFaltaTotal() {
+    kpi_dado_estoqueBebidas.innerHTML = faltaTotal;
+
+    if (faltaTotal <= 0) {
+      div_kpi_dadoEstoque.classList.remove('verde-lima');
+      div_kpi_dadoEstoque.classList.remove('amarelo');
+      div_kpi_dadoEstoque.classList.remove('vermelho');
+      div_kpi_dadoEstoque.classList.add('verde');
+    } else if (faltaTotal == 1) {
+      div_kpi_dadoEstoque.classList.add('verde-lima');
+      div_kpi_dadoEstoque.classList.remove('amarelo');
+      div_kpi_dadoEstoque.classList.remove('vermelho');
+      div_kpi_dadoEstoque.classList.remove('verde');
+    } else if (faltaTotal == 2) {
+      div_kpi_dadoEstoque.classList.remove('verde');
+      div_kpi_dadoEstoque.classList.remove('verde-lima');
+      div_kpi_dadoEstoque.classList.remove('vermelho');
+      div_kpi_dadoEstoque.classList.add('amarelo');
+    } else {
+      div_kpi_dadoEstoque.classList.remove('verde-lima');
+      div_kpi_dadoEstoque.classList.remove('amarelo');
+      div_kpi_dadoEstoque.classList.add('vermelho');
+      div_kpi_dadoEstoque.classList.remove('verde');
+    }
+  }
+
   function mostrarkpi() {
 
-var idEmpresa = sessionStorage.ID_EMPRESA;
+    var idEmpresa = sessionStorage.ID_EMPRESA;
 
-fetch(`/kpigeral/kpisdosetorBebidas/${idEmpresa}`).then(function (resposta) {
-if (resposta.ok) {
-if (resposta.status == 204) {
-  alert("Nenhuma prateleira encontrada")
-}
-resposta.json().then(function (resposta) {
-  console.log("Dados recebidos: ", JSON.stringify(resposta));
+    fetch(`/kpigeral/kpisdosetorBebidas/${idEmpresa}`).then(function (resposta) {
+      if (resposta.ok) {
+        if (resposta.status == 204) {
+          alert("Nenhuma prateleira encontrada")
+        }
+        resposta.json().then(function (resposta) {
+          console.log("Dados recebidos: ", JSON.stringify(resposta));
 
-    for (let i = 0; i < resposta.length; i++) {
-      var produto  = resposta[i];
+          for (let i = 0; i < resposta.length; i++) {
+            var produto = resposta[i];
 
-      kpi_dadoSetorBebidas.innerHTML = `${produto.conta}% `
-    
-if (produto <= 75) {
-  div_kpi_dado.classList.remove('verde');
-  div_kpi_dado.classList.remove('verde-lima');
-  div_kpi_dado.classList.remove('amarelo');
-    div_kpi_dado.classList.add('vermelho');
-} else if (produto.conta <= 85) {
-  div_kpi_dado.classList.remove('verde');
-  div_kpi_dado.classList.remove('verde-lima');
-  div_kpi_dado.classList.remove('vermelho');
-  div_kpi_dado.classList.add('amarelo');
-} else if (produto.conta <= 90) {
-  div_kpi_dado.classList.remove('verde');
-  div_kpi_dado.classList.remove('amarelo');
-  div_kpi_dado.classList.remove('vermelho');
-  div_kpi_dado.classList.add('verde-lima');
-} else {
-  div_kpi_dado.classList.remove('verde-lima');
-  div_kpi_dado.classList.remove('amarelo');
-  div_kpi_dado.classList.remove('vermelho');
-  div_kpi_dado.classList.add('verde');
-}
-}});
-} else {
-throw ('Houve um erro na API!');
-}
-}).catch(function (resposta) {
-console.error(resposta);
-});
+            kpi_dadoSetorBebidas.innerHTML = `${produto.conta}% `
 
-setTimeout(() => mostrarkpi() , 10000);
-}
+            if (produto.conta < 85) {
+              div_kpi_dado.classList.remove('verde');
+              div_kpi_dado.classList.remove('verde-lima');
+              div_kpi_dado.classList.remove('amarelo');
+              div_kpi_dado.classList.add('vermelho');
+            } else if (produto.conta < 90) {
+              div_kpi_dado.classList.remove('verde');
+              div_kpi_dado.classList.remove('verde-lima');
+              div_kpi_dado.classList.remove('vermelho');
+              div_kpi_dado.classList.add('amarelo');
+            } else if (produto.conta < 95) {
+              div_kpi_dado.classList.remove('verde');
+              div_kpi_dado.classList.remove('amarelo');
+              div_kpi_dado.classList.remove('vermelho');
+              div_kpi_dado.classList.add('verde-lima');
+            } else {
+              div_kpi_dado.classList.remove('verde-lima');
+              div_kpi_dado.classList.remove('amarelo');
+              div_kpi_dado.classList.remove('vermelho');
+              div_kpi_dado.classList.add('verde');
+            }
+          }
+        });
+      } else {
+        throw ('Houve um erro na API!');
+      }
+    }).catch(function (resposta) {
+      console.error(resposta);
+    });
 
-function kpiAunsencia() {
-  
-var idEmpresa = sessionStorage.ID_EMPRESA;
+    setTimeout(() => mostrarkpi(), 10000);
+  }
 
-fetch(`/kpigeral/kpiAunsenciaBebidas/${idEmpresa}`).then(function (resposta) {
-if (resposta.ok) {
-if (resposta.status == 204) {
-  alert("Nenhuma prateleira encontrada")
-}
-resposta.json().then(function (resposta) {
-  console.log("Dados recebidos: ", JSON.stringify(resposta));
+  function kpiAunsencia() {
 
-    for (let i = 0; i < resposta.length; i++) {
-      var ProdutoAusencia  = resposta[i];
+    var idEmpresa = sessionStorage.ID_EMPRESA;
 
-      kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.falta_bebidas}`
-    
-      if (ProdutoAusencia.falta_bebidas <= 0) {
-        div_kpi_dadoAusencia.classList.remove('verde-lima');
-        div_kpi_dadoAusencia.classList.remove('amarelo');
-        div_kpi_dadoAusencia.classList.remove('vermelho');
-        div_kpi_dadoAusencia.classList.add('verde');
-} else if (ProdutoAusencia.falta_bebidas <= 2) {
-    div_kpi_dadoAusencia.classList.remove('verde');
-    div_kpi_dadoAusencia.classList.remove('vermelho');
-    div_kpi_dadoAusencia.classList.remove('amarelo');
-    div_kpi_dadoAusencia.classList.add('verde-lima');
-} else if (ProdutoAusencia.falta_bebidas <= 4) {
-    div_kpi_dadoAusencia.classList.remove('verde');
-    div_kpi_dadoAusencia.classList.remove('vermelho');
-    div_kpi_dadoAusencia.classList.remove('verde-lima');
-    div_kpi_dadoAusencia.classList.add('amarelo');
-} else {
-    div_kpi_dadoAusencia.classList.remove('verde-lima');
-    div_kpi_dadoAusencia.classList.remove('amarelo');
-    div_kpi_dadoAusencia.classList.remove('verde');
-    div_kpi_dadoAusencia.classList.add('vermelho');
-}
-  
-}});
-} else {
-throw ('Houve um erro na API!');
-}
-}).catch(function (resposta) {
-console.error(resposta);
-});
+    fetch(`/kpigeral/kpiAunsenciaBebidas/${idEmpresa}`).then(function (resposta) {
+      if (resposta.ok) {
+        if (resposta.status == 204) {
+          alert("Nenhuma prateleira encontrada")
+        }
+        resposta.json().then(function (resposta) {
+          console.log("Dados recebidos: ", JSON.stringify(resposta));
 
-setTimeout(() => kpiAunsencia() , 10000);
-}
+          for (let i = 0; i < resposta.length; i++) {
+            var ProdutoAusencia = resposta[i];
 
-function kpiSemEstoqueAlgum() {
+            kpi_dado_ausencia.innerHTML = `${ProdutoAusencia.falta_bebidas}`
 
-var idEmpresa = sessionStorage.ID_EMPRESA;
+            if (ProdutoAusencia.falta_bebidas <= 1) {
+              div_kpi_dadoAusencia.classList.remove('verde-lima');
+              div_kpi_dadoAusencia.classList.remove('amarelo');
+              div_kpi_dadoAusencia.classList.remove('vermelho');
+              div_kpi_dadoAusencia.classList.add('verde');
+            } else if (ProdutoAusencia.falta_bebidas <= 3) {
+              div_kpi_dadoAusencia.classList.remove('verde');
+              div_kpi_dadoAusencia.classList.remove('vermelho');
+              div_kpi_dadoAusencia.classList.remove('amarelo');
+              div_kpi_dadoAusencia.classList.add('verde-lima');
+            } else if (ProdutoAusencia.falta_bebidas <= 4) {
+              div_kpi_dadoAusencia.classList.remove('verde');
+              div_kpi_dadoAusencia.classList.remove('vermelho');
+              div_kpi_dadoAusencia.classList.remove('verde-lima');
+              div_kpi_dadoAusencia.classList.add('amarelo');
+            } else {
+              div_kpi_dadoAusencia.classList.remove('verde-lima');
+              div_kpi_dadoAusencia.classList.remove('amarelo');
+              div_kpi_dadoAusencia.classList.remove('verde');
+              div_kpi_dadoAusencia.classList.add('vermelho');
+            }
 
-fetch(`/kpigeral/kpiSemEstoqueAlgumBebidas/${idEmpresa}`).then(function (resposta) {
-if (resposta.ok) {
-if (resposta.status == 204) {
-  alert("Nenhuma prateleira encontrada")
-}
-resposta.json().then(function (resposta) {
-  console.log("Dados recebidos: ", JSON.stringify(resposta));
+          }
+        });
+      } else {
+        throw ('Houve um erro na API!');
+      }
+    }).catch(function (resposta) {
+      console.error(resposta);
+    });
 
-    for (let i = 0; i < resposta.length; i++) {
-      var produtoSemEstoque  = resposta[i];
-      
-      kpi_dado_estoqueBebidas.innerHTML = `${produtoSemEstoque.falta_total_bebidas}`
-    
-if (produtoSemEstoque.falta_total_bebidas <= 0) {
-  div_kpi_dadoEstoque.classList.remove('verde-lima');
-   div_kpi_dadoEstoque.classList.remove('amarelo');
-   div_kpi_dadoEstoque.classList.remove('vermelho');
-  div_kpi_dadoEstoque.classList.add('verde');
-} else if (produtoSemEstoque.falta_total_bebidas <= 2) {
-   div_kpi_dadoEstoque.classList.remove('verde');
-   div_kpi_dadoEstoque.classList.remove('vermelho');
-   div_kpi_dadoEstoque.classList.remove('amarelo');
-   div_kpi_dadoEstoque.classList.add('verde-lima');
-} else if (produtoSemEstoque.falta_total_bebidas <= 4) {
-   div_kpi_dadoEstoque.classList.remove('verde');
-   div_kpi_dadoEstoque.classList.remove('verde-lima');
-   div_kpi_dadoEstoque.classList.remove('vermelho');
-   div_kpi_dadoEstoque.classList.add('amarelo');
-} else {
-   div_kpi_dadoEstoque.classList.remove('verde-lima');
-   div_kpi_dadoEstoque.classList.remove('amarelo');
-   div_kpi_dadoEstoque.classList.add('vermelho');
-   div_kpi_dadoEstoque.classList.remove('verde');
-}
-  
-}});
-} else {
-throw ('Houve um erro na API!');
-}
-}).catch(function (resposta) {
-console.error(resposta);
-});
-
-setTimeout(() => kpiSemEstoqueAlgum() , 10000);
-}
+    setTimeout(() => kpiAunsencia(), 10000);
+  }
 </script>

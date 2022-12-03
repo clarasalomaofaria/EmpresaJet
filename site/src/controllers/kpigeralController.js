@@ -91,23 +91,6 @@ function KpiSemEstoque(req, res) {
         res.status(500).json(erro.sqlMessage);
     });
 }
-
-function KpiSemEstoqueAlgum(req, res) {
-
-    var idEmpresa = req.params.idEmpresa
-
-    kpigeralModel.KpiSemEstoqueAlgum(idEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function(erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
 // Setor Mercearia
 function kpisdoSetorMarcearia(req, res) {
 
@@ -143,22 +126,6 @@ function KpiSemEstoqueMarcearia(req, res) {
     });
 }
 
-function KpiSemEstoqueAlgumMarcearia(req, res) {
-
-    var idEmpresa = req.params.idEmpresa
-
-    kpigeralModel.KpiSemEstoqueAlgumMarcearia(idEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function(erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
 // Setor Hortifruti
 function kpisdosetorHortifruti(req, res) {
 
@@ -194,22 +161,6 @@ function kpiAunsenciaHortifruti(req, res) {
     });
 }
 
-function kpiSemEstoqueAlgumHorti(req, res) {
-
-    var idEmpresa = req.params.idEmpresa
-
-    kpigeralModel.kpiSemEstoqueAlgumHorti(idEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function(erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
 
 // Setor Cuidados Pessoais
 function kpisdosetorCuidados(req, res) {
@@ -246,22 +197,7 @@ function kpiAunsenciaCuidados(req, res) {
     });
 }
 
-function kpiSemEstoqueAlgumCuidados(req, res) {
 
-    var idEmpresa = req.params.idEmpresa
-
-    kpigeralModel.kpiSemEstoqueAlgumCuidados(idEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function(erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
 
 // Setor Bebidas
 function kpisdosetorBebidas(req, res) {
@@ -298,22 +234,7 @@ function kpiAunsenciaBebidas(req, res) {
     });
 }
 
-function kpiSemEstoqueAlgumBebidas(req, res) {
 
-    var idEmpresa = req.params.idEmpresa
-
-    kpigeralModel.kpiSemEstoqueAlgumBebidas(idEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function(erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
 
 
 module.exports = {
@@ -322,17 +243,12 @@ module.exports = {
     statusPredominanteMes,
     KpiSetorFrios,
     KpiSemEstoque,
-    KpiSemEstoqueAlgum,
     kpisdoSetorMarcearia,
     KpiSemEstoqueMarcearia,
-    KpiSemEstoqueAlgumMarcearia,
     kpisdosetorHortifruti,
     kpiAunsenciaHortifruti,
-    kpiSemEstoqueAlgumHorti,
     kpisdosetorCuidados,
     kpiAunsenciaCuidados,
-    kpiSemEstoqueAlgumCuidados,
     kpisdosetorBebidas,
     kpiAunsenciaBebidas,
-    kpiSemEstoqueAlgumBebidas,
 }
