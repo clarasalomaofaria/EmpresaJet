@@ -6,9 +6,10 @@
     <title>Perfil - Empresa</title>
     <link rel="stylesheet" href="css/perfil-sidebar.css" />
     <link rel="stylesheet" href="css/perfil-empresa.css" />
+    <script src="./js/adminORusuario.js"></script>
   </head>
 
-  <body onload="buscarDadosEmpresa(), buscarDadoFuncionario()">
+  <body onload="buscarDadosEmpresa(),verificarFuncao(), buscarDadoFuncionario()">
     <main>
       <!-- Cor do fundo da pag -->
       <div class="background-color">
@@ -139,7 +140,7 @@
         <h1>EMPRESAS</h1>
       </div>
       <!--CONTAINER QUE ENGLOBA O CONTEUDO-->
-      <div class="container-all">
+      <div id="container-global" class="container-all">
         <div id="titulo_2_empresa" class="titulo-2">
           <h3 id="titulo_div_empresa">Cadastre sua empresa</h3>
           <p id="subtitulo_div_empresa">
@@ -274,12 +275,15 @@
         </button>
 
         <!-- REGISTRO DO FUNCIONÁRIO -->
-        <hr />
+        <!-- <hr />
+
         <div class="titulo-2 funcionarios">
           <h3>Cadastre seus funcionários</h3>
           <p>Por favor, insira os dados do usuario que você deseja cadastrar</p>
         </div>
+
         <div class="container-pai">
+
           <div class="container-filho">
             <div class="estilo-box">
               <p>Username*</p>
@@ -314,6 +318,9 @@
             </div>
           </div>
 
+
+
+
           <div class="container-filho-2">
             <div class="estilo-box">
               <p>E-mail*</p>
@@ -337,25 +344,23 @@
               />
             </div>
 
-            <div class="estilo-box">
-              <p>Função</p>
-              <select class="combo-funcao" id="inputFuncao">
-                <option value="Administrador">Administrador</option>
-                <option value="Usuario">Usuário</option>
-              </select>
-            </div>
+
           </div>
         </div>
+
         <button
           class="botao-registro"
           onclick="cadastrarFuncionario()"
         >
           CADASTRAR
         </button>
+
         <hr />
+
         <div id="tabela_funcionarios" class="tabela-funcionarios">
           <h3>FUNCIONÁRIOS</h3>
-        </div>
+        </div> -->
+        
       </div>
     </main>
   </body>
