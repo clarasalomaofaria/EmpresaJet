@@ -591,10 +591,10 @@ function kpiAunsenciaBebidas(idEmpresa) {
     var instrucao = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 7 (SELECT (30 - SUM(statusPrateleira)) FROM (SELECT ds.statusPrateleira FROM dados_sensor ds 
+        SELECT (SELECT (30 - SUM(statusPrateleira)) FROM (SELECT top 10 ds.statusPrateleira FROM dados_sensor ds 
             JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas'
-            ORDER BY ds.idDado DESC ) as empresa_dados) falta_bebidas;   
+            ORDER BY ds.idDado DESC ) as empresa_dados) falta_bebidas; 
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
