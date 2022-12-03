@@ -117,12 +117,22 @@ function statusPredominanteMes(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT 
-        (SELECT (SELECT DISTINCT ROUND ((SUM(statusPrateleira) / (COUNT(statusPrateleira) * 3) * 100)) FROM dados_sensor ds 
-            JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-                JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
-                    WHERE e.idEmpresa = ${idEmpresa} AND MONTH(ds.dtPrateleira) = MONTH(curdate())) 
-                        AS wip_estado) estado_predominante_mes;
+        SELECT CAST( ROUND (
+
+            ((SELECT 
+ (SELECT (SELECT (SUM(statusPrateleira)) FROM dados_sensor ds 
+     JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+         JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
+             WHERE e.idEmpresa = ${idEmpresa} AND MONTH(ds.dtPrateleira) = MONTH(getdate())) 
+                 AS wip_sum))*100) /
+
+                                     (SELECT 
+ ((SELECT (SELECT (COUNT(statusPrateleira)) FROM dados_sensor ds 
+     JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
+         JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
+             WHERE e.idEmpresa = ${idEmpresa} AND MONTH(ds.dtPrateleira) = MONTH(getdate())) 
+                 AS wip_count)*3)), 2 ) AS INT)
+                 ;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `

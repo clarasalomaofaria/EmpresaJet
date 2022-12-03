@@ -165,54 +165,33 @@ function obterDonut(idEmpresa) {
         (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
         JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
         JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
-        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_frios) faltas_mes_frios,
+        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 
+		'Frios e congelados' AND MONTH(ds.dtPrateleira) = MONTH(getdate())) AS wip_faltas_mes_frios) faltas_mes_frios,
         
         (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
         JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
         JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
-        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_mercearia) faltas_mes_mercearia,
+        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 
+		'Mercearia' AND MONTH(ds.dtPrateleira) = MONTH(getdate())) AS wip_faltas_mes_mercearia) faltas_mes_mercearia,
         
         (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
         JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
         JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
-        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_hortifruti) faltas_mes_hortifruti,
+        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 
+		'Hortifruti' AND MONTH(ds.dtPrateleira) = MONTH(getdate())) AS wip_faltas_mes_hortifruti) faltas_mes_hortifruti,
         
         (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
         JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
         JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
-        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_cuidados) faltas_mes_cuidados,
+        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 
+		'Cuidados Pessoais' AND MONTH(ds.dtPrateleira) = MONTH(getdate())) AS wip_faltas_mes_cuidados) faltas_mes_cuidados,
         
         (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
         JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
         JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
-        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_bebidas) faltas_mes_bebidas;`;
-
-    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT 
-        (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
-        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
-        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Frios e congelados' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_frios) faltas_mes_frios,
-        
-        (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
-        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
-        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Mercearia' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_mercearia) faltas_mes_mercearia,
-        
-        (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
-        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
-        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Hortifruti' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_hortifruti) faltas_mes_hortifruti,
-        
-        (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
-        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
-        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Cuidados Pessoais' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_cuidados) faltas_mes_cuidados,
-        
-        (SELECT (SELECT ((COUNT(ds.statusPrateleira) * 3) - (SUM(ds.statusPrateleira))) FROM dados_sensor ds 
-        JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira
-        JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
-        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 'Bebidas' AND MONTH(ds.dtPrateleira) = MONTH(curdate())) AS wip_faltas_mes_bebidas) faltas_mes_bebidas;`;
+        WHERE e.idEmpresa = ${idEmpresa} AND prat.setor = 
+		'Bebidas' AND MONTH(ds.dtPrateleira) = MONTH(getdate())) AS wip_faltas_mes_bebidas) faltas_mes_bebidas;
+`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
