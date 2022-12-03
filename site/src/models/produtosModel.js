@@ -19,7 +19,7 @@ function listarprodutos(idEmpresa) {
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
-        SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        SELECT DISTINCT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
 	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
 		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -53,7 +53,7 @@ function listarprodutosMercearia(idEmpresa) {
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
-        SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        SELECT DISTINCT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
 	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
 		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -86,7 +86,7 @@ function listarprodutosHortifruti(idEmpresa) {
                             WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucao = `SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        instrucao = `SELECT DISTINCT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
 	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
 		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
 			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -118,7 +118,7 @@ function listarProdutosBebidas(idEmpresa) {
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
-        SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        SELECT DISTINCT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
             JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -150,7 +150,7 @@ function listarProdutosCuidados(idEmpresa) {
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
-        SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        SELECT DISTINCT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
             JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa

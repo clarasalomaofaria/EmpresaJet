@@ -56,7 +56,7 @@ function verificarFuncao() {
         inputContainer.type = "password";
         inputContainer.setAttribute("required", "required");
       } else if(i == 2) {
-        tituloContainer.innerHTML = "Nome Completo";
+        tituloContainer.innerHTML = "Nome Completo*";
         inputContainer.id = "inputNome";
         inputContainer.placeholder = "Ex: Caique Gomes da Silva";
         inputContainer.setAttribute("onblur", "validarNome()");
