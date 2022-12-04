@@ -9,7 +9,7 @@ function listarDadosFrios(idEmpresa) {
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
     instrucao = `
-    SELECT TOP 8 ds.statusPrateleira FROM dados_sensor ds 
+    SELECT TOP 8 ds.statusPrateleira  as dados_frios FROM dados_sensor ds 
         JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira 
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
                 WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
@@ -71,7 +71,7 @@ function listarDadosHortifruti(idEmpresa) {
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
     instrucao = `
-    SELECT TOP 9 ds.statusPrateleira FROM dados_sensor ds 
+    SELECT TOP 9 ds.statusPrateleira as dados_hortifruti FROM dados_sensor ds 
     JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira 
     JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
     WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
@@ -98,7 +98,7 @@ function listarDadosBebidas(idEmpresa) {
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
     instrucao = `
-    SELECT TOP 10 ds.statusPrateleira FROM dados_sensor ds 
+    SELECT TOP 10 ds.statusPrateleira as dados_bebidas FROM dados_sensor ds 
         JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira 
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
                 WHERE prat.setor = 'Bebidas' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
@@ -125,7 +125,7 @@ function listarDadosCuidados(idEmpresa) {
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
     instrucao = `
-    SELECT TOP 7 ds.statusPrateleira FROM dados_sensor ds 
+    SELECT TOP 7 ds.statusPrateleira as dados_cuidados FROM dados_sensor ds 
     JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira 
     JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
     WHERE prat.setor = 'Cuidados Pessoais' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
