@@ -95,121 +95,115 @@ CREATE TABLE
 
 
    
-    -- INSERT INTO dados_sensor (statusPrateleira, fkPrateleira) VALUES
-    -- (3, 1),
-    -- (3, 2),
-    -- (2, 3),
-    -- (3, 4),
-    -- (3, 5),
-    -- (2, 6),
-    -- (3, 7),
-    -- (3, 8),
-    -- (2, 9),
-    -- (3, 10),
-    -- (3, 11),
-    -- (2, 12),
-    -- (3, 13),
-    -- (3, 14),
-    -- (2, 15),
-    -- (3, 16),
-    -- (3, 17),
-    -- (2, 18),
-    -- (3, 19),
-    -- (3, 20),
-    -- (2, 21),
-    -- (2, 22),
-    -- (3, 23),
-    -- (2, 24),
-    -- (3, 25),
-    -- (2, 26),
-    -- (3, 27),
-    -- (3, 28),
-    -- (3, 29),
-    -- (2, 30),
-    -- (3, 31),
-    -- (3, 32),
-    -- (3, 33),
-    -- (2, 34),
-    -- (2, 35),
-    -- (3, 36),
-    -- (3, 37),
-    -- (3, 38),
-    -- (2, 39),
-    -- (3, 40),
-    -- (3, 41),
-    -- (2, 42),
-    -- (3, 43),
-    -- (3, 44);
+    INSERT INTO dados_sensor (statusPrateleira, fkPrateleira) VALUES
+    (3, 1),
+    (3, 2),
+    (2, 3),
+    (3, 4),
+    (3, 5),
+    (2, 6),
+    (3, 7),
+    (3, 8),
+    (2, 9),
+    (3, 10),
+    (3, 11),
+    (2, 12),
+    (3, 13),
+    (3, 14),
+    (2, 15),
+    (3, 16),
+    (3, 17),
+    (2, 18),
+    (3, 19),
+    (3, 20),
+    (2, 21),
+    (2, 22),
+    (3, 23),
+    (2, 24),
+    (3, 25),
+    (2, 26),
+    (3, 27),
+    (3, 28),
+    (3, 29),
+    (2, 30),
+    (3, 31),
+    (3, 32),
+    (3, 33),
+    (2, 34),
+    (2, 35),
+    (3, 36),
+    (3, 37),
+    (3, 38),
+    (2, 39),
+    (3, 40),
+    (3, 41),
+    (2, 42),
+    (3, 43),
+    (3, 44);
     
 
-    --   INSERT INTO dados_sensor (statusPrateleira, fkPrateleira) VALUES
-    -- (1, 1),
-    -- (1, 2),
-    -- (1, 3),
-    -- (3, 4),
-    -- (1, 5),
-    -- (2, 6),
-    -- (3, 7),
-    -- (3, 8),
-    -- (2, 9),
-    -- (3, 10),
-    -- (1, 11),
-    -- (2, 12),
-    -- (3, 13),
-    -- (1, 14),
-    -- (2, 15),
-    -- (3, 16),
-    -- (3, 17),
-    -- (1, 18),
-    -- (3, 19),
-    -- (1, 20),
-    -- (2, 21),
-    -- (2, 22),
-    -- (3, 23),
-    -- (2, 24),
-    -- (1, 25),
-    -- (2, 26),
-    -- (3, 27),
-    -- (3, 28),
-    -- (3, 29),
-    -- (2, 30),
-    -- (1, 31),
-    -- (3, 32),
-    -- (3, 33),
-    -- (1, 34),
-    -- (2, 35),
-    -- (3, 36),
-    -- (3, 37),
-    -- (1, 38),
-    -- (2, 39),
-    -- (1, 40),
-    -- (3, 41),
-    -- (1, 42),
-    -- (3, 43),
-    -- (1, 44);
+      INSERT INTO dados_sensor (statusPrateleira, fkPrateleira) VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3),
+    (3, 4),
+    (1, 5),
+    (2, 6),
+    (3, 7),
+    (3, 8),
+    (2, 9),
+    (3, 10),
+    (1, 11),
+    (2, 12),
+    (3, 13),
+    (1, 14),
+    (2, 15),
+    (3, 16),
+    (3, 17),
+    (1, 18),
+    (3, 19),
+    (1, 20),
+    (2, 21),
+    (2, 22),
+    (3, 23),
+    (2, 24),
+    (1, 25),
+    (2, 26),
+    (3, 27),
+    (3, 28),
+    (3, 29),
+    (2, 30),
+    (1, 31),
+    (3, 32),
+    (3, 33),
+    (1, 34),
+    (2, 35),
+    (3, 36),
+    (3, 37),
+    (1, 38),
+    (2, 39),
+    (1, 40),
+    (3, 41),
+    (1, 42),
+    (3, 43),
+    (1, 44);
 
-
-
-
---     SELECT count(*) as status_falta, DATE_FORMAT(dtPrateleira,'%h:00') as hora from dados_sensor
---         JOIN Prateleira on idPrateleira = fkEmpresa
---         where statusPrateleira <> 3 and fkEmpresa = 1 group by hour(dtPrateleira) LIMIT 12;
         
         
--- INSERT INTO dados_sensor(statusPrateleira,fkPrateleira,dtPrateleira) VALUES
--- ('0', 43,'2022-07-23 21:10:15'),
--- ('1', 40,'2022-07-23 23:10:15');
+INSERT INTO dados_sensor(statusPrateleira,fkPrateleira,dtPrateleira) VALUES
+('0', 43,'2022-07-23 21:10:15'),
+('1', 40,'2022-07-23 23:10:15');
 
 
--- INSERT INTO dados_sensor(statusPrateleira,fkPrateleira,dtPrateleira) VALUES
--- ('2', 44,'2022-07-23 21:10:15');
+INSERT INTO dados_sensor(statusPrateleira,fkPrateleira,dtPrateleira) VALUES
+('2', 44,'2022-07-23 21:10:15');
 
--- INSERT INTO dados_sensor(statusPrateleira,fkPrateleira,dtPrateleira) VALUES
--- ('3', 40,'2022-07-23 21:10:15');
+INSERT INTO dados_sensor(statusPrateleira,fkPrateleira,dtPrateleira) VALUES
+('3', 40,'2022-07-23 21:10:15');
 
 
--- INSERT INTO dados_sensor(statusPrateleira,fkPrateleira,dtPrateleira) VALUES
--- ('2', 40,'2022-07-23 00:30:15');
+INSERT INTO dados_sensor(statusPrateleira,fkPrateleira,dtPrateleira) VALUES
+('2', 40,'2022-07-23 00:30:15');
 
--- INSERT INTO dados_sensor(statusPrateleira,fkPrateleira,dtPrateleira) VALUES
--- ('1', 40,'2022-07-23 03:30:15');
+INSERT INTO dados_sensor(statusPrateleira,fkPrateleira,dtPrateleira) VALUES
+('1', 40,'2022-07-23 03:30:15');
