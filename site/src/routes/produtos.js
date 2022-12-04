@@ -16,14 +16,9 @@ router.get("/listarprodutosMercearia/:idEmpresa", function (req, res) {
     produtosController.listarprodutosMercearia(req, res);
 });
 
-router.get("/hortifrutiNoti/:idEmpresa", function (req, res) {
-    produtosController.hortifrutiNoti(req, res);
+router.get("/merceariaNoti/:idEmpresa", function (req, res) {
+    produtosController.merceariaNoti(req, res);
 });
-
-router.get("/hortifrutiNoti/:idEmpresa", function (req, res) {
-    produtosController.hortifrutiNoti(req, res);
-});
-
 
 router.get("/listarprodutosHortifruti/:idEmpresa", function (req, res) {
     produtosController.listarprodutosHortifruti(req, res);
