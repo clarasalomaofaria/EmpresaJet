@@ -802,6 +802,177 @@
     }
   }
 
+  function buscardadosEmpresa2() {
+    var idEmpresa = sessionStorage.ID_EMPRESA;
+    if (sessionStorage.ID_EMPRESA) {
+      fetch(`/empresa/buscarDadosEmpresa/${idEmpresa}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            // resposta.json().then((json) => {
+
+            resposta.json().then(function (resposta) {
+              console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+              var divSuprema = document.getElementById('container-global');
+              var divTituloEmpresa = document.createElement('div');
+              var h3Empresa = document.createElement('h3');
+              divTituloEmpresa.id = "titulo_2_empresa";
+              divTituloEmpresa.className = "titulo-2";
+              h3Empresa.innerHTML = resposta[0].nomeEmpresa;
+              divTituloEmpresa.appendChild(h3Empresa);
+              divSuprema.appendChild(divTituloEmpresa);
+
+
+              var containerPai = document.createElement("div");
+              containerPai.className = "container-pai"
+              var containerFilhoEmpresa = document.createElement("div");
+              containerFilhoEmpresa.id = "container_filho_empresa";
+              containerFilhoEmpresa.className = "container-filho";
+              containerPai.appendChild(containerFilhoEmpresa);
+              divSuprema.appendChild(containerPai);
+
+              //  Nome da Empresa
+
+               var divNomeEmpresa = document.createElement("div");
+               divNomeEmpresa.id = "nome_empresa_box";
+               divNomeEmpresa.className = "estilo-box";
+               containerFilhoEmpresa.appendChild(divNomeEmpresa);
+              var PnomeEmpresaCadastro = document.createElement("p");
+              PnomeEmpresaCadastro.innerHTML = "Nome da Empresa";
+              divNomeEmpresa.appendChild(PnomeEmpresaCadastro);
+              divNomeEmpresa.innerHTML += resposta[0].nomeEmpresa;
+
+
+              //cnpj da empresa
+
+              var divCNPJEmpresa = document.createElement("div");
+              divCNPJEmpresa.id = "cnpj_empresa_box";
+              divCNPJEmpresa.className = "estilo-box";
+              containerFilhoEmpresa.appendChild(divCNPJEmpresa);
+              var PcnpjEmpresa = document.createElement("p");
+              PcnpjEmpresa.innerHTML = "CNPJ";
+              divCNPJEmpresa.appendChild(PcnpjEmpresa);
+              divCNPJEmpresa.innerHTML += resposta[0].cnpj;
+
+
+              //Logradouro da empresa
+
+
+              var divLogradouro = document.createElement("div");
+              divLogradouro.id = "logradouro_empresa_box";
+              divLogradouro.className = "estilo-box";
+              containerFilhoEmpresa.appendChild(divLogradouro);
+              var Plogradouro = document.createElement("p");
+              Plogradouro.innerHTML = "Logradouro";
+              divLogradouro.appendChild(Plogradouro);
+              divLogradouro.innerHTML += resposta[0].logradouro;
+
+
+              //Cidade da empresa
+
+              var divCidadeandUF = document.createElement("div");
+              divCidadeandUF.className = "estilo-box-2";
+              var divCidade = document.createElement("div");
+              divCidadeandUF.appendChild(divCidade);
+              containerFilhoEmpresa.appendChild(divCidadeandUF);
+              divCidade.id = "cidade_empresa_box";
+              divCidade.className = "cidade";
+              var Pcidade = document.createElement("p");
+              Pcidade.id = "cidade_empresa_cadastro";
+              Pcidade.innerHTML = "Cidade";
+              divCidade.appendChild(Pcidade);
+              divCidade.innerHTML += resposta[0].cidade;
+
+
+
+              //Estado da empresa
+
+              var divEstado = document.createElement("div");
+              divCidadeandUF.appendChild(divEstado);
+              divEstado.id = "estado_empresa_box";
+              divEstado.className = "estado";
+              var Pestado = document.createElement("p");
+              Pestado.id = "estado_empresa_cadastro";
+              Pestado.innerHTML = "UF";
+              divEstado.appendChild(Pestado);
+              divEstado.innerHTML += resposta[0].estado
+              
+
+
+              //Cep da empresa
+
+              var containerFilhoEmpresa2 = document.createElement("div");
+
+              containerPai.appendChild(containerFilhoEmpresa2);
+              containerFilhoEmpresa2.className = "container-filho-2";
+
+              var divCep = document.createElement("div");
+              divCep.id = "cep_empresa_box";
+              divCep.className = "estilo-box";
+              var Pcep = document.createElement("p");
+              Pcep.id = "cep_empresa_cadastro";
+              Pcep.innerHTML = "CEP";
+              divCep.appendChild(Pcep);
+              divCep.innerHTML += resposta[0].cep;
+              containerFilhoEmpresa2.appendChild(divCep);
+
+
+              //Bairro da empresa
+
+
+              var divBairro = document.createElement("div");
+              divBairro.id = "cnpj_empresa_box";
+              divBairro.className = "estilo-box";
+              var Pbairro = document.createElement("p");
+              Pbairro.id = "bairro_empresa_cadastro";
+              Pbairro.innerHTML = "Bairro";
+              divBairro.appendChild(Pbairro);
+              divBairro.innerHTML += resposta[0].bairro;
+              containerFilhoEmpresa2.appendChild(divBairro);
+
+
+              //Complemento da empresa
+
+              var nomeComplemento = ""
+
+              if(resposta[0].complemento == null) {
+                nomeComplemento = ""
+              } else {
+                nomeComplemento = resposta[0].complemento
+                var divComplemento = document.createElement("div");
+              divComplemento.id = "complemento_empresa_box";
+              divComplemento.className = "estilo-box";
+              var Pcomplemento = document.createElement("p");
+              Pcomplemento.id = "complemento_empresa_cadastro";
+              Pcomplemento.innerHTML = "Complemento";
+              divComplemento.appendChild(Pcomplemento);
+              divComplemento.innerHTML += nomeComplemento;
+              containerFilhoEmpresa2.appendChild(divComplemento);
+              }
+
+
+
+              document.getElementById(
+                "container_filho_empresa"
+              ).style.marginLeft = "17vw";
+              document.getElementById("titulo_2_empresa").style.marginLeft =
+                "12vw";
+
+              });
+
+}
+})
+.catch(function (resposta) {
+console.log(`#ERRO: ${resposta}`);
+});
+}
+}
+
 
   function cadastrarFuncionario() {
     var idEmpresa = sessionStorage.ID_EMPRESA
@@ -854,6 +1025,13 @@
   }
 
   verificarFuncao()
-  buscarDadosEmpresa()
+verificarAdmin();
+  function verificarAdmin() {
+    if(sessionStorage.FUNCAO == "Administrador") {
+      buscarDadosEmpresa();
+    } else {
+      buscardadosEmpresa2();
+    }
+  }
     // chama a função assim que a pagina carrega
 </script>
