@@ -387,6 +387,31 @@ function tirarAlerta(idPrat){
     return database.executar(instrucao);
 }
 
+function buscarAlerta(idEmpresa) {
+
+    console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function cuidadosNoti()");
+
+    var instrucao = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucao = `
+        SELECT ha.statusHistorico, ha.tipo, ha.fkPrateleira FROM historico_alerta ha
+            JOIN prateleira prat ON prat.idPrateleira = ha.fkPrateleira
+                WHERE fkEmpresa = ${idEmpresa};
+        `;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucao = ` 
+            SELECT ha.statusHistorico, ha.tipo, ha.fkPrateleira FROM historico_alerta ha
+                JOIN prateleira prat ON prat.idPrateleira = ha.fkPrateleira
+                   WHERE fkEmpresa = ${idEmpresa};
+        `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }  
+        console.log("Executando a instrução SQL: \n" + instrucao);
+        return database.executar(instrucao);
+}
 
 
 module.exports = {
@@ -403,4 +428,5 @@ module.exports = {
     friosNoti,
     cuidadosNoti,
     bebidasNoti,
+    buscarAlerta,
 }
