@@ -1,4 +1,4 @@
-var avisoModel = require("../models/bolinhasModel");
+var bolinhasModel = require("../models/bolinhasModel");
 
 function listarDadosFrios(req, res) {
 
