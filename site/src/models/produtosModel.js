@@ -373,7 +373,7 @@ function tirarAlerta(idPrat){
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        UPDATE historico_alerta SET statusHistorico = "resolvido" WHERE fkPrateleiraHistorico = ${idPrat};
+        UPDATE historico_alerta SET statusHistorico = "resolvido" WHERE fkPrateleira = ${idPrat};
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
