@@ -283,48 +283,6 @@ function botao_registro() {
     alert("Cadastro inválido");
   }
 }
-var contador_div_funcionario = 0;
-function registrar_func() {
-  contador_div_funcionario += 1;
-  alert("Cadastro realizado com sucesso!");
-
-  const username = inputUsuario.value;
-  const senha = inputSenha.value;
-  const nome = inputNome.value;
-  const email = inputEmail.value;
-  const tel = inputContato.value;
-  const funcao = select_funcao.value;
-
-  tabela_funcionarios.innerHTML += `
-  <div class="func" id="${contador_div_funcionario}">
-    <div class="estilo-atributos">
-      <h5>Login:</h5>
-      <p>${username}</p>
-    </div>
-    <div class="estilo-atributos">
-      <h5>Senha:</h5>
-      <p>${senha}</p>
-    </div>
-    <div class="estilo-atributos">
-      <h5>Nome Completo:</h5>
-      <p>${nome}</p>
-    </div>
-    <div class="estilo-atributos">
-      <h5>Email:</h5>
-      <p>${email}</p>
-    </div>
-    <div class="estilo-atributos">
-      <h5>Telefone:</h5>
-      <p>${tel}</p>
-    </div>
-    <div class="estilo-atributos">
-      <h5>Função:</h5>
-      <p>${funcao}</p>
-    </div>
-    <button class="removerCard" onclick="removerCard(${contador_div_funcionario})">Remover</button>
-</div>
-  `;
-}
 
 function botao_registro_func() {
   if (
@@ -339,7 +297,35 @@ function botao_registro_func() {
   }
 }
 
-function removerCard(idFuncionario) {
-  var card = document.getElementById(idFuncionario);
-  card.remove();
-}
+function removerCard(idPerfil) {
+  if(idPerfil != sessionStorage.ID_PERFIL) {
+
+    console.log("Criar função de apagar post escolhido - ID: " + idPerfil);
+    fetch(`/funcionario/removerusuario/${idPerfil}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+      }),
+    })
+      .then(function (resposta) {
+        alert("Funcionário deletado com Sucesso!")
+          window.location.reload()
+          
+         if (resposta.status == 404) {
+          window.alert("Não foi possível excluir");
+        } else {
+          throw (
+            "Houve um erro ao tentar deletar: " +
+            resposta.status
+          );
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+    } else {
+      alert("Você não pode remover seu próprio Perfil!")
+    }
+  }

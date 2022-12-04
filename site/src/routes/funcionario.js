@@ -20,4 +20,8 @@ router.post("/autenticar", function (req, res) {
     funcionarioController.entrar(req, res);
 });
 
+router.delete("/removerusuario/:idPerfil", function (req, res) {
+    funcionarioController.removerfuncionario(req, res)
+});
+
 module.exports = router;

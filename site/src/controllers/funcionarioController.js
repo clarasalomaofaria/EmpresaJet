@@ -85,9 +85,30 @@ function cadastrarFuncionario(req, res) {
     }
 }
 
+
+function removerfuncionario(req, res) {
+    var idPerfil = req.params.idPerfil
+
+    funcionarioModel.removerfuncionario(idPerfil)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao removerfuncionario o post: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+
 module.exports = {
     cadastrarFuncionario,
     listarFuncionario,
     testar,
-    buscar
+    buscar,
+    removerfuncionario
 }
