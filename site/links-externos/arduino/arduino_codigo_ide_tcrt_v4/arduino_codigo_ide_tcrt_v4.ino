@@ -206,5 +206,5 @@ Serial.print(";");
 Serial.print(prat44);
 Serial.println(";");
 
-delay(8000);
+delay(15000);
 }

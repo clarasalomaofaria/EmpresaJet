@@ -217,15 +217,15 @@ const serial = async (
           // CREDENCIAIS DO BANCO REMOTO - SQL SERVER
           // Importante! você deve ter criado o usuário abaixo com os comandos presentes no arquivo
           // "script-criacao-usuario-sqlserver.sql", presente neste diretório.
-          for (let i = 0; i < teste.length ; i++) {
+          for (let i = 0; i < valores.length ; i++) {
             const connStr =
               `Server=svr-projeto-empresajet.database.windows.net;
               Database=bd-projeto-empresajet;
               User Id=admin-projeto-empresajet;
               Password=#Gfgrupo1;`;
             
-              sqlquery = `INSERT INTO dados_sensor (statusPrateleira) 
-          VALUES (${teste[i]});`;
+              sqlquery = `INSERT INTO dados_sensor (statusPrateleira, fkPrateleira) 
+          VALUES (${teste[i]}, ${i+1});`;
             sql
             .connect(connStr)
             .then((conn) => inserirComando(conn, sqlquery))
