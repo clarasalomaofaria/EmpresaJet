@@ -351,7 +351,7 @@ function alerta(idPrat, tipo){
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        INSERT INTO historico_alerta (dtHistorico, tipo, fkPrateleiraHistorico) VALUES (getutcdate(), '${tipo}', '${idPrat}')
+        INSERT INTO historico_alerta (dtHistorico, tipo, fkPrateleira) VALUES (getutcdate(), '${tipo}', '${idPrat}')
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
@@ -373,7 +373,7 @@ function tirarAlerta(idPrat){
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        UPDATE historico_alerta SET statusHistorico = "resolvido" WHERE fkPrateleira = ${idPrat};
+        UPDATE CASE WHEN historico_alerta SET statusHistorico = "resolvido" WHERE fkPrateleira = ${idPrat};
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
