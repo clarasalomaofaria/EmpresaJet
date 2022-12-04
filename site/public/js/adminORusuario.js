@@ -96,7 +96,7 @@ function verificarFuncao() {
         divContainer2.innerHTML += `<p>Função</p>
         <select class="combo-funcao" id="inputFuncao">
           <option value="Administrador">Administrador</option>
-          <option value="Usuario">Usuário</option>
+          <option value="Usuário">Usuário</option>
         </select>`
       }
     

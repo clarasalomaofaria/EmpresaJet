@@ -40,7 +40,7 @@ function listarDadosMercearia(idEmpresa) {
 
   if (process.env.AMBIENTE_PROCESSO == "producao") {
     instrucao = `
-    SELECT TOP 10 ds.statusPrateleira FROM dados_sensor ds 
+    SELECT TOP 10 ds.statusPrateleira as dados_mercearia FROM dados_sensor ds 
         JOIN prateleira prat ON ds.fkPrateleira = prat.idPrateleira 
             JOIN empresa e ON prat.fkEmpresa = e.idEmpresa
                 WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
