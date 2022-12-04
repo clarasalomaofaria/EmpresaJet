@@ -232,8 +232,9 @@
     buscarHortifruti();
     buscarMercearia();
   }
-  const interval = setInterval(() => chamarFuncoes(), 5000);
+  const interval = setInterval(() => chamarFuncoes(), 10000);
 
+  var contadorInsert = 1;
   function buscarHortifruti() {
 
     var idEmpresa = sessionStorage.ID_EMPRESA;
@@ -258,10 +259,14 @@
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
-              gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              if(contadorInsert == listaAlerta.length){
+                gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              }
             } else {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
-              gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              if(contadorInsert == listaAlerta.length){
+                gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              }
             }
           }
         });
@@ -297,10 +302,14 @@
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
-              gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              if(contadorInsert == listaAlerta.length){
+                gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              }
             } else {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
-              gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              if(contadorInsert == listaAlerta.length){
+                gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              }
             }
           }
         });
@@ -336,10 +345,14 @@
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
-              gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              if(contadorInsert == listaAlerta.length){
+                gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              }
             } else {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
-              gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              if(contadorInsert == listaAlerta.length){
+                gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              }
             }
           }
         });
@@ -375,10 +388,14 @@
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
-              gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              if(contadorInsert == listaAlerta.length){
+                gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              }
             } else {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
-              gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              if(contadorInsert == listaAlerta.length){
+                gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              }
             }
           }
         });
@@ -414,10 +431,14 @@
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
-              gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              if(contadorInsert == listaAlerta.length){
+                gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              }
             } else {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
-              gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              if(contadorInsert == listaAlerta.length){
+                gerarAlerta(itens.idPrateleira, itens.statusPrateleira);
+              }
             }
           }
         });
@@ -499,6 +520,7 @@
   }
 
   function gerarAlerta(idPrateleira, status) {
+    contadorInsert += 1;
     var idPrat = idPrateleira;
     var tipo = "";
     if (status == 1) {
