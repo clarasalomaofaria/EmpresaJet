@@ -32,7 +32,7 @@ app.use("/avisos",notificacoesRouter);
 app.use("/kpigeral", kpigeralRouter);
 app.use("/medidas", medidas);
 app.use("/funcionario",funcionarioRouter);
-app.use("/bolinhas", bolinhasRouter);
+app.use("/bolinhas", bolinhas);
 
 app.listen(PORTA, function () {
     console.log(`Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar: http://localhost:${PORTA} \n
