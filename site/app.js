@@ -16,6 +16,7 @@ var produtosRouter = require("./src/routes/produtos");
 var notificacoesRouter = require("./src/routes/avisos");
 var kpigeralRouter = require("./src/routes/kpigeral");
 var medidas = require("./src/routes/medidas");
+var bolinhas = require("./src/routes/bolinhas")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -31,6 +32,7 @@ app.use("/avisos",notificacoesRouter);
 app.use("/kpigeral", kpigeralRouter);
 app.use("/medidas", medidas);
 app.use("/funcionario",funcionarioRouter);
+app.use("/bolinhas", bolinhasRouter);
 
 app.listen(PORTA, function () {
     console.log(`Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar: http://localhost:${PORTA} \n

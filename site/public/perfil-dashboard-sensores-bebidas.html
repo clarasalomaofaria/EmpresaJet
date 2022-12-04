@@ -374,7 +374,7 @@
   function buscarNomeProdutos() {
     faltaTotal = 0;
     var idEmpresa = sessionStorage.ID_EMPRESA;
-    fetch(`/produtos/listarProdutosBebidas/${idEmpresa}`)
+    fetch(`/bolinhas/listarDadosBebidas/${idEmpresa}`)
       .then(function (resposta) {
         if (resposta.ok) {
           if (resposta.status == 204) {

@@ -373,7 +373,7 @@
         faltaTotal = 0;
         var idEmpresa = sessionStorage.ID_EMPRESA;
 
-        fetch(`/produtos/listarprodutos/${idEmpresa}`).then(function (resposta) {
+        fetch(`/bolinhas/listarDadosFrios/${idEmpresa}`).then(function (resposta) {
             if (resposta.ok) {
                 if (resposta.status == 204) {
                     alert("Nenhum produto encontrado")

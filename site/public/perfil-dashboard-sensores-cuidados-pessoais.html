@@ -456,7 +456,7 @@
 
     var idEmpresa = sessionStorage.ID_EMPRESA;
 
-    fetch(`/kpigeral/kpisdosetorCuidados/${idEmpresa}`).then(function (resposta) {
+    fetch(`/bolinhas/listarDadosCuidados/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
           alert("Nenhuma prateleira encontrada")

@@ -9,23 +9,21 @@ function listarprodutos(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT TOP 8 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        SELECT DISTINCT TOP 8 p.idProduto, p.nomeProduto FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
             JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
                     JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
-                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
-                            WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC
+                            WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa} ORDER BY p.idProduto DESC
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
-        SELECT DISTINCT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
-	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
-		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
-			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
-				JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
-					JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
-						WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC LIMIT 8;
+        SELECT DISTINCT p.idProduto, p.nomeProduto FROM Produto p
+        JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                    JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                            WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa} ORDER BY p.idProduto DESC LIMIT 8;
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -43,23 +41,21 @@ function listarprodutosMercearia(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT TOP 10 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        SELECT DISTINCT TOP 10 p.idProduto, p.nomeProduto FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
             JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
                     JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
-                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
-                            WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
+                            WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa} ORDER BY p.idProduto DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
-        SELECT DISTINCT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
-	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
-		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
-			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
-				JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
-					JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
-						WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC LIMIT 10;
+        SELECT DISTINCT p.idProduto, p.nomeProduto FROM Produto p
+        JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                    JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                            WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa} ORDER BY p.idProduto DESC LIMIT 10;
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -77,22 +73,20 @@ function listarprodutosHortifruti(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT top 9 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        SELECT DISTINCT TOP 9 p.idProduto, p.nomeProduto FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
             JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
                     JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
-                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
-                            WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
+                            WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa} ORDER BY p.idProduto DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucao = `SELECT DISTINCT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
-	JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
-		JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
-			JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
-				JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
-					JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
-						WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC LIMIT 9;
+        instrucao = `SELECT DISTINCT p.idProduto, p.nomeProduto FROM Produto p
+        JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                    JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                            WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa} ORDER BY p.idProduto DESC LIMIT 9;
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -108,23 +102,21 @@ function listarProdutosBebidas(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT TOP 10 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        SELECT DISTINCT TOP 10 p.idProduto, p.nomeProduto FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
             JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
                     JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
-                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
-                            WHERE prat.setor = 'Bebidas' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC
+                            WHERE prat.setor = 'Bebidas' AND e.idEmpresa = ${idEmpresa} ORDER BY p.idProduto DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
-        SELECT DISTINCT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        SELECT DISTINCT p.idProduto, p.nomeProduto FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
             JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
                     JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
-                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
-                            WHERE prat.setor = 'Bebidas' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC LIMIT 10;
+                            WHERE prat.setor = 'Bebidas' AND e.idEmpresa = ${idEmpresa} ORDER BY p.idProduto DESC LIMIT 10;
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -140,23 +132,21 @@ function listarProdutosCuidados(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT TOP 7 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        SELECT DISTINCT TOP 7 p.idProduto, p.nomeProduto FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
-            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
                     JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
-                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
-                            WHERE prat.setor = 'Cuidados pessoais' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
+                            WHERE prat.setor = 'Cuidados Pessoais' AND e.idEmpresa = ${idEmpresa} ORDER BY p.idProduto DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
-        SELECT DISTINCT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        SELECT DISTINCT p.idProduto, p.nomeProduto FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
-            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
                     JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
-                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
-                            WHERE prat.setor = 'Cuidados pessoais' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC LIMIT 7;
+                            WHERE prat.setor = 'Cuidados pessoais' AND e.idEmpresa = ${idEmpresa} ORDER BY p.idProduto DESC LIMIT 7;
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
