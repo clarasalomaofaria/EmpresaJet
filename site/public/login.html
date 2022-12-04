@@ -132,7 +132,8 @@
             sessionStorage.ID_PERFIL = json.idPerfil;
             sessionStorage.ID_EMPRESA = json.fkEmpresa;
             sessionStorage.FUNCAO = json.funcao;
-
+            sessionStorage.PERFIL_IMAGEM =(json.urlImagem);
+            console.log(json.urlImagem);
             setTimeout(function () {
               window.location = "./perfil-dashboard-empresa.html";
             }, 1000); // apenas para exibir o loading
