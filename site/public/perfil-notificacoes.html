@@ -245,7 +245,7 @@
     fetch(`/produtos/hortifrutiNoti/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-          alert("Nenhum produto encontrado")
+          console.log("Nenhum produto encontrado");
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta));
@@ -288,7 +288,7 @@
     fetch(`/produtos/merceariaNoti/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-          alert("Nenhum produto encontrado")
+          console.log("Nenhum produto encontrado")
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta));
@@ -331,7 +331,7 @@
     fetch(`/produtos/friosNoti/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-          alert("Nenhum produto encontrado")
+          console.log("Nenhum produto encontrado")
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta));
@@ -374,7 +374,7 @@
     fetch(`/produtos/cuidadosNoti/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-          alert("Nenhum produto encontrado")
+          console.log("Nenhum produto encontrado")
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta));
@@ -417,7 +417,7 @@
     fetch(`/produtos/BebidasNoti/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-          alert("Nenhum produto encontrado")
+          console.log("Nenhum produto encontrado")
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta));
