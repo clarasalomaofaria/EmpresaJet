@@ -257,7 +257,7 @@
 
             if (itens.statusPrateleira == 3) {
               tirarAlerta(itens.idPrateleira);
-              removerCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              removerCardAlerta(itens.idPrateleira);
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
@@ -300,7 +300,7 @@
 
             if (itens.statusPrateleira == 3) {
               tirarAlerta(itens.idPrateleira);
-              removerCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              removerCardAlerta(itens.idPrateleira);
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
@@ -343,7 +343,7 @@
 
             if (itens.statusPrateleira == 3) {
               tirarAlerta(itens.idPrateleira);
-              removerCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              removerCardAlerta(itens.idPrateleira);
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
@@ -386,7 +386,7 @@
 
             if (itens.statusPrateleira == 3) {
               tirarAlerta(itens.idPrateleira);
-              removerCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              removerCardAlerta(itens.idPrateleira);
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
@@ -429,7 +429,7 @@
 
             if (itens.statusPrateleira == 3) {
               tirarAlerta(itens.idPrateleira);
-              removerCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira);
+              removerCardAlerta(itens.idPrateleira);
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
@@ -552,21 +552,18 @@
         permissao = false;
       }
     }
+
     if(permissao){
       gerarAlerta(idPrat, stats);
     }
   }
   
 
-  function removerCardAlerta(nomeProduto, setorMercado, statusPrat) {
-    jsonAlerta = {
-      nome: nomeProduto,
-      setor: setorMercado,
-      status: statusPrat,
-    }
+  function removerCardAlerta(idPrateleira) {
+    var idPrat = idPrateleira;
     for (var i = 0; i < listaAlerta.length; i++) {
-      if (listaAlerta[i] == jsonAlerta) {
-        listaAlerta.slice(jsonAlerta);
+      if (listaAlerta[i].idPrat == idPrat) {
+        listaAlerta.splice(i, 1);
       }
     }
   }
