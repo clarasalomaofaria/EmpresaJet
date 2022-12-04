@@ -220,3 +220,6 @@ function verificarFuncao() {
     containerGlobal.appendChild(divTabelaFuncionario);
   }
 }
+
+
+// ESPERO QUE ESSE SITE EXPLODA
