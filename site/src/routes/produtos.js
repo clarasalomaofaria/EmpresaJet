@@ -56,5 +56,9 @@ router.put("/tirarAlerta", function (req, res) {
     produtosController.tirarAlerta(req, res);
 });
 
+router.get("/buscarAlerta/:idEmpresa", function (req, res) {
+    produtosController.buscarAlerta(req, res);
+});
+
 
 module.exports = router;
