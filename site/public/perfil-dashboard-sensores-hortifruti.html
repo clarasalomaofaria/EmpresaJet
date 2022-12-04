@@ -12,7 +12,7 @@
 
 </head>
 
-<body onload="buscarNomeProdutos(), mostrarkpi(), kpiAunsencia(), obterPolar()">
+<body onload="buscarDadosBolinhas(), mostrarkpi(), kpiAunsencia(), obterPolar()">
 
     <header>
 
@@ -368,77 +368,104 @@
 <script>
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
     var faltaTotal = 0;
+    var arrayBolinhas = [];
 
-    function buscarNomeProdutos() {
-        faltaTotal = 0;
-        var idEmpresa = sessionStorage.ID_EMPRESA;
-
-        fetch(`/bolinhas/listarDadosHortifruti/${idEmpresa}`).then(function (resposta) {
-            if (resposta.ok) {
-                if (resposta.status == 204) {
-                    alert("Nenhum produto encontrado")
-                }
-                resposta.json().then(function (resposta) {
-                    console.log("Dados recebidos: ", JSON.stringify(resposta));
+function buscarNomeProdutos() {
+    var idEmpresa = sessionStorage.ID_EMPRESA;
+    fetch(`/produtos/listarprodutosHortifruti/${idEmpresa}`).then(function (resposta) {
+        if (resposta.ok) {
+            if (resposta.status == 204) {
+                alert("Nenhum produto encontrado")
+            }
+            resposta.json().then(function (resposta) {
+                console.log("Dados recebidos: ", JSON.stringify(resposta));
 
 
-                    var container = document.getElementById('containerDashProdutos')
-                    container.innerHTML = "";
+                var container = document.getElementById('containerDashProdutos')
+                container.innerHTML = "";
 
-                    for (let i = 0; i < resposta.length; i++) {
-                        var itens = resposta[i];
+                for (let i = 0; i < resposta.length; i++) {
+                    var itens = resposta[i];
 
-                        console.log(itens.statusPrateleira)
+                    if (arrayBolinhas[i] == 3) {
+                        var bolinhas = `<span class="bolinha green"></span>
+                                         <span class="bolinha green"></span>
+                                           <span class="bolinha green"></span>`
+                        mostrarFaltaTotal();
+                    } else if (arrayBolinhas[i] == 2) {
+                        var bolinhas = `<span class="bolinha green"></span>
+                                         <span class="bolinha green"></span>
+                                           <span class="bolinha red"></span>`
+                        mostrarFaltaTotal();
+                    } else if (arrayBolinhas[i] == 1) {
+                        var bolinhas = `<span class="bolinha green"></span>
+                                         <span class="bolinha red"></span>
+                                           <span class="bolinha red"></span>`
+                        mostrarFaltaTotal();
+                    } else {
+                        var bolinhas = `<span class="bolinha red"></span>
+                                         <span class="bolinha red"></span>
+                                           <span class="bolinha red"></span>`
+                        faltaTotal += 1;
+                        mostrarFaltaTotal();
+                    }
 
-                        if (itens.statusPrateleira == 3) {
-                            var bolinhas = `<span class="bolinha green"></span>
-                                     <span class="bolinha green"></span>
-                                       <span class="bolinha green"></span>`
-                            mostrarFaltaTotal();
-                        } else if (itens.statusPrateleira == 2) {
-                            var bolinhas = `<span class="bolinha green"></span>
-                                     <span class="bolinha green"></span>
-                                       <span class="bolinha red"></span>`
-                            mostrarFaltaTotal();
-                        } else if (itens.statusPrateleira == 1) {
-                            var bolinhas = `<span class="bolinha green"></span>
-                                     <span class="bolinha red"></span>
-                                       <span class="bolinha red"></span>`
-                            mostrarFaltaTotal();
-                        } else {
-                            var bolinhas = `<span class="bolinha red"></span>
-                                     <span class="bolinha red"></span>
-                                       <span class="bolinha red"></span>`
-                            faltaTotal += 1;
-                            mostrarFaltaTotal();
-                        }
 
-                        var lista = document.createElement('li')
-                        container.appendChild(lista)
-                        lista.innerHTML = `
-                                        <div class="lista-produtos-nome-li-elementos">
-                                            <div class="lista-produtos-nome-li-titulo">
-                                                <span id="produtoFrios${i}">${itens.nomeProduto}</span>
-                                            </div>
-                                            <div class="lista-produtos-nome-li-binario">
-                                                <div class="container-bolinhas">
-                                                    ${bolinhas}
+                    var lista = document.createElement('li')
+                    container.appendChild(lista)
+                    lista.innerHTML = `
+                                            <div class="lista-produtos-nome-li-elementos">
+                                                <div class="lista-produtos-nome-li-titulo">
+                                                    <span id="produtoFrios${i}">${itens.nomeProduto}</span>
+                                                </div>
+                                                <div class="lista-produtos-nome-li-binario">
+                                                    <div class="container-bolinhas">
+                                                        ${bolinhas}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                            `
+                                `
+
+                }
+            });
+        } else {
+            throw ('Houve um erro na API!');
+        }
+    }).catch(function (resposta) {
+        console.error(resposta);
+    });
+        }
 
 
+function buscarDadosBolinhas() {
+    faltaTotal = 0;
+    var idEmpresa = sessionStorage.ID_EMPRESA;
 
-                    }
-                });
-            } else {
-                throw ('Houve um erro na API!');
+    fetch(`/bolinhas/listarDadosHortifruti/${idEmpresa}`).then(function (resposta) {
+        if (resposta.ok) {
+            if (resposta.status == 204) {
+                alert("Nenhum produto encontrado")
             }
-        }).catch(function (resposta) {
-            console.error(resposta);
-        });
-    }
+            resposta.json().then(function (resposta) {
+                console.log("Dados recebidos: ", JSON.stringify(resposta));
+                arrayBolinhas = [];
+                for (let i = 0; i < resposta.length; i++) {
+                    var bolinhas = resposta[i].dados_hortifruti;
+
+                    arrayBolinhas.push(bolinhas)
+                }
+                buscarNomeProdutos();
+            });
+        } else {
+            throw ('Houve um erro na API!');
+        }
+    }).catch(function (resposta) {
+        console.error(resposta);
+    });
+}
+
+setInterval(() => buscarDadosBolinhas, 10000);
+
     function mostrarFaltaTotal() {
         kpi_dado_estoqueHortifruti.innerHTML = faltaTotal;
 

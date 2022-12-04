@@ -12,7 +12,7 @@
 
 </head>
 
-<body onload="buscarNomeProdutos(), mostrarkpi(),obterPolar(),kpiSemEstoque()">
+<body onload="buscarDadosBolinhas(), mostrarkpi(),obterPolar(),kpiSemEstoque()">
 
     <header>
 
@@ -365,15 +365,18 @@
 <script src="js/perfil-dashboard-sensores.js"></script>
 
 </html>
+
+
+
+
 <script>
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
     var faltaTotal = 0;
+    var arrayBolinhas = [];
 
     function buscarNomeProdutos() {
-        faltaTotal = 0;
         var idEmpresa = sessionStorage.ID_EMPRESA;
-
-        fetch(`/bolinhas/listarDadosFrios/${idEmpresa}`).then(function (resposta) {
+        fetch(`/produtos/listarprodutos/${idEmpresa}`).then(function (resposta) {
             if (resposta.ok) {
                 if (resposta.status == 204) {
                     alert("Nenhum produto encontrado")
@@ -388,19 +391,17 @@
                     for (let i = 0; i < resposta.length; i++) {
                         var itens = resposta[i];
 
-                        console.log(itens.statusPrateleira)
-
-                        if (itens.statusPrateleira == 3) {
+                        if (arrayBolinhas[i] == 3) {
                             var bolinhas = `<span class="bolinha green"></span>
                                              <span class="bolinha green"></span>
                                                <span class="bolinha green"></span>`
                             mostrarFaltaTotal();
-                        } else if (itens.statusPrateleira == 2) {
+                        } else if (arrayBolinhas[i] == 2) {
                             var bolinhas = `<span class="bolinha green"></span>
                                              <span class="bolinha green"></span>
                                                <span class="bolinha red"></span>`
                             mostrarFaltaTotal();
-                        } else if (itens.statusPrateleira == 1) {
+                        } else if (arrayBolinhas[i] == 1) {
                             var bolinhas = `<span class="bolinha green"></span>
                                              <span class="bolinha red"></span>
                                                <span class="bolinha red"></span>`
@@ -413,6 +414,7 @@
                             faltaTotal += 1;
                             mostrarFaltaTotal();
                         }
+
 
                         var lista = document.createElement('li')
                         container.appendChild(lista)
@@ -429,8 +431,6 @@
                                                 </div>
                                     `
 
-
-
                     }
                 });
             } else {
@@ -439,7 +439,38 @@
         }).catch(function (resposta) {
             console.error(resposta);
         });
+            }
+
+
+    function buscarDadosBolinhas() {
+        faltaTotal = 0;
+        var idEmpresa = sessionStorage.ID_EMPRESA;
+
+        fetch(`/bolinhas/listarDadosFrios/${idEmpresa}`).then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    alert("Nenhum produto encontrado")
+                }
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
+                    arrayBolinhas = [];
+                    for (let i = 0; i < resposta.length; i++) {
+                        var bolinhas = resposta[i].dados_frios;
+
+                        arrayBolinhas.push(bolinhas)
+                    }
+                    buscarNomeProdutos();
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+        });
     }
+
+    setInterval(() => buscarDadosBolinhas, 10000);
+
 
     function mostrarFaltaTotal() {
         kpi_dado_estoqueFrios.innerHTML = faltaTotal;
