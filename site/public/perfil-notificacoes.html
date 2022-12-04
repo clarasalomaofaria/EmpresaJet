@@ -239,7 +239,7 @@
 
     var idEmpresa = sessionStorage.ID_EMPRESA;
 
-    fetch(`/produtos/listarprodutosHortifruti/${idEmpresa}`).then(function (resposta) {
+    fetch(`/produtos/hortifrutiNoti/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
           alert("Nenhum produto encontrado")
@@ -282,7 +282,7 @@
 
     var idEmpresa = sessionStorage.ID_EMPRESA;
 
-    fetch(`/produtos/listarprodutosMercearia/${idEmpresa}`).then(function (resposta) {
+    fetch(`/produtos/merceariaNoti/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
           alert("Nenhum produto encontrado")
@@ -325,7 +325,7 @@
 
     var idEmpresa = sessionStorage.ID_EMPRESA;
 
-    fetch(`/produtos/listarprodutos/${idEmpresa}`).then(function (resposta) {
+    fetch(`/produtos/friosNoti/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
           alert("Nenhum produto encontrado")
@@ -368,7 +368,7 @@
 
     var idEmpresa = sessionStorage.ID_EMPRESA;
 
-    fetch(`/produtos/listarprodutosCuidados/${idEmpresa}`).then(function (resposta) {
+    fetch(`/produtos/cuidadosNoti/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
           alert("Nenhum produto encontrado")
@@ -411,7 +411,7 @@
 
     var idEmpresa = sessionStorage.ID_EMPRESA;
 
-    fetch(`/produtos/listarprodutosBebidas/${idEmpresa}`).then(function (resposta) {
+    fetch(`/produtos/BebidasNoti/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
           alert("Nenhum produto encontrado")

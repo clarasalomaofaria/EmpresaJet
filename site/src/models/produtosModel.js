@@ -33,6 +33,39 @@ function listarprodutos(idEmpresa) {
         return database.executar(instrucao);
 }
 
+function friosNoti(idEmpresa) {
+
+    console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function friosNoti()");
+
+    var instrucao = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucao = `
+            SELECT TOP 8 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                    JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                            WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
+        `;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+            JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+                JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                    JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                        JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                            JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                                WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC LIMIT 8;
+        `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }  
+        console.log("Executando a instrução SQL: \n" + instrucao);
+        return database.executar(instrucao);
+}
+
 function listarprodutosMercearia(idEmpresa) {
 
     console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function ListarProdutosFrioseCongelados()");
@@ -65,9 +98,42 @@ function listarprodutosMercearia(idEmpresa) {
         return database.executar(instrucao);
 }
 
+function merceariaNoti(idEmpresa) {
+
+    console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function merceariaNoti()");
+
+    var instrucao = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucao = `
+            SELECT TOP 10 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                    JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                            WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
+        `;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+            JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+                JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                    JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                        JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                            JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                                WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC LIMIT 10;
+        `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }  
+        console.log("Executando a instrução SQL: \n" + instrucao);
+        return database.executar(instrucao);
+}
+
 function listarprodutosHortifruti(idEmpresa) {
 
-    console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function ListarProdutosFrioseCongelados()");
+    console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function hortifrutiNoti()");
 
     var instrucao = ''
 
@@ -87,6 +153,39 @@ function listarprodutosHortifruti(idEmpresa) {
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
                     JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
                             WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa} ORDER BY p.idProduto DESC LIMIT 9;
+        `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }  
+        console.log("Executando a instrução SQL: \n" + instrucao);
+        return database.executar(instrucao);
+}
+
+function hortifrutiNoti(idEmpresa) {
+
+    console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function ListarProdutosFrioseCongelados()");
+
+    var instrucao = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucao = `
+            SELECT TOP 9 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                    JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                            WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
+        `;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+            JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+                JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                    JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                        JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                            JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                                WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC LIMIT 9;
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -126,6 +225,39 @@ function listarProdutosBebidas(idEmpresa) {
         return database.executar(instrucao);
 }
 
+function bebidasNoti(idEmpresa) {
+
+    console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function bebidasNoti()");
+
+    var instrucao = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucao = `
+            SELECT TOP 10 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                    JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                            WHERE prat.setor = 'Bebidas' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
+        `;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+            JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+                JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                    JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                        JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                            JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                                WHERE prat.setor = 'Bebidas' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC LIMIT 10;
+        `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }  
+        console.log("Executando a instrução SQL: \n" + instrucao);
+        return database.executar(instrucao);
+}
+
 function listarProdutosCuidados(idEmpresa) {
 
     var instrucao = ''
@@ -154,6 +286,39 @@ function listarProdutosCuidados(idEmpresa) {
     }
          console.log("Executando a instrução SQL: \n" + instrucao);
          return database.executar(instrucao);
+}
+
+function cuidadosNoti(idEmpresa) {
+
+    console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function cuidadosNoti()");
+
+    var instrucao = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucao = `
+            SELECT TOP 7 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+            JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                    JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                        JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                            WHERE prat.setor = 'Cuidados pessoais' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
+        `;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+            JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
+                JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
+                    JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
+                        JOIN Perfil pf on pf.fkEmpresa = e.idEmpresa
+                            JOIN dados_sensor ds on ds.fkPrateleira = prat.idPrateleira
+                                WHERE prat.setor = 'Cuidados pessoais' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC LIMIT 7;
+        `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }  
+        console.log("Executando a instrução SQL: \n" + instrucao);
+        return database.executar(instrucao);
 }
 
 function confirmarProduto(idProduto, nome){
@@ -232,5 +397,10 @@ module.exports = {
     listarProdutosBebidas,
     listarProdutosCuidados,
     alerta,
-    tirarAlerta
+    tirarAlerta,
+    hortifrutiNoti,
+    merceariaNoti,
+    friosNoti,
+    cuidadosNoti,
+    bebidasNoti,
 }

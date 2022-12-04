@@ -18,11 +18,45 @@ function listarprodutos(req, res) {
     });
 }
 
+function friosNoti(req, res) {
+
+    var idEmpresa = req.params.idEmpresa
+
+    produtosModel.friosNoti(idEmpresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function(erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 function listarprodutosMercearia(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
     produtosModel.listarprodutosMercearia(idEmpresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function(erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function merceariaNoti(req, res) {
+
+    var idEmpresa = req.params.idEmpresa
+
+    produtosModel.merceariaNoti(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -51,11 +85,46 @@ function listarprodutosHortifruti(req, res) {
         res.status(500).json(erro.sqlMessage);
     });
 }
+
+function hortifrutiNoti(req, res) {
+
+    var idEmpresa = req.params.idEmpresa
+
+    produtosModel.hortifrutiNoti(idEmpresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function(erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 function listarProdutosBebidas(req, res) {
 
     var idEmpresa = req.params.idEmpresa
    
     produtosModel.listarProdutosBebidas(idEmpresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function(erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function bebidasNoti(req, res) {
+
+    var idEmpresa = req.params.idEmpresa
+
+    produtosModel.bebidasNoti(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -85,6 +154,22 @@ function listarProdutosCuidados(req, res) {
     });
 }
 
+function cuidadosNoti(req, res) {
+
+    var idEmpresa = req.params.idEmpresa
+
+    produtosModel.cuidadosNoti(idEmpresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function(erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
 
 
 function confirmarProduto(req, res) {
@@ -158,5 +243,10 @@ module.exports = {
     listarProdutosCuidados,
     listarProdutosBebidas,
     alerta,
-    tirarAlerta
+    tirarAlerta,
+    hortifrutiNoti,
+    merceariaNoti,
+    friosNoti,
+    cuidadosNoti,
+    bebidasNoti,
 }
