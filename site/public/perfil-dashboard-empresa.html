@@ -10,7 +10,7 @@
   <script src="./js/adminORusuario.js"></script>
 </head>
 
-<body onload="buscarDadoFuncionario()">
+<body onload="verificarFuncao(), buscarDadosEmpresa(), buscarDadoFuncionario()">
   <main>
     <!-- Cor do fundo da pag -->
     <div class="background-color">
@@ -645,16 +645,24 @@
 
               //Complemento da empresa
 
+              var nomeComplemento = ""
 
-              var divComplemento = document.createElement("div");
+              if(resposta[0].complemento == null) {
+                nomeComplemento = ""
+              } else {
+                nomeComplemento = resposta[0].complemento
+                var divComplemento = document.createElement("div");
               divComplemento.id = "complemento_empresa_box";
               divComplemento.className = "estilo-box";
               var Pcomplemento = document.createElement("p");
               Pcomplemento.id = "complemento_empresa_cadastro";
               Pcomplemento.innerHTML = "Complemento";
               divComplemento.appendChild(Pcomplemento);
-              divComplemento.innerHTML += resposta[0].complemento;
+              divComplemento.innerHTML += nomeComplemento;
               containerFilhoEmpresa2.appendChild(divComplemento);
+              }
+
+
 
               document.getElementById(
                 "container_filho_empresa"
@@ -845,8 +853,6 @@
     return false;
   }
 
-  verificarFuncao();
-  buscarDadosEmpresa();
 
     // chama a função assim que a pagina carrega
 </script>
