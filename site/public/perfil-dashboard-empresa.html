@@ -10,7 +10,7 @@
   <script src="./js/adminORusuario.js"></script>
 </head>
 
-<body onload="verificarFuncao(), buscarDadosEmpresa(), buscarDadoFuncionario()">
+<body onload="buscarDadoFuncionario()">
   <main>
     <!-- Cor do fundo da pag -->
     <div class="background-color">
@@ -844,6 +844,9 @@
 
     return false;
   }
+
+  verificarFuncao();
+  buscarDadosEmpresa();
 
     // chama a função assim que a pagina carrega
 </script>
