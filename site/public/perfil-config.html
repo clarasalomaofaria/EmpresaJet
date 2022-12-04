@@ -27,7 +27,7 @@
         <section class="container">
           <div class="div_foto">
             <div class="foto">
-              <img id="exibir_foto" src="" />
+              <img style="border-radius: 80px;" id="exibir_foto" src="" />
             </div>
             <div id="btn_foto_id" class="btn_foto">
               <p id="editPhoto">Editar Foto</p>
@@ -217,8 +217,16 @@
               span_user.innerHTML = username_usuario;
 
               //senha do usuario
+
+              var tamanhoSenha = json.senha
+              var visualSenha = ""
+
+              for(var a = 0; a < tamanhoSenha.length ; a++) {
+                visualSenha += '*'
+              }
+
               var senha_usuario = json.senha;
-              span_senha.innerHTML = senha_usuario;
+              span_senha.innerHTML = visualSenha;
 
               //telefone do usuario
 
