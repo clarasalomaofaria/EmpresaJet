@@ -358,6 +358,13 @@
 
               // criando e manipulando elementos do HTML via JavaScript
 
+              var tamanhoSenha = publicacao.senha
+              var visualSenha = ""
+
+              for(var a = 0; a < tamanhoSenha.length ; a++) {
+                visualSenha += '*'
+              }
+
               tabelaFuncionarios.innerHTML += `
                         
               <div class="func" id="${i}">
@@ -367,7 +374,7 @@
                       </div>
                       <div class="estilo-atributos">
                         <h5>Senha:</h5>
-                        <p>${publicacao.senha}</p>
+                        <p>${visualSenha}</p>
                       </div>
                       <div class="estilo-atributos">
                         <h5>Nome Completo:</h5>
