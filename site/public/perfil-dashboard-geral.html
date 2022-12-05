@@ -308,19 +308,19 @@
 
             kpi_abastecimento.innerHTML = `${porcentagem.conta}% abastecido`
 
-            if (porcentagem.conta <= 85) {
+            if (porcentagem.conta < 75) {
               kpi_dado.innerHTML = `Crítico`;
               div_kpi_dado.classList.remove('amarelo');
               div_kpi_dado.classList.remove('verde-lima');
               div_kpi_dado.classList.remove('verde-escuro');
               div_kpi_dado.classList.add('vermelho');
-            } else if (porcentagem.conta <= 90) {
+            } else if (porcentagem.conta < 85) {
               kpi_dado.innerHTML = `Alerta`;
               div_kpi_dado.classList.remove('verde-lima');
               div_kpi_dado.classList.remove('verde-escuro');
               div_kpi_dado.classList.remove('vermelho');
               div_kpi_dado.classList.add('amarelo');
-            } else if (porcentagem.conta <= 95) {
+            } else if (porcentagem.conta < 95) {
               kpi_dado.innerHTML = `Bom`;
               div_kpi_dado.classList.remove('amarelo');
               div_kpi_dado.classList.remove('vermelho');
@@ -342,7 +342,7 @@
     }).catch(function (resposta) {
       console.error(resposta);
     });
-    setTimeout(() => mostrarkpi(), 10000);
+    setTimeout(() => mostrarkpi(), 16000);
   }
 
   function setorMenosAbastecido() {
@@ -399,17 +399,17 @@
           SetorBebidas.innerHTML = `${bebidas}% abastecido`;
 
           /* KPI de percentual do setor menos abastecido */
-          if (menosAbastecido <= 85) {
+          if (menosAbastecido < 75) {
             kpi_menor_percentual.classList.remove('amarelo');
             kpi_menor_percentual.classList.remove('verde-lima');
             kpi_menor_percentual.classList.remove('verde-escuro');
             kpi_menor_percentual.classList.add('vermelho');
-          } else if (menosAbastecido <= 90) {
+          } else if (menosAbastecido < 85) {
             kpi_menor_percentual.classList.remove('vermelho');
             kpi_menor_percentual.classList.remove('verde-lima');
             kpi_menor_percentual.classList.remove('verde-escuro');
             kpi_menor_percentual.classList.add('amarelo');
-          } else if (menosAbastecido <= 95) {
+          } else if (menosAbastecido < 95) {
             kpi_menor_percentual.classList.remove('amarelo');
             kpi_menor_percentual.classList.remove('vermelho');
             kpi_menor_percentual.classList.remove('verde-escuro');
@@ -423,17 +423,17 @@
 
 
           /* Linha de frios e congelados */
-          if (frios <= 85) {
+          if (frios <  75) {
             linha_frios.classList.remove('linha-amarela');
             linha_frios.classList.remove('linha-verde-lima');
             linha_frios.classList.remove('linha-verde-escura');
             linha_frios.classList.add('linha-vermelha');
-          } else if (frios <= 90) {
+          } else if (frios < 85) {
             linha_frios.classList.remove('linha-vermelha');
             linha_frios.classList.remove('linha-verde-lima');
             linha_frios.classList.remove('linha-verde-escuro');
             linha_frios.classList.add('linha-amarela');
-          } else if (frios <= 95) {
+          } else if (frios < 95) {
             linha_frios.classList.remove('linha-amarela');
             linha_frios.classList.remove('linha-vermelha');
             linha_frios.classList.remove('linha-verde-escuro');
@@ -447,17 +447,17 @@
 
 
           /* Linha da Mercearia */
-          if (mercearia <= 85) {
+          if (mercearia < 75) {
             linha_mercearia.classList.remove('linha-amarela');
             linha_mercearia.classList.remove('linha-verde-lima');
             linha_mercearia.classList.remove('linha-verde-escura');
             linha_mercearia.classList.add('linha-vermelha');
-          } else if (mercearia <= 90) {
+          } else if (mercearia < 85) {
             linha_mercearia.classList.remove('linha-vermelha');
             linha_mercearia.classList.remove('linha-verde-lima');
             linha_mercearia.classList.remove('linha-verde-escuro');
             linha_mercearia.classList.add('linha-amarela');
-          } else if (mercearia <= 95) {
+          } else if (mercearia < 95) {
             linha_mercearia.classList.remove('linha-amarela');
             linha_mercearia.classList.remove('linha-vermelha');
             linha_mercearia.classList.remove('linha-verde-escuro');
@@ -471,17 +471,17 @@
 
 
           /* Linha Hortifruti */
-          if (hortifruti <= 85) {
+          if (hortifruti < 75) {
             linha_hortifruti.classList.remove('linha-amarela');
             linha_hortifruti.classList.remove('linha-verde-lima');
             linha_hortifruti.classList.remove('linha-verde-escura');
             linha_hortifruti.classList.add('linha-vermelha');
-          } else if (hortifruti <= 90) {
+          } else if (hortifruti < 85) {
             linha_hortifruti.classList.remove('linha-vermelha');
             linha_hortifruti.classList.remove('linha-verde-lima');
             linha_hortifruti.classList.remove('linha-verde-escuro');
             linha_hortifruti.classList.add('linha-amarela');
-          } else if (hortifruti <= 95) {
+          } else if (hortifruti < 95) {
             linha_hortifruti.classList.remove('linha-amarela');
             linha_hortifruti.classList.remove('linha-vermelha');
             linha_hortifruti.classList.remove('linha-verde-escuro');
@@ -495,17 +495,17 @@
 
 
           /* Linha Cuidados Pessoais */
-          if (cuidadosPessoais <= 85) {
+          if (cuidadosPessoais < 75) {
             linha_cuidados.classList.remove('linha-amarela');
             linha_cuidados.classList.remove('linha-verde-lima');
             linha_cuidados.classList.remove('linha-verde-escura');
             linha_cuidados.classList.add('linha-vermelha');
-          } else if (cuidadosPessoais <= 90) {
+          } else if (cuidadosPessoais < 85) {
             linha_cuidados.classList.remove('linha-vermelha');
             linha_cuidados.classList.remove('linha-verde-lima');
             linha_cuidados.classList.remove('linha-verde-escuro');
             linha_cuidados.classList.add('linha-amarela');
-          } else if (cuidadosPessoais <= 95) {
+          } else if (cuidadosPessoais < 95) {
             linha_cuidados.classList.remove('linha-amarela');
             linha_cuidados.classList.remove('linha-vermelha');
             linha_cuidados.classList.remove('linha-verde-escuro');
@@ -519,17 +519,17 @@
 
 
           /* Linha Bebidas */
-          if (bebidas <= 85) {
+          if (bebidas < 75) {
             linha_bebidas.classList.remove('linha-amarela');
             linha_bebidas.classList.remove('linha-verde-lima');
             linha_bebidas.classList.remove('linha-verde-escura');
             linha_bebidas.classList.add('linha-vermelha');
-          } else if (bebidas <= 90) {
+          } else if (bebidas < 85) {
             linha_bebidas.classList.remove('linha-vermelha');
             linha_bebidas.classList.remove('linha-verde-lima');
             linha_bebidas.classList.remove('linha-verde-escuro');
             linha_bebidas.classList.add('linha-amarela');
-          } else if (bebidas <= 95) {
+          } else if (bebidas < 95) {
             linha_bebidas.classList.remove('linha-amarela');
             linha_bebidas.classList.remove('linha-vermelha');
             linha_bebidas.classList.remove('linha-verde-escuro');
@@ -548,7 +548,7 @@
     }).catch(function (resposta) {
       console.error(resposta);
     });
-    setTimeout(() => setorMenosAbastecido(), 10000);
+    setTimeout(() => setorMenosAbastecido(), 16000);
   }
 
   function statusPredominanteMes() {
@@ -571,19 +571,19 @@
           
           percentualPredominanteMes.innerHTML = `${status}% abastecido`
 
-          if(status <= 85){
+          if(status < 75){
             estadoPredominanteMes.innerHTML = `Crítico`;
             kpi_status_predominante_mes.classList.remove('amarela')
             kpi_status_predominante_mes.classList.remove('verde-lima')
             kpi_status_predominante_mes.classList.remove('verde-escuro')
             kpi_status_predominante_mes.classList.add('vermelho')
-          }else if(status <= 90){
+          }else if(status < 85){
             estadoPredominanteMes.innerHTML = `Alerta`;
             kpi_status_predominante_mes.classList.remove('vermelho');
             kpi_status_predominante_mes.classList.remove('verde-lima');
             kpi_status_predominante_mes.classList.remove('verde-escuro');
             kpi_status_predominante_mes.classList.add('amarelo');
-          }else if(status <= 95){
+          }else if(status < 95){
             estadoPredominanteMes.innerHTML = `Bom`;
             kpi_status_predominante_mes.classList.remove('amarelo');
             kpi_status_predominante_mes.classList.remove('vermelho');
@@ -603,6 +603,6 @@
     }).catch(function (resposta) {
       console.error(resposta);
     });
-    setTimeout(() => statusPredominanteMes(), 10000);
+    setTimeout(() => statusPredominanteMes(), 16000);
   }
 </script>

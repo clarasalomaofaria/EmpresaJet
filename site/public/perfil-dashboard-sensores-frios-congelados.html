@@ -473,7 +473,7 @@
         });
     }
 
-    setInterval(() => buscarDadosBolinhas, 10000);
+    setInterval(() => buscarDadosBolinhas, 16000);
 
 
     function mostrarFaltaTotal() {
@@ -484,7 +484,12 @@
             div_kpi_dadoEstoque.classList.remove('amarelo');
             div_kpi_dadoEstoque.classList.remove('vermelho');
             div_kpi_dadoEstoque.classList.add('verde');
-        } else if (faltaTotal < 3) {
+        } else if (faltaTotal <= 1) {
+            div_kpi_dadoEstoque.classList.remove('verde');
+            div_kpi_dadoEstoque.classList.add('verde-lima');
+            div_kpi_dadoEstoque.classList.remove('vermelho');
+            div_kpi_dadoEstoque.classList.remove('amarelo');
+        } else if (faltaTotal <= 2) {
             div_kpi_dadoEstoque.classList.remove('verde');
             div_kpi_dadoEstoque.classList.remove('verde-lima');
             div_kpi_dadoEstoque.classList.remove('vermelho');
@@ -518,12 +523,12 @@
 
                         kpi_abastecimento.innerHTML = `${produto.conta}%`
 
-                        if (produto.conta < 85) {
+                        if (produto.conta < 75) {
                             div_kpi_dado.classList.remove('verde');
                             div_kpi_dado.classList.remove('verde-lima');
                             div_kpi_dado.classList.remove('amarelo');
                             div_kpi_dado.classList.add('vermelho');
-                        } else if (produto.conta < 90) {
+                        } else if (produto.conta < 85) {
                             div_kpi_dado.classList.remove('verde');
                             div_kpi_dado.classList.remove('verde-lima');
                             div_kpi_dado.classList.remove('vermelho');
@@ -549,7 +554,7 @@
             console.error(resposta);
         });
 
-        setTimeout(() => mostrarkpi(), 10000);
+        setTimeout(() => mostrarkpi(), 16000);
     }
 
     function kpiSemEstoque() {
@@ -579,12 +584,12 @@
                             div_kpi_dadoAusencia.classList.remove('amarelo');
                             div_kpi_dadoAusencia.classList.remove('vermelho');
                             div_kpi_dadoAusencia.classList.add('verde');
-                        } else if (ProdutoAusencia.falta_frios <= 2) {
+                        } else if (ProdutoAusencia.falta_frios <= 3) {
                             div_kpi_dadoAusencia.classList.remove('verde');
                             div_kpi_dadoAusencia.classList.remove('vermelho');
                             div_kpi_dadoAusencia.classList.remove('amarelo');
                             div_kpi_dadoAusencia.classList.add('verde-lima');
-                        } else if (ProdutoAusencia.falta_frios <= 3) {
+                        } else if (ProdutoAusencia.falta_frios <= 6) {
                             div_kpi_dadoAusencia.classList.remove('verde');
                             div_kpi_dadoAusencia.classList.remove('vermelho');
                             div_kpi_dadoAusencia.classList.remove('verde-lima');
@@ -605,7 +610,7 @@
             console.error(resposta);
         });
 
-        setTimeout(() => kpiSemEstoque(), 10000);
+        setTimeout(() => kpiSemEstoque(), 16000);
 
     }
 </script>

@@ -65,7 +65,7 @@ function criarGrafico(){
         document.getElementById('polar_setor_falta_produto'),
         config_polar_setor_falta_produto
     );
-    setTimeout(() => obterPolar(), 10000);
+    setTimeout(() => obterPolar(), 16000);
 }
 
 

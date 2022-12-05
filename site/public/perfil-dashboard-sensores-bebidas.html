@@ -384,7 +384,7 @@ function buscarNomeProdutos() {
 
                 var container = document.getElementById('containerDashProdutos')
                 container.innerHTML = "";
-                
+
                 for (let i = resposta.length-1; i >= 0; i--) {
                     var itens = resposta[i];
 
@@ -470,7 +470,7 @@ function buscarDadosBolinhas() {
     });
 }
 
-setInterval(() => buscarDadosBolinhas, 10000);
+setInterval(() => buscarDadosBolinhas, 16000);
 
   function mostrarFaltaTotal() {
     kpi_dado_estoqueBebidas.innerHTML = faltaTotal;
@@ -480,12 +480,12 @@ setInterval(() => buscarDadosBolinhas, 10000);
       div_kpi_dadoEstoque.classList.remove('amarelo');
       div_kpi_dadoEstoque.classList.remove('vermelho');
       div_kpi_dadoEstoque.classList.add('verde');
-    } else if (faltaTotal == 1) {
+    } else if (faltaTotal <= 1) {
       div_kpi_dadoEstoque.classList.add('verde-lima');
       div_kpi_dadoEstoque.classList.remove('amarelo');
       div_kpi_dadoEstoque.classList.remove('vermelho');
       div_kpi_dadoEstoque.classList.remove('verde');
-    } else if (faltaTotal == 2) {
+    } else if (faltaTotal <= 2) {
       div_kpi_dadoEstoque.classList.remove('verde');
       div_kpi_dadoEstoque.classList.remove('verde-lima');
       div_kpi_dadoEstoque.classList.remove('vermelho');
@@ -519,12 +519,12 @@ setInterval(() => buscarDadosBolinhas, 10000);
 
             kpi_dadoSetorBebidas.innerHTML = `${produto.conta}% `
 
-            if (produto.conta < 85) {
+            if (produto.conta < 75) {
               div_kpi_dado.classList.remove('verde');
               div_kpi_dado.classList.remove('verde-lima');
               div_kpi_dado.classList.remove('amarelo');
               div_kpi_dado.classList.add('vermelho');
-            } else if (produto.conta < 90) {
+            } else if (produto.conta < 85) {
               div_kpi_dado.classList.remove('verde');
               div_kpi_dado.classList.remove('verde-lima');
               div_kpi_dado.classList.remove('vermelho');
@@ -549,7 +549,7 @@ setInterval(() => buscarDadosBolinhas, 10000);
       console.error(resposta);
     });
 
-    setTimeout(() => mostrarkpi(), 10000);
+    setTimeout(() => mostrarkpi(), 16000);
   }
 
   function kpiAunsencia() {
@@ -578,12 +578,12 @@ setInterval(() => buscarDadosBolinhas, 10000);
               div_kpi_dadoAusencia.classList.remove('amarelo');
               div_kpi_dadoAusencia.classList.remove('vermelho');
               div_kpi_dadoAusencia.classList.add('verde');
-            } else if (ProdutoAusencia.falta_bebidas <= 3) {
+            } else if (ProdutoAusencia.falta_bebidas <= 4) {
               div_kpi_dadoAusencia.classList.remove('verde');
               div_kpi_dadoAusencia.classList.remove('vermelho');
               div_kpi_dadoAusencia.classList.remove('amarelo');
               div_kpi_dadoAusencia.classList.add('verde-lima');
-            } else if (ProdutoAusencia.falta_bebidas <= 4) {
+            } else if (ProdutoAusencia.falta_bebidas <= 7) {
               div_kpi_dadoAusencia.classList.remove('verde');
               div_kpi_dadoAusencia.classList.remove('vermelho');
               div_kpi_dadoAusencia.classList.remove('verde-lima');
@@ -604,6 +604,6 @@ setInterval(() => buscarDadosBolinhas, 10000);
       console.error(resposta);
     });
 
-    setTimeout(() => kpiAunsencia(), 10000);
+    setTimeout(() => kpiAunsencia(), 16000);
   }
 </script>
