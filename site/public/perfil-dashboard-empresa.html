@@ -352,7 +352,7 @@
 
               // criando e manipulando elementos do HTML via JavaScript
 
-              var tamanhoSenha = publicacao.senha
+              var tamanhoSenha = atob(publicacao.senha)
               var visualSenha = ""
 
               for(var a = 0; a < tamanhoSenha.length ; a++) {

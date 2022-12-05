@@ -37,8 +37,8 @@ body {
     height: 9rem;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
-    border: 5px solid #fff;
+    border-radius: 100%;
+    border: 4px solid #fff;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;

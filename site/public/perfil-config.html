@@ -27,7 +27,7 @@
         <section class="container">
           <div class="div_foto">
             <div class="foto">
-              <img style="border-radius: 80px;" id="exibir_foto" src="" />
+              <img style="border-radius: 100%;" id="exibir_foto" src="" />
             </div>
             <div id="btn_foto_id" class="btn_foto">
               <p id="editPhoto">Editar Foto</p>
@@ -218,7 +218,7 @@
 
               //senha do usuario
 
-              var tamanhoSenha = json.senha
+              var tamanhoSenha = atob(json.senha)
               var visualSenha = ""
 
               for(var a = 0; a < tamanhoSenha.length ; a++) {
