@@ -108,7 +108,7 @@ const serial = async (
     .pipe(new serialport.ReadlineParser({ delimiter: "\r\n" }))
     .on("data", async (data) => {
       //console.log(data);
-      const teste = []; 
+      var teste = []; 
 
       const valores = data.split(";");
 
@@ -217,20 +217,72 @@ const serial = async (
           // CREDENCIAIS DO BANCO REMOTO - SQL SERVER
           // Importante! você deve ter criado o usuário abaixo com os comandos presentes no arquivo
           // "script-criacao-usuario-sqlserver.sql", presente neste diretório.
-          for (let i = 0; i < valores.length ; i++) {
-            const connStr =
-              `Server=svr-projeto-empresajet.database.windows.net;
-              Database=bd-projeto-empresajet;
-              User Id=admin-projeto-empresajet;
-              Password=#Gfgrupo1;`;
-            
-              sqlquery = `INSERT INTO dados_sensor (statusPrateleira, fkPrateleira) 
-          VALUES (${teste[i]}, ${i+1});`;
-            sql
-            .connect(connStr)
-            .then((conn) => inserirComando(conn, sqlquery))
-            .catch((err) => console.log("erro! " + err));
-          }
+          const connStr =
+          `Server=svr-projeto-empresajet.database.windows.net;
+          Database=bd-projeto-empresajet;
+          User Id=admin-projeto-empresajet;
+          Password=#Gfgrupo1;`;
+
+          console.log(teste)
+          console.log(teste.length)
+          
+        //   for (let i = 0; i < teste.length ; i++) {
+        //       sqlquery = `INSERT INTO dados_sensor (statusPrateleira, fkPrateleira) 
+        //   VALUES (${teste[i]}, ${i+1});`;
+        // }
+
+              sqlquery = `INSERT INTO dados_sensor (statusPrateleira, fkPrateleira) VALUES 
+              (${teste[0]}, ${1}),
+              (${teste[1]}, ${2}),
+              (${teste[2]}, ${3}),
+              (${teste[3]}, ${4}),
+              (${teste[4]}, ${5}),
+              (${teste[5]}, ${6}),
+              (${teste[6]}, ${7}),
+              (${teste[7]}, ${8}),
+              (${teste[8]}, ${9}),
+              (${teste[9]}, ${10}),
+              (${teste[10]}, ${11}),
+              (${teste[11]}, ${12}),
+              (${teste[12]}, ${13}),
+              (${teste[13]}, ${14}),
+              (${teste[14]}, ${15}),
+              (${teste[15]}, ${16}),
+              (${teste[16]}, ${17}),
+              (${teste[17]}, ${18}),
+              (${teste[18]}, ${19}),
+              (${teste[19]}, ${20}),
+              (${teste[20]}, ${21}),
+              (${teste[21]}, ${22}),
+              (${teste[22]}, ${23}),
+              (${teste[23]}, ${24}),
+              (${teste[24]}, ${25}),
+              (${teste[25]}, ${26}),
+              (${teste[26]}, ${27}),
+              (${teste[27]}, ${28}),
+              (${teste[28]}, ${29}),
+              (${teste[29]}, ${30}),
+              (${teste[30]}, ${31}),
+              (${teste[31]}, ${32}),
+              (${teste[32]}, ${33}),
+              (${teste[33]}, ${34}),
+              (${teste[34]}, ${35}),
+              (${teste[35]}, ${36}),
+              (${teste[36]}, ${37}),
+              (${teste[37]}, ${38}),
+              (${teste[38]}, ${39}),
+              (${teste[39]}, ${40}),
+              (${teste[40]}, ${41}),
+              (${teste[41]}, ${42}),
+              (${teste[42]}, ${43}),
+              (${teste[43]}, ${44})
+              ;`;
+
+
+        sql
+        .connect(connStr)
+        .then((conn) => inserirComando(conn, sqlquery))
+        .catch((err) => console.log("erro! " + err));
 
 
             
@@ -254,7 +306,7 @@ const serial = async (
             `INSERT INTO dados_sensor (statusPrateleira, fkPrateleira) 
                 VALUES (${teste[i]},${[i+1]});`,
             );
-            // console.log(teste);
+            console.log(teste);
         }
           console.log(
             "valores inseridos no banco: ", data.toString()
