@@ -313,16 +313,14 @@ function alterar_user() {
           'Você deslogou com sucesso!',
           'success'
         )
-        sessionStorage.clear();
-        link_login();
       }
+      setTimeout(()=> sessionStorage.clear(), link_login(), 15000 )
     })
   }
 
   //link para página do login, quando fazer o logout
-
   function link_login() {
-    window.location.href = "login.html";
+    setTimeout(() => window.location.href = "login.html", 4000);
   }
 
   function link_index() {
