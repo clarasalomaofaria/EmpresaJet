@@ -84,15 +84,10 @@ CREATE TABLE
 CREATE TABLE 
 	historico_alerta (
 		idHistorico INT PRIMARY KEY AUTO_INCREMENT,
-		statusHistorico VARCHAR(45),
 		dtHistorico DATETIME DEFAULT CURRENT_TIMESTAMP,
-        titulo VARCHAR(45),
-        setor VARCHAR(45),
-        abastecimento int,
-		estado VARCHAR(45),
-        produto VARCHAR(45),
 		fkDado INT,
-        FOREIGN KEY (fkDado) REFERENCES dados_sensor (idDado)
+        FOREIGN KEY (fkPrateleira) REFERENCES Prateleira(idPrateleira)
+
 );
 
 
