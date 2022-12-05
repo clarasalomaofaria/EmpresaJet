@@ -351,12 +351,14 @@ selecionarFoto.addEventListener('change', (e) => {
         imagem.src = ler.result;
         adicionarImg();
       } else {           
-        alert('Não permitido, excedeu o limite de 1MB'); //Acima do limite
+        Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Não permitido, excedeu o limite de 1MB!',
+          }) //Acima do limite
         selecionarFoto.value = ""; //Limpa o campo          
       }
       e.preventDefault();
-
-      
       
     }
 
