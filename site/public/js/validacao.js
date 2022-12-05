@@ -146,7 +146,7 @@ function cadastrar() {
   //Recupere o valor da nova input pelo nome do id
   // Agora vá para o método fetch logo abaixo
   var userVar = inputUsuario.value;
-  var senhaVar = inputSenha.value;
+  var senhaVar = btoa(inputSenha.value);
   var nomeVar = inputNome.value;
   var emailVar = inputEmail.value;
   var contatoVar = inputContato.value;

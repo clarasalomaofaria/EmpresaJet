@@ -215,6 +215,29 @@ function cadastrar(req, res) {
             );
     }
 }
+function adicionarImg(req, res) {
+    var idPerfil = req.body.idPerfil;
+    var Imagem = req.body.ImagemServer;
+    if (Imagem == undefined) {
+        res.status(400).send("Sua foto está undefined!");
+    } else {
+        usuarioModel.adicionarImg(idPerfil, Imagem)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+}
 
 module.exports = {
     entrar,
@@ -225,5 +248,6 @@ module.exports = {
     confirmar_user,
     confirmar_senha,
     confirmar_telefone,
-    updateEmpresa
+    updateEmpresa,
+    adicionarImg
 }

@@ -28,7 +28,9 @@ CREATE TABLE
         funcao VARCHAR(45) DEFAULT 'Administrador', CONSTRAINT chkFuncao CHECK (funcao in('Administrador','Usuario')),
         fkEmpresa INT,
         FOREIGN KEY (fkEmpresa) REFERENCES empresa (idEmpresa)
+    urlImagem LONGTEXT DEFAULT null 
     );
+alter table perfil MODIFY column urlImagem LONGTEXT DEFAULT null;
 
 -- PersonID int FOREIGN KEY REFERENCES Persons(PersonID)
 
