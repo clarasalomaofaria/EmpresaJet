@@ -41,7 +41,7 @@ function friosNoti(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-            SELECT TOP 8 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+            SELECT DISTINCT TOP 8 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira, ds.idDado, format(ds.dtPrateleira, 'HH') as dtPrat FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
             JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -50,7 +50,7 @@ function friosNoti(idEmpresa) {
                             WHERE prat.setor = 'Frios e congelados' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira, date_format(ds.dtPrateleira, '%d/%m/%y') as dtPrat FROM Produto p
             JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
                 JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                     JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -106,7 +106,7 @@ function merceariaNoti(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-            SELECT TOP 10 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+            SELECT DISTINCT TOP 10 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira, ds.idDado, format(ds.dtPrateleira, 'HH') as dtPrat FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
             JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -115,7 +115,7 @@ function merceariaNoti(idEmpresa) {
                             WHERE prat.setor = 'Mercearia' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira, date_format(ds.dtPrateleira, '%d/%m/%y') as dtPrat FROM Produto p
             JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
                 JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                     JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -170,7 +170,7 @@ function hortifrutiNoti(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-            SELECT TOP 9 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+            SELECT DISTINCT TOP 9 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira, ds.idDado, format(ds.dtPrateleira, 'HH') as dtPrat FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
             JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -179,7 +179,7 @@ function hortifrutiNoti(idEmpresa) {
                             WHERE prat.setor = 'Hortifruti' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira, date_format(ds.dtPrateleira, '%d/%m/%y') as dtPrat FROM Produto p
             JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
                 JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                     JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -233,7 +233,7 @@ function bebidasNoti(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-            SELECT TOP 10 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+            SELECT DISTINCT TOP 10 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira, ds.idDado, format(ds.dtPrateleira, 'HH') as dtPrat FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
             JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -242,7 +242,7 @@ function bebidasNoti(idEmpresa) {
                             WHERE prat.setor = 'Bebidas' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira, date_format(ds.dtPrateleira, '%d/%m/%y') as dtPrat FROM Produto p
             JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
                 JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                     JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -296,7 +296,7 @@ function cuidadosNoti(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-            SELECT TOP 7 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+            SELECT DISTINCT TOP 7 prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira, ds.idDado, format(ds.dtPrateleira, 'HH') as dtPrat FROM Produto p
         JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
             JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                 JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -305,7 +305,7 @@ function cuidadosNoti(idEmpresa) {
                             WHERE prat.setor = 'Cuidados pessoais' AND e.idEmpresa = ${idEmpresa} ORDER BY ds.idDado DESC;
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira FROM Produto p
+        instrucao = ` SELECT prat.setor, prat.idPrateleira, p.idProduto, p.nomeProduto, ds.statusPrateleira, date_format(ds.dtPrateleira, '%d/%m/%y') as dtPrat FROM Produto p
             JOIN Prateleira_Produto pp on pp.fkProduto = p.idProduto
                 JOIN Prateleira prat on pp.fkPrateleira = prat.idPrateleira 
                     JOIN Empresa e on prat.fkEmpresa = e.idEmpresa
@@ -351,33 +351,11 @@ function alerta(idPrat, tipo){
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        INSERT INTO historico_alerta (dtHistorico, tipo, fkPrateleira) VALUES (getutcdate(), '${tipo}', '${idPrat}')
+        INSERT INTO historico_alerta (dtHistorico, tipo, fkPrateleira) VALUES (getdate(), '${tipo}', '${idPrat}')
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
         INSERT INTO historico_alerta (dtHistorico, tipo, fkPrateleira) VALUES (now(), '${tipo}', '${idPrat}')
-        `;
-    } else {
-        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
-        return
-    }
-    console.log("Executando a instrução SQL: \n" + instrucao);
-    return database.executar(instrucao);
-}
-
-function tirarAlerta(idPrat){
-
-    console.log("ACESSEI O PRODUTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n \n function tirarAlerta()");
-
-    var instrucao = ''
-
-    if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucao = `
-        UPDATE CASE WHEN historico_alerta SET statusHistorico = "resolvido" WHERE fkPrateleira = ${idPrat};
-        `;
-    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucao = `
-        UPDATE historico_alerta SET statusHistorico = "resolvido" WHERE fkPrateleira = ${idPrat};
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -395,13 +373,13 @@ function buscarAlerta(idEmpresa) {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        SELECT ha.statusHistorico, ha.tipo, ha.fkPrateleira FROM historico_alerta ha
+        SELECT ha.tipo, ha.fkPrateleira, format(ha.dtHistorico, 'HH') as dtHist FROM historico_alerta ha
             JOIN prateleira prat ON prat.idPrateleira = ha.fkPrateleira
                 WHERE fkEmpresa = ${idEmpresa};
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = ` 
-            SELECT ha.statusHistorico, ha.tipo, ha.fkPrateleira FROM historico_alerta ha
+            SELECT ha.tipo, ha.fkPrateleira, date_format(ha.dtHistorico, '%d/%m/%y') as dtHist FROM historico_alerta ha
                 JOIN prateleira prat ON prat.idPrateleira = ha.fkPrateleira
                    WHERE fkEmpresa = ${idEmpresa};
         `;
@@ -422,7 +400,6 @@ module.exports = {
     listarProdutosBebidas,
     listarProdutosCuidados,
     alerta,
-    tirarAlerta,
     hortifrutiNoti,
     merceariaNoti,
     friosNoti,

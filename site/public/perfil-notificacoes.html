@@ -253,26 +253,19 @@
           for (let i = 0; i < resposta.length; i++) {
             var itens = resposta[i];
 
-            console.log(itens.statusPrateleira)
-
             if (itens.statusPrateleira == 3) {
-              for(var b = 0;b < listaBanco.length; b++){
-                if(listaBanco[b].fkPrateleira == itens.idPrateleira){
-                  tirarAlerta(itens.idPrateleira);
-                }
-              }
-              removerCardAlerta(itens.idPrateleira);
+              console.log("prateleira cheia")
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira, itens.idPrateleira);
-              if (contadorInsert == listaAlerta.length && permissao == true) {
-                permitirInserir(itens.idPrateleira, itens.statusPrateleira);
+              if (contadorInsert == listaAlerta.length) {
+                permitirInserir(itens.idPrateleira, itens.statusPrateleira, itens.dtPrat);
               }
             } else {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira, itens.idPrateleira);
-              if (contadorInsert == listaAlerta.length && permissao == true) {
-                permitirInserir(itens.idPrateleira, itens.statusPrateleira);
+              if (contadorInsert == listaAlerta.length) {
+                permitirInserir(itens.idPrateleira, itens.statusPrateleira, itens.dtPrat);
               }
             }
           }
@@ -300,26 +293,19 @@
           for (let i = 0; i < resposta.length; i++) {
             var itens = resposta[i];
 
-            console.log(itens.statusPrateleira)
-
             if (itens.statusPrateleira == 3) {
-              for(var b = 0;b < listaBanco.length; b++){
-                if(listaBanco[b].fkPrateleira == itens.idPrateleira){
-                  tirarAlerta(itens.idPrateleira);
-                }
-              }
-              removerCardAlerta(itens.idPrateleira);
+              console.log("prateleira cheia")
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira, itens.idPrateleira);
-              if (contadorInsert == listaAlerta.length && permissao == true) {
-                permitirInserir(itens.idPrateleira, itens.statusPrateleira);
+              if (contadorInsert == listaAlerta.length) {
+                permitirInserir(itens.idPrateleira, itens.statusPrateleira, itens.dtPrat);
               }
             } else {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira, itens.idPrateleira);
-              if (contadorInsert == listaAlerta.length && permissao == true) {
-                permitirInserir(itens.idPrateleira, itens.statusPrateleira);
+              if (contadorInsert == listaAlerta.length) {
+                permitirInserir(itens.idPrateleira, itens.statusPrateleira, itens.dtPrat);
               }
             }
           }
@@ -347,26 +333,19 @@
           for (let i = 0; i < resposta.length; i++) {
             var itens = resposta[i];
 
-            console.log(itens.statusPrateleira)
-
             if (itens.statusPrateleira == 3) {
-              for(var b = 0;b < listaBanco.length; b++){
-                if(listaBanco[b].fkPrateleira == itens.idPrateleira){
-                  tirarAlerta(itens.idPrateleira);
-                }
-              }
-              removerCardAlerta(itens.idPrateleira);
+              console.log("prateleira cheia")
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira, itens.idPrateleira);
-              if (contadorInsert == listaAlerta.length && permissao == true) {
-                permitirInserir(itens.idPrateleira, itens.statusPrateleira);
+              if (contadorInsert == listaAlerta.length) {
+                permitirInserir(itens.idPrateleira, itens.statusPrateleira, itens.dtPrat);
               }
             } else {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira, itens.idPrateleira);
-              if (contadorInsert == listaAlerta.length && permissao == true) {
-                permitirInserir(itens.idPrateleira, itens.statusPrateleira);
+              if (contadorInsert == listaAlerta.length) {
+                permitirInserir(itens.idPrateleira, itens.statusPrateleira, itens.dtPrat);
               }
             }
           }
@@ -394,26 +373,19 @@
           for (let i = 0; i < resposta.length; i++) {
             var itens = resposta[i];
 
-            console.log(itens.statusPrateleira)
-
             if (itens.statusPrateleira == 3) {
-              for(var b = 0;b < listaBanco.length; b++){
-                if(listaBanco[b].fkPrateleira == itens.idPrateleira){
-                  tirarAlerta(itens.idPrateleira);
-                }
-              }
-              removerCardAlerta(itens.idPrateleira);
+              console.log("prateleira cheia");
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira, itens.idPrateleira);
-              if (contadorInsert == listaAlerta.length && permissao == true) {
-                permitirInserir(itens.idPrateleira, itens.statusPrateleira);
+              if (contadorInsert == listaAlerta.length) {
+                permitirInserir(itens.idPrateleira, itens.statusPrateleira, itens.dtPrat);
               }
             } else {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira, itens.idPrateleira);
-              if (contadorInsert == listaAlerta.length && permissao == true) {
-                permitirInserir(itens.idPrateleira, itens.statusPrateleira);
+              if (contadorInsert == listaAlerta.length) {
+                permitirInserir(itens.idPrateleira, itens.statusPrateleira, itens.dtPrat);
               }
             }
           }
@@ -430,7 +402,7 @@
 
     var idEmpresa = sessionStorage.ID_EMPRESA;
 
-    fetch(`/produtos/BebidasNoti/${idEmpresa}`).then(function (resposta) {
+    fetch(`/produtos/bebidasNoti/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
           console.log("Nenhum produto encontrado")
@@ -441,26 +413,19 @@
           for (let i = 0; i < resposta.length; i++) {
             var itens = resposta[i];
 
-            console.log(itens.statusPrateleira)
-
             if (itens.statusPrateleira == 3) {
-              for(var b = 0;b < listaBanco.length; b++){
-                if(listaBanco[b].fkPrateleira == itens.idPrateleira){
-                  tirarAlerta(itens.idPrateleira);
-                }
-              }
-              removerCardAlerta(itens.idPrateleira);
+              console.log("prateleira cheia")
             } else if (itens.statusPrateleira == 2) {
               console.log("prat metade")
             } else if (itens.statusPrateleira == 1) {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira, itens.idPrateleira);
               if (contadorInsert == listaAlerta.length) {
-                permitirInserir(itens.idPrateleira, itens.statusPrateleira);
+                permitirInserir(itens.idPrateleira, itens.statusPrateleira, itens.dtPrat);
               }
             } else {
               mostrarCardAlerta(itens.nomeProduto, itens.setor, itens.statusPrateleira, itens.idPrateleira);
               if (contadorInsert == listaAlerta.length) {
-                permitirInserir(itens.idPrateleira, itens.statusPrateleira);
+                permitirInserir(itens.idPrateleira, itens.statusPrateleira, itens.dtPrat);
               }
             }
           }
@@ -498,8 +463,8 @@
 
     for (var i = 0; i < listaAlerta.length; i++) {
       if (jsonAlerta.nome == listaAlerta[i].nome &&
-        jsonAlerta.estado == listaAlerta[i].estado &&
-        jsonAlerta.setor == listaAlerta[i].setor) {
+        jsonAlerta.setor == listaAlerta[i].setor &&
+        jsonAlerta.estado == listaAlerta[i].estado) {
         existe = true;
       }
     }
@@ -539,7 +504,7 @@
     fetch(`/produtos/buscarAlerta/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-            console.log("nenhum alerta encontrado")
+          console.log("nenhum alerta encontrado")
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta));
@@ -557,38 +522,28 @@
   }
 
   var permissao = true;
-  function permitirInserir(idPrateleira, status) {
+
+  function permitirInserir(idPrateleira, status, dtPrat) {
     permissao = true;
     var idPrat = idPrateleira;
     var stats = "";
+    var dtPrateleira = dtPrat;
     if (status == 1) {
       stats = "Alerta"
     } else {
       stats = "Crítico"
     }
 
-    for(var i = 0; i<listaBanco.length; i++){
-      if(listaBanco[i].tipo == stats && listaBanco[i].fkPrateleira == idPrat){
+    for (var i = 0; i < listaBanco.length; i++) {
+      if (listaBanco[i].tipo == stats && listaBanco[i].fkPrateleira == idPrat && listaBanco[i].dtHist == dtPrateleira) {
         permissao = false;
       }
     }
 
-    if(permissao){
+    if (permissao) {
       gerarAlerta(idPrat, stats);
     }
   }
-  
-
-  function removerCardAlerta(idPrateleira) {
-    var idPrat = idPrateleira;
-    for (var i = 0; i < listaAlerta.length; i++) {
-      if (listaAlerta[i].idPrat == idPrat) {
-        listaAlerta.splice(i, 1);
-      }
-    }
-  }
-
-
   function gerarAlerta(idPrateleira, status) {
     contadorInsert += 1;
     var idPrat = idPrateleira;
@@ -619,32 +574,6 @@
     });
 
     return false;
-  }
-
-  function tirarAlerta(idPrateleira) {
-    var idPrat = idPrateleira;
-
-    fetch(`/produtos/tirarAlerta`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        idPrat,
-      })
-    }).then(function (resposta) {
-
-      if (resposta.ok) {
-        console.log("alerta atualizado com sucesso!")
-
-      } else if (resposta.status == 404) {
-        window.alert("Deu 404!");
-      } else {
-        throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
-      }
-    }).catch(function (resposta) {
-      console.log(`#ERRO: ${resposta}`);
-    })
   }
 
   function apenasAlerta() {
