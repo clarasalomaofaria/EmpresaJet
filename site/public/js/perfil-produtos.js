@@ -9,7 +9,11 @@ function adicionar_produto(idProduto){
         td_produto = idProduto;
         btn_acionado = 1;
     } else{
-        alert("Confirme o nome do produto")
+        Swal.fire({
+            icon: 'error',
+            title: 'Ops...',
+            text: 'Confirme o nome do produto!',
+            })
     }
 }
 

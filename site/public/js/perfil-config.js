@@ -63,21 +63,33 @@ function validar_atualizacao_func_user() {
   if (validar_user) {
     confirmar_user();
   } else {
-    alert("Usuário inválido. Deve conter mais de 6 letras.");
+    Swal.fire({
+      icon: 'error',
+      title: 'Ops...',
+      text: 'Usuário inválido. Deve conter mais de 6 letras!',
+      })
   }
 }
 function validar_atualizacao_func_senha() {
   if (validar_senha) {
     confirmar_senha();
   } else {
-    alert("Senha inválida. Deve conter no mínimo 1 letra maiúscula, 1 caracter especial e 1 número.");
+    Swal.fire({
+      icon: 'error',
+      title: 'Ops...',
+      text: 'Senha inválida. Deve conter no mínimo 1 letra maiúscula, 1 caracter especial e 1 número!',
+      })
   }
 }
 function validar_atualizacao_func_contato() {
   if (validar_contato) {
     confirmar_telefone();
   } else {
-    alert("Telefone inválido. Deve conter de 8 a 11 dígitos");
+    Swal.fire({
+      icon: 'error',
+      title: 'Ops...',
+      text: 'Telefone inválido. Deve conter de 8 a 11 dígitos!',
+      })
   }
 }
 function alterar_user() {
@@ -116,10 +128,18 @@ function alterar_user() {
     }).then(function (resposta) {
       
       if (resposta.ok) {
-        window.alert("Username atualizado com sucesso");
+        Swal.fire({
+          icon: 'success',
+          title: 'Parabéns',
+          text: 'Username atualizado com sucesso!',
+          })
         
       } else if (resposta.status == 404) {
-        window.alert("Deu 404!");
+        Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Deu 404!',
+          })
       } else {
         throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
       }
@@ -173,10 +193,18 @@ function alterar_user() {
     }).then(function (resposta) {
       
       if (resposta.ok) {
-        window.alert("Username atualizado com sucesso");
+        Swal.fire({
+          icon: 'success',
+          title: 'Parabéns',
+          text: 'Senha atualizado com sucesso!',
+          })
         
       } else if (resposta.status == 404) {
-        window.alert("Deu 404!");
+        Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Deu 404!',
+          })
       } else {
         throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
       }
@@ -231,10 +259,18 @@ function alterar_user() {
     }).then(function (resposta) {
       
       if (resposta.ok) {
-        window.alert("Telefone atualizado com sucesso");
+        Swal.fire({
+          icon: 'success',
+          title: 'Parabéns',
+          text: 'Telefone atualizado com sucesso!',
+          })
         
       } else if (resposta.status == 404) {
-        window.alert("Deu 404!");
+        Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Deu 404!',
+          })
       } else {
         throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
       }
@@ -253,8 +289,26 @@ function alterar_user() {
   }
 
   function logout() {
-    sessionStorage.clear();
-    link_login();
+
+    Swal.fire({
+      title: 'Você deseja sair?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, desejo sair!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Logout',
+          'Você deslogou com sucesso!',
+          'success'
+        )
+        sessionStorage.clear();
+        link_login();
+      }
+    })
   }
 
   //link para página do login, quando fazer o logout
@@ -277,18 +331,56 @@ botao.addEventListener('click', () => {
   selecionarFoto.click();
 })
 
-selecionarFoto.addEventListener('change', (event) => {
+selecionarFoto.addEventListener('change', (e) => {
   
   if(selecionarFoto.files.length <= 0) {
     return;
   }
 
     var ler = new FileReader();
-
+    var size = selecionarFoto.files[0].size;
     ler.onload = () => {
-      imagem.src = ler.result;
+      if(size < 90000) { //1MB         
+        sessionStorage.PERFIL_IMAGEM = ler.result;
+        imagem.src = ler.result;
+        adicionarImg();
+      } else {           
+        alert('Não permitido, excedeu o limite de 1MB'); //Acima do limite
+        selecionarFoto.value = ""; //Limpa o campo          
+      }
+      e.preventDefault();
+
+      
+      
     }
 
     ler.readAsDataURL(selecionarFoto.files[0]);
 
 });
+
+function adicionarImg() {
+
+  fetch(`/usuarios/adicionarImg/${sessionStorage.ID_PERFIL}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      idPerfil: sessionStorage.ID_PERFIL,
+      ImagemServer: sessionStorage.PERFIL_IMAGEM
+    })
+  }).then(function (resposta) {
+    
+    if (resposta.ok) {
+      window.alert("Foto atualizada com sucesso");
+      window.location.reload();
+      
+    } else if (resposta.status == 404) {
+      window.alert("Deu 404!");
+    } else {
+      throw ("Houve um erro ao tentar atualizar a foto! Código da resposta: " + resposta.status);
+    }
+  }).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  })
+}

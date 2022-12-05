@@ -278,9 +278,14 @@ function botao_registro() {
     validar_cep &&
     validar_bairro
   ) {
-    registrar_empresa();
+    cadastrarEmpresa();
+
   } else {
-    alert("Cadastro inválido");
+    Swal.fire({
+      icon: 'error',
+      title: 'Ops...',
+      text: 'Cadastro inválido!',
+      })
   }
 }
 
@@ -291,9 +296,16 @@ function botao_registro_func() {
     validar_nome &&
     validar_email
   ) {
-    registrar_func();
+
+    
+    cadastrarFuncionario();
+
   } else {
-    alert("Cadastro de funcionário inválido");
+    Swal.fire({
+      icon: 'error',
+      title: 'Ops...',
+      text: 'Cadastro de funcionário inválido!',
+      })
   }
 }
 
@@ -310,11 +322,20 @@ function removerCard(idPerfil) {
       }),
     })
       .then(function (resposta) {
-        alert("Funcionário deletado com Sucesso!")
-          window.location.reload()
+        Swal.fire({
+          icon: 'success',
+          title: 'Parabéns',
+          text: 'Funcionario deletado com sucesso!',
+          })
+
+          setTimeout(() => window.location.reload(), 2000);
           
          if (resposta.status == 404) {
-          window.alert("Não foi possível excluir");
+          Swal.fire({
+            icon: 'error',
+            title: 'Ops...',
+            text: 'Não foi possível excluir!',
+            })
         } else {
           throw (
             "Houve um erro ao tentar deletar: " +
@@ -326,6 +347,10 @@ function removerCard(idPerfil) {
         console.log(`#ERRO: ${resposta}`);
       });
     } else {
-      alert("Você não pode remover seu próprio Perfil!")
+      Swal.fire({
+        icon: 'error',
+        title: 'Ops...',
+        text: 'Você não pode remover seu próprio perfil!',
+        })
     }
   }

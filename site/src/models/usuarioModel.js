@@ -78,6 +78,14 @@ console.log("Executando a instrução SQL: \n" + instrucao);
 return database.executar(instrucao);
 }
 
+function adicionarImg(idPerfil, Imagem){
+    var instrucao = `
+    UPDATE Perfil SET urlImagem = '${Imagem}' WHERE idPerfil = ${idPerfil};
+    `
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 module.exports = {
     entrar,
     cadastrar,
@@ -86,5 +94,6 @@ module.exports = {
     confirmar_user,
     confirmar_senha,
     confirmar_telefone,
-    updateEmpresa
+    updateEmpresa,
+    adicionarImg
 };

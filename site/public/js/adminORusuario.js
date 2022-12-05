@@ -94,7 +94,7 @@ function verificarFuncao() {
     </div>
   </div>
 
-  <button id="btn_cadastrar_empresa" class="botao-registro" onclick="cadastrarEmpresa()">
+  <button id="btn_cadastrar_empresa" class="botao-registro" onclick="botao_registro()">
     CADASTRAR
   </button>`
 

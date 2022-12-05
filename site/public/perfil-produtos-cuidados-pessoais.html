@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/perfil-sidebar.css" />
   <link rel="stylesheet" href="css/perfil-produtos-cuidados-pessoais.css" />
   <link rel="stylesheet" href="css/perfil-produtos.css">
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 </head>
 
 <body onload="atualizartabela()">
@@ -127,13 +128,7 @@
 
       <!-- SideBar do Perfil -->
       <div class="sidebar">
-        <svg class="icone-perfil" width="130" height="110" viewBox="0 0 130 110" fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <path opacity="1.00" fill-rule="evenodd" clip-rule="evenodd"
-            d="M60.2419 0.0781367C47.5414 1.12257 35.8516 5.50483 25.7202 13.0192C22.1725 15.6506 15.7388 22.0279 13.0841 25.5444C6.20958 34.6511 2.15418 44.4356 0.430371 56.0743C-0.143457 59.9486 -0.143457 69.0308 0.430371 72.9052C2.44935 86.5357 8.23554 98.8236 16.9448 107.977L18.8703 110L19.7379 107.339C22.9759 97.4107 30.1426 88.2284 39.1915 82.4149C45.1168 78.6081 52.3258 76.0463 59.4104 75.2299C61.1223 75.0326 62.5619 74.8327 62.6096 74.7852C62.6573 74.7379 62.0158 74.6302 61.184 74.5456C59.1401 74.3381 56.0035 73.4113 53.6582 72.3219C45.6618 68.6075 40.0449 61.2015 38.6203 52.4944C36.7992 41.3643 42.5105 30.0929 52.6101 24.8848C67.2395 17.3404 85.12 24.4993 90.3587 39.9987C94.6406 52.6671 88.5891 66.6425 76.3624 72.3219C74.0171 73.4113 70.8804 74.3381 68.8366 74.5456C68.0048 74.6302 67.3633 74.7379 67.4109 74.7852C67.4586 74.8327 68.8982 75.0326 70.6101 75.2299C84.6414 76.8468 97.3021 84.6813 105.106 96.5756C106.935 99.3624 109.254 104.186 110.283 107.339L111.15 110L113.076 107.977C120.512 100.162 126.23 89.2175 128.628 78.2081C129.738 73.1138 130 70.4907 130 64.4897C130 60.2963 129.894 58.1281 129.59 56.0743C127.858 44.3784 123.901 34.8473 116.909 25.5251C114.293 22.0378 107.87 15.6668 104.3 13.0192C95.2533 6.30903 85.5508 2.30558 74.198 0.598511C71.25 0.155144 63.0311 -0.151271 60.2419 0.0781367Z"
-            fill="white"></path>
-        </svg>
-
+        <img src="uploads/user.svg" id="iconePerfil" class="icone-perfil" />
         <h3><span id="b_usuario">Nome Completo</span></h3>
         <nav>
           <ul class="sidebar-lista">
@@ -255,8 +250,13 @@
 </body>
 
 </html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 <script src="./js/perfil-produtos.js"></script>
-<script>b_usuario.innerHTML = sessionStorage.NOME_USUARIO;</script>
+<script>
+  b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+  iconePerfil.src = sessionStorage.PERFIL_IMAGEM;
+  </script>
 <script>
   function atualizartabela() {
     var idEmpresa = sessionStorage.ID_EMPRESA;
@@ -265,7 +265,11 @@
     fetch(`/produtos/listarprodutosCuidados/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-          alert("Nenhum produto encontrado")
+          Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Nenhum produto encontrado!',
+          })
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta));
@@ -326,16 +330,23 @@
     }).then(function (resposta) {
       
       if (resposta.ok) {
-        window.alert("Produto atualizado com sucesso");
-        
+        Swal.fire({
+          icon: 'success',
+          title: 'Parabéns',
+          text: 'Produto atualizado com sucesso!',
+          })
+          setTimeout(() => window.location = "./perfil-produtos-cuidados-pessoais.html", 3000);
       } else if (resposta.status == 404) {
-        window.alert("Deu 404!");
+        Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Deu 404!',
+          })
       } else {
         throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
       }
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     })
-    window.location = "./perfil-produtos-cuidados-pessoais.html"
   }
 </script>

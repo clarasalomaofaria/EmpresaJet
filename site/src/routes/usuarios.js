@@ -43,4 +43,9 @@ router.put("/updateEmpresa", function (req, res) {
     usuarioController.updateEmpresa(req, res);
 })
 
+// ROTA CRIADA PARA PEGAR A FOTO DE PERFIL DO CARA DO BANCO DE DADOS
+router.put("/adicionarImg/:user", function (req, res) {
+    usuarioController.adicionarImg(req, res);
+})
+
 module.exports = router;
