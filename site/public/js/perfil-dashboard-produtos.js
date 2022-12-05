@@ -99,9 +99,9 @@ function obterDadosGrafico() {
 
             resposta.json().then(function (resposta) {
                 console.log("Dados recebidos: ", JSON.stringify(resposta));
-                for (let i = 0; i < resposta.length; i++) {
-                    labels_horas.push(resposta[i].hora);
-                    qtd_prateleiras.push(resposta[i].status_falta)
+                for (let i = 1; i <= resposta.length; i++) {
+                    labels_horas.push(`${resposta[resposta.length-i].hora}:00`);
+                    qtd_prateleiras.push(resposta[resposta.length-i].status_falta)
                 }
                 
                 limparDiv();
