@@ -180,6 +180,7 @@ function alterar_user() {
     `;
   }
   //ATRIBUIR FETCH AO EVENTO PARA ALTERAR DADOS NO BANCO COM METODO PUT
+
   function confirmar_senha() {
     fetch(`/usuarios/confirmar_senha/${sessionStorage.getItem("USER_USUARIO")}`, {
       method: "PUT",
@@ -187,7 +188,7 @@ function alterar_user() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        senha: inputSenha.value,
+        senha: btoa(inputSenha.value),
         idPerfil: sessionStorage.ID_PERFIL
       })
     }).then(function (resposta) {
@@ -212,7 +213,14 @@ function alterar_user() {
       console.log(`#ERRO: ${resposta}`);
     })
 
-    span_senha.innerHTML = inputSenha.value;
+    var senha = inputSenha.value
+    var visualSenha = ""
+
+    for(var a = 0; a < senha.length ; a++) {
+      visualSenha += '*'
+    }
+
+    span_senha.innerHTML = visualSenha;
 
     div_change_pass.remove();
 
@@ -372,8 +380,15 @@ function adicionarImg() {
   }).then(function (resposta) {
     
     if (resposta.ok) {
-      window.alert("Foto atualizada com sucesso");
-      window.location.reload();
+      Swal.fire({
+        icon: 'success',
+        title: 'Parabéns',
+        text: 'Foto atualizada com sucesso!',
+        })
+        setTimeout(function () {
+          window.location.reload()
+        }, 2000)
+  ;
       
     } else if (resposta.status == 404) {
       window.alert("Deu 404!");
