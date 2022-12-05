@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/perfil-sidebar.css">
   <link rel="stylesheet" href="css/perfil-dashboard-geral.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 
 </head>
 
@@ -280,7 +281,7 @@
   </footer>
 
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 <script src="js/perfil-dashboard-geral.js"></script>
 
 </html>
@@ -297,7 +298,11 @@
     fetch(`/kpigeral/kpisdashboardgeral/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-          alert("Nenhuma prateleira encontrada")
+          Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Nenhuma prateleira encontrada!',
+          })
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta));
@@ -352,7 +357,11 @@
     fetch(`kpigeral/kpiMenosAbastecido/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-          alert("Nenhuma prateleira encontrada")
+          Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Nenhuma prateleira encontrada!',
+          })
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta))
@@ -553,7 +562,12 @@
     fetch(`kpigeral/kpiStatusPredominanteMes/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-          alert("Nenhuma prateleira encontrada")
+
+          Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Nenhuma prateleira encontrada!',
+          })
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta))

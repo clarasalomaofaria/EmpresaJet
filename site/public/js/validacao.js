@@ -102,7 +102,11 @@ function validar_autenticacao_login() {
   if (validar_usuario && validar_senha) {
     window.location.href = "perfil-dashboard-empresa.html";
   } else {
-    alert("Autenticação inválida");
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Autenticação inválida!',
+    })
   }
 }
 
@@ -113,14 +117,27 @@ function validar_autenticacao_cadastro() {
     validar_nome &&
     validar_email
   ) {
-    alert(`Cadastro realizado com sucesso!`)
-    cadastrar()
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Seu cadastro foi realizado com sucesso!',
+      showConfirmButton: false,
+      timer: 2000
+    })
+
+    setInterval(() => cadastrar(), 2000);
     // document.getElementById("btnCadastrar").disabled = false;
     // window.location.href = "login.html";
   } else {
-    alert("Autentificação inválida");
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Autenticação inválida!',
+    })
   }
 }
+
+
 
 
 function cadastrar() {
@@ -165,8 +182,6 @@ function cadastrar() {
       console.log("resposta: ", resposta);
 
       if (resposta.ok) {
-          alert("Cadastro realizado com sucesso! Redirecionando para tela de Login...");
-
           setTimeout(() => {
               window.location = "login.html";
           }, "2000")
@@ -174,7 +189,12 @@ function cadastrar() {
           limparFormulario();
           // finalizarAguardar();
       } else {
-          alert ("Houve um erro ao tentar realizar o cadastro!");
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Houve um erro ao tentar realizar o cadastro!',
+        })
+
       }
   }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);

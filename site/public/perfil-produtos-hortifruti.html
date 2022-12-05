@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/perfil-sidebar.css" />
   <link rel="stylesheet" href="css/perfil-produtos-hortifruti.css" />
   <link rel="stylesheet" href="css/perfil-produtos.css">
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 </head>
 
 <body onload="atualizartabela()">
@@ -254,6 +255,7 @@
 </body>
 
 </html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 <script src="./js/perfil-produtos.js"></script>
 <script>
   b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
@@ -266,7 +268,11 @@
     fetch(`/produtos/listarprodutosHortifruti/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-          alert("Nenhum produto encontrado")
+          Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Nenhum produto encontrado!',
+          })
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta));
@@ -328,16 +334,23 @@
     }).then(function (resposta) {
       
       if (resposta.ok) {
-        window.alert("Produto atualizado com sucesso");
-        
+        Swal.fire({
+          icon: 'success',
+          title: 'Parabéns',
+          text: 'Produto atualizado com sucesso!',
+          })
+          setTimeout(() => window.location = "./perfil-produtos-hortifruti.html", 3000);
       } else if (resposta.status == 404) {
-        window.alert("Deu 404!");
+        Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Deu 404!',
+          })
       } else {
         throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
       }
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     })
-    window.location = "./perfil-produtos-hortifruti.html"
   }
 </script>

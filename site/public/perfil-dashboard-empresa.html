@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/perfil-sidebar.css" />
   <link rel="stylesheet" href="css/perfil-empresa.css" />
   <script src="./js/adminORusuario.js"></script>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 </head>
 
 <body onload="buscarDadoFuncionario()">
@@ -230,7 +231,7 @@
         </div>
       </div>
 
-      <button id="btn_cadastrar_empresa" class="botao-registro" onclick="cadastrarEmpresa()">
+      <button id="btn_cadastrar_empresa" class="botao-registro" onclick="botao_registro()">
         CADASTRAR
       </button> -->
 
@@ -326,10 +327,10 @@
 </body>
 
 </html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 <script src="js/perfil-validacao.js"></script>
 
 <script>
-
   b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
 
@@ -444,10 +445,14 @@
         console.log("resposta: ", resposta);
         // Se sucesso, ele atualiza o id da empresa dentro da sessionStorage e atualiza a pág
         if (resposta.ok) {
+          Swal.fire({
+          icon: 'success',
+          title: 'Parabéns',
+          text: 'Cadastro realizado com sucesso!',
+          })
 
-          selectEmpresa();
+          setTimeout(() => selectEmpresa(), 3000);
 
-          alert("Cadastro realizado com sucesso!");
         } else {
           throw "Houve um erro ao tentar realizar o cadastro!";
         }
@@ -465,7 +470,11 @@
     fetch("/empresa/selectEmpresa").then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-          alert("Nenhum produto encontrado");
+          Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Nenhum produto encontrado!',
+          })
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta));
@@ -498,7 +507,11 @@
     }).then(function (resposta) {
       buscarDadosEmpresa();
       if (resposta.status == 404) {
-        window.alert("Deu 404!");
+        Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Deu 404!',
+          })
       } else {
         throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
       }
@@ -777,7 +790,7 @@
     var buttonCadastro = document.createElement('button');
     var divisoria2 = document.createElement("hr");
     buttonCadastro.className = "botao-registro";
-    buttonCadastro.setAttribute("Onclick", "cadastrarFuncionario()");
+    buttonCadastro.setAttribute("Onclick", "botao_registro_func()");
     buttonCadastro.innerHTML = "CADASTRO";
     containerGlobal.appendChild(buttonCadastro);
     containerGlobal.appendChild(divisoria2)
@@ -1007,13 +1020,20 @@ console.log(`#ERRO: ${resposta}`);
         console.log("resposta: ", resposta, sessionStorage.ID_EMPRESA);
 
         if (resposta.ok) {
-          alert("Cadastro realizado com sucesso!");
+          Swal.fire({
+          icon: 'success',
+          title: 'Parabéns',
+          text: 'Cadastro realizado com sucesso!',
+          })
 
-          setTimeout(() => {
-            window.location.reload();
-          }, "500");
+          setTimeout(() => {window.location.reload();}, 2000);
         } else {
-          alert("Houve um erro ao tentar realizar o cadastro!");
+
+          Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Houve um erro ao tentar realizar o cadastro!',
+          })
           console.log("respostaaaa: ", resposta, sessionStorage.ID_EMPRESA);
         }
       })

@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/perfil-sidebar.css">
   <link rel="stylesheet" href="css/perfil-dashboard-sensores-bebidas.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 </head>
 
 <body onload="buscarDadosBolinhas(), mostrarkpi(), kpiAunsencia(), obterPolar()">
@@ -363,9 +363,9 @@
   </footer>
 
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 
 <script src="js/perfil-dashboard-sensores.js"></script>
-
 </html>
 <script>
   b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
@@ -377,7 +377,11 @@ function buscarNomeProdutos() {
     fetch(`/produtos/listarProdutosBebidas/${idEmpresa}`).then(function (resposta) {
         if (resposta.ok) {
             if (resposta.status == 204) {
-                alert("Nenhum produto encontrado")
+              Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Nenhum produto encontrado!',
+          })
             }
             resposta.json().then(function (resposta) {
                 console.log("Dados recebidos: ", JSON.stringify(resposta));
@@ -447,7 +451,11 @@ function buscarDadosBolinhas() {
     fetch(`/bolinhas/listarDadosBebidas/${idEmpresa}`).then(function (resposta) {
         if (resposta.ok) {
             if (resposta.status == 204) {
-                alert("Nenhum produto encontrado")
+              Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Nenhum produto encontrado!',
+          })
             }
             resposta.json().then(function (resposta) {
                 console.log("Dados recebidos: ", JSON.stringify(resposta));
@@ -502,7 +510,11 @@ setInterval(() => buscarDadosBolinhas, 10000);
     fetch(`/kpigeral/kpisdosetorBebidas/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-          alert("Nenhuma prateleira encontrada")
+          Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Nenhuma prateleira encontrada!',
+          })
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta));
@@ -552,7 +564,11 @@ setInterval(() => buscarDadosBolinhas, 10000);
     fetch(`/kpigeral/kpiAunsenciaBebidas/${idEmpresa}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
-          alert("Nenhuma prateleira encontrada")
+          Swal.fire({
+          icon: 'error',
+          title: 'Ops...',
+          text: 'Nenhuma prateleira encontrada!',
+          })
         }
         resposta.json().then(function (resposta) {
           console.log("Dados recebidos: ", JSON.stringify(resposta));

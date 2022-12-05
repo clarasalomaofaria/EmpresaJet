@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
     <link rel="stylesheet" href="css/login.css" />
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
   </head>
   <body>
     <main>
@@ -84,7 +85,7 @@
     </main>
   </body>
 </html>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 <script src="js/sign.js"></script>
 <script src="js/validacao.js"></script>
 <script>
@@ -138,8 +139,12 @@
             }, 1000); // apenas para exibir o loading
           });
         } else {
-          alert("Seu usuário ou seu senha está incorreto");
-
+  
+          Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Seu usuário ou sua senha está incorreta!',
+    })
           resposta.text().then((texto) => {
             console.error(texto);
             // finalizarAguardar(texto);
@@ -158,3 +163,4 @@
   }
 
 </script>
+
