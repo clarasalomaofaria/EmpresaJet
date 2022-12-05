@@ -329,11 +329,11 @@ function confirmarProduto(idProduto, nome){
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-        update produto set nomeProduto = "${nome}" where idProduto = ${idProduto};
+        update produto set nomeProduto = '${nome}' where idProduto = ${idProduto};
         `;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `
-        update produto set nomeProduto = "${nome}" where idProduto = ${idProduto};
+        update produto set nomeProduto = '${nome}' where idProduto = ${idProduto};
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
