@@ -320,7 +320,7 @@ function alterar_user() {
 
   //link para página do login, quando fazer o logout
   function link_login() {
-    setTimeout(() => window.location.href = "login.html", 4000);
+    setTimeout(() => window.location.href = "index.html", 4000);
   }
 
   function link_index() {
