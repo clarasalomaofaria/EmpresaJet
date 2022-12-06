@@ -37,7 +37,7 @@
       </div>
       <div id="kpi_menor_percentual" class="kpis ">
         <p class="kpi-titulo">Setor com maior falta de produtos </p>
-        <p id="kpiComMenorPercentual" class="kpi-dado"></p>
+        <p id="kpiComMenorPercentual" class="kpi-flex"></p>
         <span id="SetorMenorPercentual"class="kpi-dado-palavra-ajuste"></span>
       </div>
       <div id="kpi_status_predominante_mes" class="kpis ">
@@ -371,7 +371,7 @@
           var menosAbastecido = Math.min(frios, mercearia, hortifruti, cuidadosPessoais, bebidas)
           var setor = 0
 
-          kpiComMenorPercentual.innerHTML = menosAbastecido + '%'
+          kpiComMenorPercentual.innerHTML = menosAbastecido + '% <span class="kpi-subtitulo">de abastecimento</span>'
 
           if (menosAbastecido == frios) {
             setor = 'Frios e congelados'
